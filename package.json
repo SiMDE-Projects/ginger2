@@ -1,0 +1,27 @@
+{
+  "name": "gingerv2",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.15.4",
+    "mysql2": "^1.4.2",
+    "sequelize": "^4.8.4"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^3.0.0-3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pauljenny/ginger2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pauljenny/ginger2/issues"
+  },
+  "homepage": "https://github.com/pauljenny/ginger2#readme"
+}
