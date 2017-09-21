@@ -22,7 +22,7 @@ var authenticate = (req, res, next) => {
             next();
         }).catch( (err) => {res.status(401).send(err)});
     } else {
-        res.status(401).send();
+        res.status(401).send("Une clé est nécessaire!");
     }
 }
 

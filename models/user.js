@@ -4,8 +4,8 @@ module.exports = (sequelize, DataTypes) => {
 	var User = sequelize.define('User', {
 		login: {
 			type: DataTypes.STRING(8),
-			allowNull: false,
-			primaryKey: true,
+            allowNull: false,
+            unique: true
         },
         firstname: {
             type: DataTypes.STRING,
@@ -26,8 +26,7 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: false
 		},
 		badge: {
-			type: DataTypes.STRING,
-			allowNull: false
+			type: DataTypes.STRING
 		}
     });
 
