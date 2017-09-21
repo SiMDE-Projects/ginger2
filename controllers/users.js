@@ -1,17 +1,31 @@
 "use strict";
+const UsersService = require('../services/UsersService');
+const chain = Promise.resolve();
 
 const UsersController = {
     getUser: (req, res) => {
-        res.send(req.params.username);
+        chain
+        .then(() => UsersService.getUser(req.params.username, req.user.permissions))
+        .then( (user) => { res.send(user) })
+        .catch( (err) => { res.status(404).send(err)});
     },
     createUser: (req, res) => {
-        res.send("createUser");
+        chain
+        .then( () => UsersService.createUser(req.body))
+        .then( (user) => res.status(204).send())
+        .catch( err => res.status(400).send(err));
     },
     deleteUser: (req, res) => {
-        res.send("deleteUser");
+        chain
+        .then( () => UsersService.deleteUser(req.params.username))
+        .then( () => res.status(204).send())
+        .catch( (err) => res.status(404).send(err))
     },
     editUser: (req, res) => {
-        res.send("editUser");
+        chain
+        .then( () => UsersService.editUser(req.params.username, req.body))
+        .then( () => res.status(204).send())
+        .catch( (err) => res.status(404).send(err))
     },
     getCotisations: (req, res) => {
         res.send("getCotisations");

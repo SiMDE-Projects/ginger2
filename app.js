@@ -6,8 +6,11 @@ const db = require('./models');
 const routes = require('./routes/');
 const config = require('./config/ginger');
 const authMiddleware = require('./middlewares/authentication');
+const bodyParser = require('body-parser');
 
+app.use(bodyParser.json());
 app.use(authMiddleware);
+
 app.use('/', routes);
 
 app.listen(3000, function () {
