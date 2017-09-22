@@ -112,6 +112,11 @@ let self = module.exports = {
                             email: {
                                 $like: '%' + search + '%'
                             }
+                        },
+                        {
+                            badge: {
+                                $like: '%' + search + '%'
+                            }
                         }
 
                     ]
