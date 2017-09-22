@@ -3,8 +3,6 @@ const config = require('./../config/ginger');
 
 const KeysController = {
     getAllKeys: (req, res) => {
-        config.ginger.refresh_on_lookup = true;
-        console.log(config.ginger.refresh_on_lookup);
         res.send("getAllKeys");
     },
     getKey: (req, res) => {

@@ -11,6 +11,9 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(authMiddleware);
 
+
+app.disable('x-powered-by');
+
 app.use('/', routes);
 
 app.listen(3000, function () {
