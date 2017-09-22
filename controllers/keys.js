@@ -1,21 +1,36 @@
 "use strict";
 const config = require('./../config/ginger');
+const KeysService = require('./../services/KeysService');
+const chain = Promise.resolve();
+const HttpStatus = require('http-status-codes');
 
 const KeysController = {
     getAllKeys: (req, res) => {
-        res.send("getAllKeys");
+        chain
+        .then( () =>  KeysService.getAllKeys(req.query.login))
+        .then( (keys) => res.status(HttpStatus.OK).send(keys))
+        .catch( (err) => res.status(HttpStatus.METHOD_FAILURE).send(err));
     },
     getKey: (req, res) => {
-        res.send("getKey");
+        chain
+        .then( () => KeysService.getKey(req.params.id))
+        .then( (key) => res.status(HttpStatus.OK).send(key))
+        .catch( (err) => res.status(HttpStatus.BAD_REQUEST).send(err))
     },
     createKey: (req, res) => {
         res.send("createKey");
     },
     deleteKey: (req, res) => {
-        res.send("deleteKey");
+        chain
+        .then( () => KeysService.deleteKey(req.params.id))
+        .then( () => res.status(HttpStatus.OK).send())
+        .catch( (err) => res.status(HttpStatus.NOT_FOUND).send(err))
     },
     refreshKey: (req, res) => {
-        res.send("refreshKey");
+        chain
+        .then( () => KeysService.refreshKey(req.params.id))
+        .then( (key) => res.status(HttpStatus.OK).send(key))
+        .catch( (err) => res.status(HttpStatus.NOT_FOUND).send(err))
     },
     editKey: (req, res) => {
         res.send("editKey");
