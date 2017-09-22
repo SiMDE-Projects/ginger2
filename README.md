@@ -4,7 +4,7 @@ Disclaimer: ce projet est sujet à changement important à tout moment et est en
 
 ## Arborescence
 * config: Fichiers de configuration
-    * ginger: configuration relative à Ginger
+    * ginger: configuration relative à Ginger (*à configurer en premier!*)
     * sequelize: configuration relative à Sequelize
 * controllers: Controleurs de l'application
 * middlewares:
@@ -16,4 +16,11 @@ Disclaimer: ce projet est sujet à changement important à tout moment et est en
 * services: Services pour faire le lien entre Controleur et Modèle
 
 Ainsi, on a ici Modèle <-> Service <-> Controleur <-> Route
+
+## TESTING
+Lors de votre première utilisation, vous devez créer la base de données à la *main* et installer sequelize-cli en global
+npm install -g sequelize-cli
+
+Puis lancer:
+node init.js
 
