@@ -5,7 +5,7 @@ const UserModel = require('./../models/').User;
 
 let self = module.exports = {
     getUser: (username, permissions) => {
-        let excludingAttributes = ["createdAt", "updatedAt"];
+        let excludingAttributes = ["createdAt", "updatedAt","id"];
         if (!permissions.includes("users_badge")) {
             excludingAttributes.push("badge");
         }
@@ -19,6 +19,27 @@ let self = module.exports = {
                 }
             });
         });
+    },
+    searchUser: (params, permissions) => {
+        let excludingAttributes = ["createdAt", "updatedAt","id"];
+        if (!permissions.includes("users_badge")) {
+            excludingAttributes.push("badge");
+        }
+        return new Promise( (resolve, reject) => {
+            UserModel.findOne( {
+                where: params,
+                attributes: { exclude: excludingAttributes }
+            }).then( user => {
+                if (!user) {
+                    reject("User not found!");
+                } else {
+                    resolve(user);
+                }
+            }).catch( (err) => {
+                // TO BE DONE
+                reject("erreur de la requête!");
+            })
+        })
     },
     createUser: (user) => {
         return new Promise( (resolve, reject) => {
@@ -61,5 +82,46 @@ let self = module.exports = {
                 reject("TO BE DONE");
             })
         })
+    },
+    searchUsers: (search, permissions, limit = 10) => {
+        let excludingAttributes = ["createdAt", "updatedAt","id"];
+        if (!permissions.includes("users_badge")) {
+            excludingAttributes.push("badge");
+        }
+
+        return new Promise( (resolve, reject) => {
+            UserModel.findAll({
+                where: {
+                    $or: [
+                        {
+                            login: { 
+                                $like: '%' + search + '%'
+                            },
+                        },
+                        {
+                            firstname: {
+                                $like: '%' + search + '%'
+                            }
+                        },
+                        {
+                            lastname: {
+                                $like: '%' + search + '%'
+                            }
+                        },
+                        {
+                            email: {
+                                $like: '%' + search + '%'
+                            }
+                        }
+
+                    ]
+                },
+                group: ['login'],
+                attributes: { exclude: excludingAttributes },
+                limit: parseInt(limit, 10)
+            }).then( (users) => {
+                resolve(users);
+            });
+        });
     }
 }

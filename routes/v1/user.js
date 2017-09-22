@@ -8,6 +8,7 @@ const mAuthorize = require('./../../middlewares/authorize');
 
 let router = express.Router();
 
+router.get('/', uController.searchUser);
 router.post('/', mAuthorize("users_add"), uController.createUser);
 
 router.get('/stats', mAuthorize("stats_read"), uController.getStats);
