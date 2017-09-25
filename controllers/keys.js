@@ -18,7 +18,14 @@ const KeysController = {
         .catch( (err) => res.status(HttpStatus.BAD_REQUEST).send(err))
     },
     createKey: (req, res) => {
-        res.send("createKey");
+        if (!req.body) {
+            res.status(HttpStatus.BAD_REQUEST).send();
+            return;
+        }
+        chain
+        .then( () => KeysService.createKey(req.body))
+        .then( (key) => res.status(HttpStatus.CREATED).send(key))
+        .catch( (err) => res.status(HttpStatus.BAD_REQUEST).send(err))
     },
     deleteKey: (req, res) => {
         chain
@@ -33,7 +40,14 @@ const KeysController = {
         .catch( (err) => res.status(HttpStatus.NOT_FOUND).send(err))
     },
     editKey: (req, res) => {
-        res.send("editKey");
+        if (!req.body) {
+            res.status(HttpStatus.BAD_REQUEST).send();
+            return;
+        }
+        chain
+        .then( () => KeysService.editKey(req.params.id, req.body))
+        .then( () => res.status(HttpStatus.NO_CONTENT).send())
+        .catch( (err) => res.status(HttpStatus.BAD_REQUEST).send(err))
     }
 }
 module.exports = KeysController;

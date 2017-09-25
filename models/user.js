@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
             unique: true
         },
         firstname: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(32),
             allowNull: false,
         },
         lastname: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(100),
             allowNull: false,
         },
         email: {
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: false
 		},
 		badge: {
-			type: DataTypes.STRING
+			type: DataTypes.STRING(32)
 		}
     });
 

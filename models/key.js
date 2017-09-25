@@ -9,12 +9,12 @@ module.exports = (sequelize, DataTypes) => {
 			autoIncrement: true
         },
         key: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(32),
             allowNull: false,
             unique: true
         },
 		login: {
-			type: DataTypes.STRING,
+			type: DataTypes.STRING(32),
 			allowNull: false
 		},
 		description: {

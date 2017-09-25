@@ -51,6 +51,33 @@ let self = module.exports = {
                         resolve(key);
                     })
                 }
+            }).catch( (err) => { 
+                reject(err)
+            });
+        })
+    },
+    createKey: (params) => {
+        console.log(params);
+        params.key = randomToken(ginger.key_size);
+        return new Promise( (resolve, reject) => {
+            KeyModel.create(params).then( (key) => {
+                resolve(key);
+            })
+            .catch( (err) => {
+                reject(err);
+            })
+        })
+    },
+    editKey: (pk, params) => {
+        return new Promise( (resolve, reject) => {
+            KeyModel.update(params, { where: { id: pk }}).then( (count) => {
+                if(!count) {
+                    reject("Not found!");
+                } else {
+                    resolve();
+                }
+            }).catch( (err) => {
+                reject(err);
             })
         })
     }
