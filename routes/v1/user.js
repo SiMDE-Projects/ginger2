@@ -19,6 +19,8 @@ router.delete('/:username', mAuthorize("users_delete"), uController.deleteUser);
 router.patch('/:username', mAuthorize("users_edit"), uController.editUser);
 
 router.get('/:username/cotisations', mAuthorize("cotisations_read"), uController.getCotisations);
+router.post('/:username/cotisations', mAuthorize("cotisations_add"), uController.addCotisation);
+router.get('/:username/cotisations/:cotisation', mAuthorize("cotisations_read"), uController.getCotisation);
 router.delete('/:username/cotisations/:cotisation', mAuthorize("cotisations_delete"), uController.deleteCotisation);
 router.get('/:username/cotisations/last', mAuthorize("cotisations_read"), uController.getLastCotisation);
 router.delete('/:username/cotisations/last', mAuthorize("cotisations_delete"), uController.deleteLastCotisation);

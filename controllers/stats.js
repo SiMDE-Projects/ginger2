@@ -1,8 +1,12 @@
 "use strict";
+const StatsService = require('./../services/StatsService');
+const chain = Promise.resolve();
 
 const StatsController = {
     getAllStats: (req, res) => {
-        res.send("getAllStats");
+        chain
+        .then( () => StatsService.getAllStats())
+        .then( (stats) => res.send(stats))
     }
 }
 module.exports = StatsController;

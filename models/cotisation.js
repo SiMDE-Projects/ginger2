@@ -19,11 +19,16 @@ module.exports = (sequelize, DataTypes) => {
 		}
 	}, { validate: {
         beginBeforeEnd() {
-            // TDB
+			if (new Date(this.getDataValue("begin")) > new Date(this.getDataValue("end"))) {
+				throw new Error("La date de début avant date de fin!");
+			}
         },
         overlappingDates() {
             // TBD
         }
-    }});
+	}});
+	Cotisation.associate = (models) => {
+        Cotisation.belongsTo(models.User, {foreignKey: "user", onDelete: "CASCADE" });
+    }
 	return Cotisation;
 };

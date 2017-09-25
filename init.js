@@ -8,6 +8,7 @@ db.sequelize.sync({force: true}).then(() => {
             if (err) {
                 console.error("Vous devez installer sequelize-cli en global!");
                 console.error("npm install -g sequelize-cli");
+                console.error(err);
                 process.exit();
                 return;
             }

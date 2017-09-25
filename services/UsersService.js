@@ -1,27 +1,41 @@
 const ginger = require('./../config/ginger').ginger;
 const AccountsService = require('./AccountsService');
 const UserModel = require('./../models/').User;
-
+const CotisationsService = require('./CotisationsService');
 
 let self = module.exports = {
     getUser: (username, permissions) => {
-        let excludingAttributes = ["createdAt", "updatedAt","id"];
+        let excludingAttributes = ["createdAt"];
         if (!permissions.includes("users_badge")) {
             excludingAttributes.push("badge");
         }
-
         return new Promise( (resolve, reject) => {
             UserModel.findOne({ where: {login: username}, attributes: { exclude: excludingAttributes }}).then(user => {
                 if (!user) {
                     reject("User not found!");
                 } else {
-                    resolve(user);
+                    CotisationsService.isContributor(user).then( (is) => {
+                        delete(user.dataValues.id);
+                        user.setDataValue("isContributor", is);
+                    }).then( () => {
+                        if (ginger.refresh_on_lookup && Date.now() < new Date(user.getDataValue("updatedAt")).getTime() + ginger.time_before_update) {
+                            return AccountsService.getUserInfo(user.login);
+                        }
+                        resolve(user);              
+                    })
+                    .catch( (err) => {
+                        // On gère les erreurs provenant d'Accounts
+                        reject(err);
+                    })
+                    .then( (userAccounts) => {
+                        resolve(userAccounts)
+                    })
                 }
             });
         });
     },
     searchUser: (params, permissions) => {
-        let excludingAttributes = ["createdAt", "updatedAt","id"];
+        let excludingAttributes = ["createdAt", "updatedAt"];
         if (!permissions.includes("users_badge")) {
             excludingAttributes.push("badge");
         }
@@ -33,7 +47,11 @@ let self = module.exports = {
                 if (!user) {
                     reject("User not found!");
                 } else {
-                    resolve(user);
+                    CotisationsService.isContributor(user).then( (is) => {
+                        delete(user.dataValues.id);
+                        user.setDataValue("isContributor", is);
+                        resolve(user);
+                    });
                 }
             }).catch( (err) => {
                 // TO BE DONE
@@ -84,7 +102,7 @@ let self = module.exports = {
         })
     },
     searchUsers: (search, permissions, limit = 10) => {
-        let excludingAttributes = ["createdAt", "updatedAt","id"];
+        let excludingAttributes = ["createdAt", "updatedAt"];
         if (!permissions.includes("users_badge")) {
             excludingAttributes.push("badge");
         }
@@ -125,8 +143,16 @@ let self = module.exports = {
                 attributes: { exclude: excludingAttributes },
                 limit: parseInt(limit, 10)
             }).then( (users) => {
-                resolve(users);
-            });
+                return Promise.all(users.map( user => {
+                        return new Promise( resolve2 => {
+                            CotisationsService.isContributor(user).then( (is) => {
+                                delete(user.dataValues.id);
+                                user.setDataValue("isContributor", is);
+                                resolve2(user);
+                            })
+                        })
+                    }));
+            }).then( usersFinal => { resolve(usersFinal)});
         });
     }
 }

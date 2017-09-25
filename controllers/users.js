@@ -1,7 +1,9 @@
 "use strict";
 const UsersService = require('../services/UsersService');
+const CotisationsService = require('./../services/CotisationsService');
+
 const ginger = require('./../config/ginger').ginger;
-var HttpStatus = require('http-status-codes');
+const HttpStatus = require('http-status-codes');
 
 const chain = Promise.resolve();
 
@@ -53,10 +55,32 @@ const UsersController = {
         .catch( (err) => res.status(HttpStatus.NOT_FOUND).send(err))
     },
     getCotisations: (req, res) => {
-        res.send("getCotisations");
+        chain
+        .then( () => CotisationsService.getAllCotisations(req.params.username, req.user.permissions))
+        .then( (cotisations) => res.status(HttpStatus.OK).send(cotisations))
+        .catch( (err) => res.status(HttpStatus.NOT_FOUND).send(err))
+    },
+    getCotisation: (req, res) => {
+        chain
+        .then( () => CotisationsService.getCotisation(req.params.username, req.params.cotisation, req.user.permissions))
+        .then( cotisation => res.status(HttpStatus.OK).send(cotisation))
+        .catch( err => res.status(HttpStatus.BAD_REQUEST).send(err))
     },
     deleteCotisation: (req, res) => {
-        res.send("deleteCotisation");
+        chain
+        .then( () => CotisationsService.deleteCotisation(req.params.cotisation))
+        .then( () => res.status(HttpStatus.NO_CONTENT).send())
+        .catch( err => res.status(HttpStatus.NOT_FOUND).send(err))
+    },
+    addCotisation: (req, res) => {
+        if (!req.body) {
+            res.status(HttpStatus.BAD_REQUEST).send();
+            return;
+        }
+        chain
+        .then( () => CotisationsService.addCotisation(req.params.username, req.body))
+        .then( () => res.status(HttpStatus.NO_CONTENT).send())
+        .catch( err => res.status(HttpStatus.BAD_REQUEST).send(err))
     },
     getLastCotisation: (req, res) => {
         res.send("getLastCotisation");
@@ -81,8 +105,8 @@ const UsersController = {
             return;
         }
         chain
-        .then( () => { UsersService.searchUsers(req.query.q, req.user.permissions, req.query.limit) })
-        .then( (users) => res.status(HttpStatus.OK).send(users))
+        .then( () => UsersService.searchUsers(req.query.q, req.user.permissions, req.query.limit))
+        .then( (users) => { res.status(HttpStatus.OK).send(users)})
     }
 }
 module.exports = UsersController;
