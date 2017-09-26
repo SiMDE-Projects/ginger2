@@ -15,6 +15,7 @@
     "sequelize": "^4.8.4"
   },
   "devDependencies": {
+    "apidoc": "^0.17.6",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
     "mocha": "^3.5.3",
@@ -32,5 +33,13 @@
   "bugs": {
     "url": "https://github.com/pauljenny/ginger2/issues"
   },
-  "homepage": "https://github.com/pauljenny/ginger2#readme"
+  "homepage": "https://github.com/pauljenny/ginger2#readme",
+  "apidoc": {
+    "title": "Ginger REST API",
+    "url" : "https://localhost:3000",
+    "template": {
+      "withCompare": false,
+      "withGenerator": false
+    }
+  }
 }

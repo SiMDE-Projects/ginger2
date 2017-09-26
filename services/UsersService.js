@@ -24,10 +24,11 @@ let self = module.exports = {
                         resolve(user);              
                     })
                     .catch( (err) => {
-                        // On gère les erreurs provenant d'Accounts
+                        // On gère les erreurs provenant d'Accounts (404, etc..)
                         reject(err);
                     })
                     .then( (userAccounts) => {
+                        // On a bien récupéré un user d'accounts, on MAJ
                         resolve(userAccounts)
                     })
                 }
