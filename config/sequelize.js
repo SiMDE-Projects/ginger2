@@ -1,16 +1,16 @@
 module.exports = {
   "development": {
-    "username": "root",
-    "password": "root",
-    "database": "ginger",
-    "host": "127.0.0.1",
+    "username": process.env.GINGER_DEV_DB_USERNAME || "root",
+    "password": process.env.GINGER_DEV_DB_PASSWORD || "root",
+    "database": process.env.GINGER_DEV_DB_NAME || "ginger",
+    "host": process.env.GINGER_DEV_DB_HOSTNAME || "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "ginger",
-    "host": "127.0.0.1",
+    "username": process.env.GINGER_TEST_DB_USERNAME || "root",
+    "password": process.env.GINGER_TEST_DB_PASSWORD || null,
+    "database": process.env.GINGER_TEST_DB_NAME || "ginger",
+    "host": process.env.GINGER_TEST_DB_HOSTNAME || "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
