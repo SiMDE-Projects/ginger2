@@ -29,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
 		badge: {
 			type: DataTypes.STRING(32)
         },
+        type: {
+            type: DataTypes.ENUM("etu","escom","pers","escompers"),
+            defaultValue: "etu"
+        },
         isContributor: {
             type: new DataTypes.VIRTUAL(DataTypes.BOOLEAN)
         }
