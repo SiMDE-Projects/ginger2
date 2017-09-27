@@ -4,7 +4,7 @@ const CotisationModel = require('./../models/').Cotisation;
 const UserModel = require('./../models').User;
 
 let self = module.exports = {
-    getAllCotisations: (login, permissions) => {
+    getAllCotisations: (login, permissions = []) => {
         return new Promise( (resolve, reject) => {
             let excludingAttributes = ["createdAt", "updatedAt", "user"];
             if (!permissions.includes("users_badge")) {
@@ -30,7 +30,7 @@ let self = module.exports = {
             })
         });
     },
-    getCotisation: (login, id, permissions) => {
+    getCotisation: (login, id, permissions = []) => {
         let excludingAttributes = ["createdAt", "updatedAt", "user"];
         if (!permissions.includes("users_badge")) {
             excludingAttributes.push("badge");

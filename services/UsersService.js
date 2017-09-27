@@ -81,7 +81,7 @@ let self = module.exports = {
             }
         })
     },
-    getUser: (username, permissions) => {
+    getUser: (username, permissions = []) => {
         let excludingAttributes = ["createdAt"];
         if (!permissions.includes("users_badge")) {
             excludingAttributes.push("badge");
@@ -116,7 +116,7 @@ let self = module.exports = {
             })
         });
     },
-    searchUser: (params, permissions) => {
+    searchUser: (params, permissions = []) => {
         let excludingAttributes = ["createdAt"];
         if (!permissions.includes("users_badge")) {
             excludingAttributes.push("badge");
@@ -209,7 +209,7 @@ let self = module.exports = {
             })
         })
     },
-    searchUsers: (search, permissions, limit = 10) => {
+    searchUsers: (search, permissions = [], limit = 10) => {
         let excludingAttributes = ["createdAt", "updatedAt"];
         if (!permissions.includes("users_badge")) {
             excludingAttributes.push("badge");
