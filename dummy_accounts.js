@@ -28,11 +28,21 @@ const dummyData = [
 ];
 
 app.get('/ws-picasso/getUserInfo', (req, res) => {
-    res.send(dummyData.find( (el) => el.username === req.query.username));
+    let user = dummyData.find( (el) => el.username === req.query.username);
+    if (user) {
+        res.send(user);
+    } else {
+        res.status(404).send();
+    }
 });
 
 app.get('/ws-picasso/cardLookup', (req, res) => {
-    res.send(dummyData.find( (el) => el.cardSerialNumber === req.query.serialNumber));
+    let user = dummyData.find( (el) => el.cardSerialNumber === req.query.cardSerialNumber);
+    if (user) {
+        res.send(user);
+    } else {
+        res.status(404).send();
+    }
 });
 
 app.listen(3001, function () {

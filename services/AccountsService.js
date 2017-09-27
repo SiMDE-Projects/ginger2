@@ -21,13 +21,11 @@ let self = module.exports = {
                 if (user.cardSerialNumber) {
                     user.cardSerialNumber = self._swapUid(user.cardSerialNumber).toUpperCase();
                 }
-                console.log(user);
                 resolve(user);
             }).catch(err => {
-                console.error(err);
                 reject(err);
             })
-        })
+        });
     },
 
     cardLookup: (badge) => {
@@ -41,7 +39,7 @@ let self = module.exports = {
             }).catch(err => {
                 reject(err);
             })
-        })        
+        });        
     },
 
     _swapUid: (uid) => {

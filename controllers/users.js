@@ -16,13 +16,21 @@ const UsersController = {
         chain
         .then(() => UsersService.getUser(req.params.username, req.user.permissions))
         .then( (user) => { res.send(user) })
-        .catch( (err) => { res.status(HttpStatus.OK).send(err)});
+        .catch( (err) => { res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err)});
     },
     searchUser: (req, res) => {
+
         if (!req.params.length) {
             res.status(HttpStatus.BAD_REQUEST).send();
             return;
         }
+
+        // If user is not authorized to search by badge
+        if (req.params.badge && !req.user.permissions.includes("users_badge")) {
+            res.status(HttpStatus.UNAUTHORIZED).send();
+            return;
+        }
+
         chain
         .then( () => UsersService.searchUser(req.query, req.user.permissions))
         .then( (user) => res.status(HttpStatus.OK).send(user))
