@@ -1,6 +1,8 @@
 "use strict"
 
 const Key = require('../models').Key;
+const KeyNotFoundError = require('./../errors/KeyNotFoundError');
+const KeyMissingError = require('./../errors/KeyMissingError');
 
 var authenticate = (req, res, next) => {
     let token;
@@ -16,13 +18,14 @@ var authenticate = (req, res, next) => {
         // Build a Key object
         Key.findOne({ where: { key: token }}).then(key => {
             if (!key) {
-                return Promise.reject("La clé n'existe pas");
+                return Promise.reject(new KeyNotFoundError());
             }
             req.user = key;
             next();
-        }).catch( (err) => {res.status(401).send(err)});
+        }).catch( (err) => {res.status(err.status).send(err)});
     } else {
-        res.status(401).send("Une clé est nécessaire!");
+        let e = new KeyMissingError();
+        res.status(e.status).send(e);
     }
 }
 

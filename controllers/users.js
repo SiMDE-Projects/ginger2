@@ -16,7 +16,7 @@ const UsersController = {
         chain
         .then(() => UsersService.getUser(req.params.username, req.user.permissions))
         .then( (user) => { res.send(user) })
-        .catch( (err) => { res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err)});
+        .catch( (err) => { res.status(err.status).send(err)});
     },
     searchUser: (req, res) => {
 
@@ -34,7 +34,7 @@ const UsersController = {
         chain
         .then( () => UsersService.searchUser(req.query, req.user.permissions))
         .then( (user) => res.status(HttpStatus.OK).send(user))
-        .catch( (err) => res.status(HttpStatus.BAD_REQUEST).send(err));
+        .catch( (err) => res.status(err.status).send(err));
     },
     createUser: (req, res) => {
         chain
@@ -50,13 +50,14 @@ const UsersController = {
         chain
         .then( () => UsersService.deleteUser(req.params.username))
         .then( () => res.status(HttpStatus.OK).send())
-        .catch( (err) => res.status(HttpStatus.NOT_FOUND).send(err))
+        .catch( (err) => { res.status(err.status).send(err)})
     },
     editUser: (req, res) => {
         if (!req.params.username) {
             res.status(HttpStatus.BAD_REQUEST).send();
             return;
         }
+        
         chain
         .then( () => UsersService.editUser(req.params.username, req.body))
         .then( () => res.status(HttpStatus.NO_CONTENT).send())

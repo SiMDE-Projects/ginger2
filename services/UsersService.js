@@ -2,6 +2,8 @@ const ginger = require('./../config/ginger').ginger;
 const AccountsService = require('./AccountsService');
 const UserModel = require('./../models/').User;
 const CotisationsService = require('./CotisationsService');
+const Sequelize = require('sequelize');
+const UserNotFoundError = require('./../errors/UserNotFoundError');
 
 let self = module.exports = {
 
@@ -91,7 +93,14 @@ let self = module.exports = {
             UserModel.findOne({ where: {login: username}, attributes: { exclude: excludingAttributes }})
             .then(user => {
                 if (!user) {
-                    throw("not found");
+                    // L'utilisateur existe pas dans la DB, on appelle AccountsUTC pour savoir si il existe vraiment
+                    self.createUserFromAccountsLogin(username).then( user => {
+                        delete(user.dataValues.id);
+                        resolve(user);
+                    }).catch( err => {
+                        // Erreur dans la base de données :/ (intégrité souvent)
+                        reject(err);
+                    })
                 } else {
                     Promise.all([CotisationsService.isContributor(user), self.refreshUserFromAccounts(user)])
                     .then( ([isCotisant, finalUser]) => {
@@ -105,14 +114,7 @@ let self = module.exports = {
                 }
             })
             .catch( err => {
-                // L'utilisateur existe pas dans la DB, on appelle AccountsUTC pour savoir si il existe vraiment
-                self.createUserFromAccountsLogin(username).then( user => {
-                    delete(user.dataValues.id);
-                    resolve(user);
-                }).catch( err => {
-                    // Erreur dans la base de données :/ (intégrité souvent)
-                    reject(err);
-                })
+                reject(err);
             })
         });
     },
@@ -173,10 +175,15 @@ let self = module.exports = {
             .then( () => {
                resolve();
             })
-            .catch( (err) => {
-                // Quelque chose ne fonctionne pas à la création
-                // On devrait gérer les erreurs de Sequelize ici, et renvoyer l'objet adapté au controleur
+            .catch(Sequelize.UniqueConstraintError, err => {
+                // L'utilisateur existe déjà
                 reject("TO BE DONE");
+            })
+            .catch(Sequelize.ValidationError, err => {
+                // Un champ est manquant!
+                console.log(err);
+                console.log("AIE");
+                reject("AIE");
             })
         })
     },
@@ -187,8 +194,12 @@ let self = module.exports = {
                 if (count) {
                     resolve();
                 } else {
-                    reject("User not found!");
+                    reject(new UserNotFoundError());
                 }
+            })
+            .catch( err => {
+                console.log(err);
+                reject(err);
             })
         })
     },
@@ -199,7 +210,7 @@ let self = module.exports = {
                 if (count) {
                     resolve();
                 } else {
-                    reject("User not found!");
+                    reject(new UserNotFoundError());
                 }
             })
             .catch( (err) => {

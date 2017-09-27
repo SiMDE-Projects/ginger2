@@ -1,5 +1,8 @@
 const ginger = require('./../config/ginger').ginger;
 const rp = require('request-promise-native');
+const rpErrors = require('request-promise-native/errors');
+const UserNotFoundError = require('./../errors/UserNotFoundError');
+const HttpStatus = require('http-status-codes');
 
 let self = module.exports = {
     buildOptions: (endPoint, params) => {
@@ -10,20 +13,26 @@ let self = module.exports = {
             headers: {
                 'User-Agent': ginger.accounts_useragent
             },
-            json: true
+            json: true,
+            simple: true
         }
     },
 
     getUserInfo: (login) => {
         return new Promise( (resolve, reject) => {
             let options = self.buildOptions("getUserInfo", { "username": login });
-            rp(options).then( user => {
+            rp(options).then(user => {
                 if (user.cardSerialNumber) {
                     user.cardSerialNumber = self._swapUid(user.cardSerialNumber).toUpperCase();
                 }
                 resolve(user);
             }).catch(err => {
-                reject(err);
+                if (err.statusCode === HttpStatus.NOT_FOUND) {
+                    reject(new UserNotFoundError());
+                }
+                else {
+                    reject(err);
+                }
             })
         });
     },
@@ -37,7 +46,12 @@ let self = module.exports = {
                 }
                 resolve(user);
             }).catch(err => {
-                reject(err);
+                if (err.statusCode === HttpStatus.NOT_FOUND) {
+                    reject(new UserNotFoundError());
+                }
+                else {
+                    reject(err);
+                }
             })
         });        
     },

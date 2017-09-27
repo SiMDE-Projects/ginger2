@@ -1,5 +1,6 @@
 "use strict"
 const arrayContainsArray = require('./../utils/arrayContainsArray');
+const UnauthorizedError = require('./../errors/UnauthorizedError');
 
 module.exports =  (...allowed) => {
     return (req, res, next) => {
@@ -7,7 +8,8 @@ module.exports =  (...allowed) => {
             next();
         }
         else {
-            res.status(403).send("Vous n'avez pas les permissions");
+            let e = new UnauthorizedError(null, req.user.key, allowed);
+            res.status(e.status).send(e);
         }
     }
 }

@@ -3,6 +3,7 @@
 const ginger = require('./../config/ginger').ginger;
 const KeyModel = require('./../models/').Key;
 const randomToken = require('random-token');
+const KeyNotFoundError = require('./../errors/KeyNotFoundError');
 
 let self = module.exports = {
     getAllKeys: (login) => {
@@ -20,7 +21,7 @@ let self = module.exports = {
         return new Promise( (resolve, reject) => {
             KeyModel.findById(pk).then( (key) => {
                 if (!key) {
-                    reject("Aucune clé avec cet ID");
+                    reject(new KeyNotFoundError());
                 } else {
                     resolve(key);
                 }
@@ -35,7 +36,7 @@ let self = module.exports = {
                 if (count) {
                     resolve();
                 } else {
-                    reject("Key not found!");
+                    reject(new KeyNotFoundError());
                 }
             })
         })
@@ -44,7 +45,7 @@ let self = module.exports = {
         return new Promise( (resolve, reject) => {
             KeyModel.update({key: randomToken(ginger.key_size)}, { where: { id: pk}}).then( (count) => {
                 if (!count) {
-                    reject("Not found");
+                    reject(new KeyNotFoundError());
                 } else {
                     KeyModel.findById(pk).then( (key) => {
                         console.log(key);
@@ -72,7 +73,7 @@ let self = module.exports = {
         return new Promise( (resolve, reject) => {
             KeyModel.update(params, { where: { id: pk }}).then( (count) => {
                 if(!count) {
-                    reject("Not found!");
+                    reject(new KeyNotFoundError());
                 } else {
                     resolve();
                 }
