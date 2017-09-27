@@ -36,6 +36,7 @@ module.exports = router;
  *     HTTP/1.1 403 Forbidden
  *     {
  *       'error': 'Authentication failed'
+ *       'code': 403
  *     }
  */
 
@@ -46,6 +47,7 @@ module.exports = router;
  *     HTTP/1.1 401 Unauthorized
  *     {
  *       'error': 'Operation not permitted'
+ *       'code': 401
  *     }
  *
  */
@@ -56,7 +58,8 @@ module.exports = router;
  * @apiErrorExample {json} NotFound:
  *     HTTP/1.1 404 NotFound
  *     {
- *       'error': 'Not Found'
+ *       'error': 'Not Found',
+ *       'code': 404
  *     }
  *
  */
