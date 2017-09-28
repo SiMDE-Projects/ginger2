@@ -9,6 +9,7 @@ let self = module.exports = {
     },
     editSettings: (params) => {
         return new Promise( (resolve, reject) => {
+            console.log(params);
             resolve();
             // TO DO  
         });

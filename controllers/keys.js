@@ -4,6 +4,8 @@ const KeysService = require('./../services/KeysService');
 const chain = Promise.resolve();
 const HttpStatus = require('http-status-codes');
 
+const MissingParamError = require('./../errors/MissingParamError');
+
 const KeysController = {
     getAllKeys: (req, res) => {
         chain
@@ -18,8 +20,9 @@ const KeysController = {
         .catch( (err) => res.status(HttpStatus.BAD_REQUEST).send(err))
     },
     createKey: (req, res) => {
-        if (!req.body) {
-            res.status(HttpStatus.BAD_REQUEST).send();
+        if (!Object.keys(req.body).length) {
+            let e = new MissingParamError();
+            res.status(e.status).send(e);
             return;
         }
         chain
@@ -40,8 +43,9 @@ const KeysController = {
         .catch( (err) => res.status(HttpStatus.NOT_FOUND).send(err))
     },
     editKey: (req, res) => {
-        if (!req.body) {
-            res.status(HttpStatus.BAD_REQUEST).send();
+        if (!Object.keys(req.body).length) {
+            let e = new MissingParamError();
+            res.status(e.status).send(e);
             return;
         }
         chain

@@ -4,7 +4,7 @@ const ContributionsService = require('./../services/ContributionsService');
 
 const ginger = require('./../config/ginger').ginger;
 const HttpStatus = require('http-status-codes');
-const ParamsMissingError = require('./../errors/ParamsMissingError');
+const MissingParamError = require('./../errors/MissingParamError');
 const UnauthorizedError = require('./../errors/UnauthorizedError');
 const WrongParameterError = require('./../errors/WrongParameterError');
 
@@ -18,15 +18,14 @@ const UsersController = {
         .catch( (err) => { { console.log(err); res.status(err.status).send(err)}});
     },
     searchUser: (req, res) => {
-
-        if (!req.params.length) {
-            let e = new ParamsMissingError();
+        if (!Object.keys(req.query).length) {
+            let e = new MissingParamError();
             res.status(e.status).send(e);
             return;
         }
 
         // If user is not authorized to search by badge
-        if (req.params.badge && !req.user.permissions.includes("users_badge")) {
+        if (req.query.badge && !req.user.permissions.includes("users_badge")) {
             let e = new UnauthorizedError("Vous n'avez pas la permission de rechercher par badge");
             res.status(e.status).send(e);
             return;
@@ -74,8 +73,8 @@ const UsersController = {
         .catch( err => res.status(err.status).send(err))
     },
     addContribution: (req, res) => {
-        if (!req.body) {
-            let e = new ParamsMissingError();
+        if (!Object.keys(req.body).length) {
+            let e = new MissingParamError();
             res.status(e.status).send(e);
             return;
         }
@@ -98,7 +97,7 @@ const UsersController = {
     },
     searchUsers: (req, res) => {
         if (!req.query.q) {
-            let e = new ParamsMissingError("Paramètre q nécessaire");
+            let e = new MissingParamError("Paramètre q nécessaire");
             res.status(e.status).send(e);
             return;
         }
