@@ -1,4 +1,4 @@
-module.exports = class AppError extends Error {
+class AppError extends Error {
     constructor (message, status) {
     
       // Calling parent constructor of base Error class.
@@ -16,3 +16,23 @@ module.exports = class AppError extends Error {
       Error.captureStackTrace(this, this.constructor);
     }
   };
+
+Object.defineProperty(AppError.prototype, 'toJSON', {
+      value: function () {   
+          var alt = {};
+          Object.getOwnPropertyNames(this).forEach(function (key) {
+            if (key !== "stack")
+              alt[key] = this[key];
+  
+          }, this);
+  
+  
+  
+          return alt;
+  
+      }, 
+      configurable: true, 
+      writable: true
+  });
+
+module.exports = AppError;
