@@ -53,25 +53,25 @@ const UsersController = {
         chain
         .then( () => UsersService.editUser(req.params.username, req.body))
         .then( () => res.status(HttpStatus.NO_CONTENT).send())
-        .catch( (err) => res.status(HttpStatus.NOT_FOUND).send(err))
+        .catch( (err) => res.status(err.status).send(err))
     },
     getCotisations: (req, res) => {
         chain
         .then( () => CotisationsService.getAllCotisations(req.params.username, req.user.permissions))
         .then( (cotisations) => res.status(HttpStatus.OK).send(cotisations))
-        .catch( (err) => res.status(HttpStatus.NOT_FOUND).send(err))
+        .catch( (err) => res.status(err.status).send(err))
     },
     getCotisation: (req, res) => {
         chain
         .then( () => CotisationsService.getCotisation(req.params.username, req.params.cotisation, req.user.permissions))
         .then( cotisation => res.status(HttpStatus.OK).send(cotisation))
-        .catch( err => res.status(HttpStatus.BAD_REQUEST).send(err))
+        .catch( err => res.status(err.status).send(err))
     },
     deleteCotisation: (req, res) => {
         chain
         .then( () => CotisationsService.deleteCotisation(req.params.cotisation))
         .then( () => res.status(HttpStatus.NO_CONTENT).send())
-        .catch( err => res.status(HttpStatus.NOT_FOUND).send(err))
+        .catch( err => res.status(err.status).send(err))
     },
     addCotisation: (req, res) => {
         if (!req.body) {

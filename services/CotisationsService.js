@@ -3,6 +3,8 @@ const arrayContainsArray = require('./../utils/arrayContainsArray');
 const CotisationModel = require('./../models/').Cotisation;
 const UserModel = require('./../models').User;
 
+const ContributionNotFoundError = require('./../errors/ContributionNotFoundError');
+
 let self = module.exports = {
     getAllCotisations: (login, permissions = []) => {
         return new Promise( (resolve, reject) => {
@@ -19,8 +21,8 @@ let self = module.exports = {
 
                 }]
             }).then( (cotisations) => {
-                if (!cotisations) {
-                    reject("???");
+                if (!cotisations.length) {
+                    reject(new ContributionNotFoundError("Aucune cotisation ou utilisateur inexistant!"));
                 } else {
                     resolve(cotisations);
                 }
@@ -50,11 +52,12 @@ let self = module.exports = {
                 }]
             }).then( cotisation => {
                 if (!cotisation) {
-                    reject("???");
+                    reject(new ContributionNotFoundError());
                 } else {
                     resolve(cotisation);
                 }
             }).catch( err => {
+                // Erreur Sequelize
                 console.error(err);
                 reject(err);
             })
@@ -68,7 +71,7 @@ let self = module.exports = {
                 }
             }).then( count => {
                 if (!count) {
-                    reject("No cotisation");
+                    reject(new ContributionNotFoundError());
                 } else {
                     resolve();
                 }

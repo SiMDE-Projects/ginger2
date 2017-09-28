@@ -217,7 +217,7 @@ let self = module.exports = {
             .catch( (err) => {
                 // Quelque chose s'est mal passé, on devrait gérer ici les erreurs de Sequelize
                 console.log(err);
-                reject("TO BE DONE");
+                reject(err);
             })
         })
     },
