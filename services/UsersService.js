@@ -1,6 +1,7 @@
 const ginger = require('./../config/ginger').ginger;
 const AccountsService = require('./AccountsService');
 const UserModel = require('./../models/').User;
+const CotisationModel = require('./../models').Cotisation;
 const CotisationsService = require('./CotisationsService');
 const Sequelize = require('sequelize');
 const UserNotFoundError = require('./../errors/UserNotFoundError');
@@ -273,5 +274,26 @@ let self = module.exports = {
                     }));
             }).then( usersFinal => { resolve(usersFinal)});
         });
+    },
+    getStats: () => {
+        return new Promise( (resolve, reject) => {
+            UserModel.findAndCountAll({ include: [{ model: CotisationModel}]})
+            .then(result => {
+                let types = {};
+                let adults = { "0": 0, "1": 0};
+
+                UserModel.rawAttributes.type.values.forEach( (value) => {
+                    types[value] = 0;
+                });
+
+                result.rows.forEach( (user) => {
+                    types[user.type] += 1;
+                    adults[user.isAdult ? 1: 0] += 1;
+                });
+
+                let fi = { "total": result.count, "types": types, "adults": adults};
+                resolve(fi);
+            });
+        })
     }
 }

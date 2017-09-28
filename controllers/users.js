@@ -91,7 +91,10 @@ const UsersController = {
         res.send("deleteLastCotisation");
     },
     getStats: (req, res) => {
-        res.send("getStats");
+        chain
+        .then( () => UsersService.getStats())
+        .then( (stats) => res.status(HttpStatus.OK).send(stats))
+        .catch( err => res.status(HttpStatus.BAD_REQUEST).send(err));
     },
     searchUsers: (req, res) => {
         if (!req.query.q) {
