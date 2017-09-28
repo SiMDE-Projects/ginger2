@@ -1,5 +1,8 @@
 "use strict"
 
+const OverlappingContributionsError = require('./../errors/OverlappingContributionsError');
+const WrongParameterError = require('./../errors/WrongParameterError');
+
 module.exports = (sequelize, DataTypes) => {
 	const Contribution = sequelize.define('Contribution', {
 		id: {
@@ -20,11 +23,31 @@ module.exports = (sequelize, DataTypes) => {
 	}, { validate: {
         beginBeforeEnd() {
 			if (new Date(this.getDataValue("begin")) > new Date(this.getDataValue("end"))) {
-				throw new Error("La date de début avant date de fin!");
+				throw new WrongParameterError("La date de début avant date de fin!");
 			}
         },
         overlappingDates() {
-            // TBD
+			return Contribution.count({
+				where: {
+					user: this.getDataValue("user"),
+					$and: [
+						{
+							begin: {
+								$lt: this.getDataValue("end")
+							}
+						},
+						{
+							end: {
+								$gt: this.getDataValue("begin")
+							}
+						}
+					]
+				}
+			}).then( (count) => {
+				if (count) {
+					throw new OverlappingContributionsError();
+				}
+			})
         }
 	}});
 	Contribution.associate = (models) => {

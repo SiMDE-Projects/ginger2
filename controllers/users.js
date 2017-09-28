@@ -15,7 +15,7 @@ const UsersController = {
         chain
         .then(() => UsersService.getUser(req.params.username, req.user.permissions))
         .then( (user) => { res.send(user) })
-        .catch( (err) => { { console.log(err); res.status(err.status).send(err)}});
+        .catch( (err) => { res.status(err.status).send(err)});
     },
     searchUser: (req, res) => {
         if (!Object.keys(req.query).length) {
