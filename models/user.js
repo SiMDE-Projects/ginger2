@@ -1,6 +1,4 @@
 "use strict"
-const CotisationModel = require('./cotisation').Cotisation;
-
 module.exports = (sequelize, DataTypes) => {
 	var User = sequelize.define('User', {
 		login: {
@@ -39,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     User.associate = (models) => {
-        User.hasMany(models.Cotisation, {foreignKey: "user", onDelete: "CASCADE" });
+        User.hasMany(models.Contribution, {foreignKey: "user", onDelete: "CASCADE" });
     }
 	return User;
 };

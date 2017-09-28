@@ -12,9 +12,9 @@ module.exports = {
         users_delete: true,
         users_edit: true,
         users_badge: true,
-        cotisations_add: true,
-        cotisations_delete: true,
-        cotisations_read: true,
+        contributions_add: true,
+        contributions_delete: true,
+        contributions_read: true,
         stats_read: true,
         settings_read: true,
         keys_all: true

@@ -27,9 +27,9 @@ let router = express.Router();
  * @apiSuccess {Boolean} -.users_delete  Right to delete users
  * @apiSuccess {Boolean} -.users_edit  Right to edit users
  * @apiSuccess {Boolean} -.users_badge Right to view users' badge    
- * @apiSuccess {Boolean} -.cotisations_add  Right to add cotisations of Users
- * @apiSuccess {Boolean} -.cotisations_delete Right to delete cotisations of Users
- * @apiSuccess {Boolean} -.cotisations_read Right to see cotisations of Users
+ * @apiSuccess {Boolean} -.contributions_add  Right to add contributions of Users
+ * @apiSuccess {Boolean} -.contributions_delete Right to delete contributions of Users
+ * @apiSuccess {Boolean} -.contributions_read Right to see contributions of Users
  * @apiSuccess {Boolean} -.stats  Right to see statistics about Ginger.
  * @apiSuccess {Boolean} -.settings_read  Right to see Ginger's settings
  * @apiSuccess {Boolean} -.keys_all  Right to manage API keys
@@ -45,9 +45,9 @@ let router = express.Router();
  *                   "users_delete",
  *                  "users_edit",
  *                  "users_badge",
- *                  "cotisations_add",
- *                  "cotisations_delete",
- *                  "cotisations_read",
+ *                  "contributions_add",
+ *                  "contributions_delete",
+ *                  "contributions_read",
  *                  "stats_read",
  *                  "settings_read",
  *                  "keys_all"
@@ -60,9 +60,9 @@ let router = express.Router();
  *              "users_delete": true,
  *              "users_edit": true,
  *              "users_badge": true,
- *              "cotisations_add": true,
- *              "cotisations_delete": true,
- *              "cotisations_read": true,
+ *              "contributions_add": true,
+ *              "contributions_delete": true,
+ *              "contributions_read": true,
  *              "stats_read": true,
  *              "settings_read": true,
  *              "keys_all": true,
@@ -96,9 +96,9 @@ router.get('/', mAuthorize('keys_all'), kController.getAllKeys);
  * @apiParam {Boolean} users_delete  Right to delete users (default: false)
  * @apiParam {Boolean} users_edit  Right to edit users (default: false)
  * @apiParam {Boolean} users_badge Right to view users' badge (default: false)   
- * @apiParam {Boolean} cotisations_add  Right to add cotisations of Users (default: false)
- * @apiParam {Boolean} cotisations_delete Right to delete cotisations of Users (default: false)
- * @apiParam {Boolean} cotisations_read Right to see cotisations of Users (default: false)
+ * @apiParam {Boolean} contributions_add  Right to add contributions of Users (default: false)
+ * @apiParam {Boolean} contributions_delete Right to delete contributions of Users (default: false)
+ * @apiParam {Boolean} contributions_read Right to see contributions of Users (default: false)
  * @apiParam {Boolean} stats  Right to see statistics about Ginger. (default: false)
  * @apiParam {Boolean} settings_read  Right to see Ginger's settings (default: false)
  * @apiParam {Boolean} keys_all  Right to manage API keys (default: false)
@@ -108,9 +108,9 @@ router.get('/', mAuthorize('keys_all'), kController.getAllKeys);
  * @apiSuccess (201 - Created) {Boolean} users_delete  Right to delete users (default: false)
  * @apiSuccess (201 - Created) {Boolean} users_edit  Right to edit users (default: false)
  * @apiSuccess (201 - Created) {Boolean} users_badge Right to view users' badge (default: false)   
- * @apiSuccess (201 - Created) {Boolean} cotisations_add  Right to add cotisations of Users (default: false)
- * @apiSuccess (201 - Created) {Boolean} cotisations_delete Right to delete cotisations of Users (default: false)
- * @apiSuccess (201 - Created) {Boolean} cotisations_read Right to see cotisations of Users (default: false)
+ * @apiSuccess (201 - Created) {Boolean} contributions_add  Right to add contributions of Users (default: false)
+ * @apiSuccess (201 - Created) {Boolean} contributions_delete Right to delete contributions of Users (default: false)
+ * @apiSuccess (201 - Created) {Boolean} contributions_read Right to see contributions of Users (default: false)
  * @apiSuccess (201 - Created) {Boolean} stats  Right to see statistics about Ginger. (default: false)
  * @apiSuccess (201 - Created) {Boolean} settings_read  Right to see Ginger's settings (default: false)
  * @apiSuccess (201 - Created) {Boolean} keys_all  Right to manage API keys (default: false)
@@ -122,9 +122,9 @@ router.get('/', mAuthorize('keys_all'), kController.getAllKeys);
  *                   "users_delete",
  *                  "users_edit",
  *                  "users_badge",
- *                  "cotisations_add",
- *                  "cotisations_delete",
- *                  "cotisations_read",
+ *                  "contributions_add",
+ *                  "contributions_delete",
+ *                  "contributions_read",
  *                  "stats_read",
  *                  "settings_read",
  *                  "keys_all"
@@ -137,9 +137,9 @@ router.get('/', mAuthorize('keys_all'), kController.getAllKeys);
  *              "users_delete": true,
  *              "users_edit": true,
  *              "users_badge": true,
- *              "cotisations_add": true,
- *              "cotisations_delete": true,
- *              "cotisations_read": true,
+ *              "contributions_add": true,
+ *              "contributions_delete": true,
+ *              "contributions_read": true,
  *              "stats_read": true,
  *              "settings_read": true,
  *              "keys_all": true,
@@ -176,9 +176,9 @@ router.post('/', mAuthorize('keys_all'), kController.createKey);
  * @apiSuccess {Boolean} users_delete  Right to delete users
  * @apiSuccess {Boolean} users_edit  Right to edit users
  * @apiSuccess {Boolean} users_badge Right to view users' badge    
- * @apiSuccess {Boolean} cotisations_add  Right to add cotisations of Users
- * @apiSuccess {Boolean} cotisations_delete Right to delete cotisations of Users
- * @apiSuccess {Boolean} cotisations_read Right to see cotisations of Users
+ * @apiSuccess {Boolean} contributions_add  Right to add contributions of Users
+ * @apiSuccess {Boolean} contributions_delete Right to delete contributions of Users
+ * @apiSuccess {Boolean} contributions_read Right to see contributions of Users
  * @apiSuccess {Boolean} stats  Right to see statistics about Ginger.
  * @apiSuccess {Boolean} settings_read  Right to see Ginger's settings
  * @apiSuccess {Boolean} keys_all  Right to manage API keys
@@ -193,9 +193,9 @@ router.post('/', mAuthorize('keys_all'), kController.createKey);
  *             "users_delete",
  *             "users_edit",
  *             "users_badge",
- *             "cotisations_add",
- *             "cotisations_delete",
- *             "cotisations_read",
+ *             "contributions_add",
+ *             "contributions_delete",
+ *             "contributions_read",
  *             "stats_read",
  *             "settings_read",
  *             "keys_all"
@@ -208,9 +208,9 @@ router.post('/', mAuthorize('keys_all'), kController.createKey);
  *            "users_delete": true,
  *            "users_edit": true,
  *            "users_badge": true,
- *            "cotisations_add": true,
- *            "cotisations_delete": true,
- *            "cotisations_read": true,
+ *            "contributions_add": true,
+ *            "contributions_delete": true,
+ *            "contributions_read": true,
  *            "stats_read": true,
  *            "settings_read": true,
  *            "keys_all": true,
@@ -269,9 +269,9 @@ router.delete('/:id', mAuthorize('keys_all'), kController.deleteKey);
  *                   "users_delete",
  *                  "users_edit",
  *                  "users_badge",
- *                  "cotisations_add",
- *                  "cotisations_delete",
- *                  "cotisations_read",
+ *                  "contributions_add",
+ *                  "contributions_delete",
+ *                  "contributions_read",
  *                  "stats_read",
  *                  "settings_read",
  *                  "keys_all"
@@ -284,9 +284,9 @@ router.delete('/:id', mAuthorize('keys_all'), kController.deleteKey);
  *              "users_delete": true,
  *              "users_edit": true,
  *              "users_badge": true,
- *              "cotisations_add": true,
- *              "cotisations_delete": true,
- *              "cotisations_read": true,
+ *              "contributions_add": true,
+ *              "contributions_delete": true,
+ *              "contributions_read": true,
  *              "stats_read": true,
  *              "settings_read": true,
  *              "keys_all": true,
@@ -324,9 +324,9 @@ router.post('/:id', mAuthorize('keys_all'), kController.refreshKey);
  * @apiParam {Boolean} users_delete  Right to delete users (default: false)
  * @apiParam {Boolean} users_edit  Right to edit users (default: false)
  * @apiParam {Boolean} users_badge Right to view users' badge (default: false)   
- * @apiParam {Boolean} cotisations_add  Right to add cotisations of Users (default: false)
- * @apiParam {Boolean} cotisations_delete Right to delete cotisations of Users (default: false)
- * @apiParam {Boolean} cotisations_read Right to see cotisations of Users (default: false)
+ * @apiParam {Boolean} contributions_add  Right to add contributions of Users (default: false)
+ * @apiParam {Boolean} contributions_delete Right to delete contributions of Users (default: false)
+ * @apiParam {Boolean} contributions_read Right to see contributions of Users (default: false)
  * @apiParam {Boolean} stats  Right to see statistics about Ginger. (default: false)
  * @apiParam {Boolean} settings_read  Right to see Ginger's settings (default: false)
  * @apiParam {Boolean} keys_all  Right to manage API keys (default: false)

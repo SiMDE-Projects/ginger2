@@ -37,15 +37,15 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.BOOLEAN,
 			defaultValue: false
 		},
-		cotisations_add: {
+		contributions_add: {
 			type: DataTypes.BOOLEAN,
 			defaultValue: false
 		},
-		cotisations_delete: {
+		contributions_delete: {
 			type: DataTypes.BOOLEAN,
 			defaultValue: false
 		},
-		cotisations_read: {
+		contributions_read: {
 			type: DataTypes.BOOLEAN,
 			defaultValue: false
 		},
@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
 		},
 	}, { getterMethods: {
 		permissions: function() {
-			let ar = ["users_add","users_delete","users_edit","users_badge","cotisations_add","cotisations_delete","cotisations_read","stats_read","settings_read","keys_all"];
+			let ar = ["users_add","users_delete","users_edit","users_badge","contributions_add","contributions_delete","contributions_read","stats_read","settings_read","keys_all"];
 			let rights = [];
 			ar.forEach( (el) => {
 				if (this.getDataValue(el)) {

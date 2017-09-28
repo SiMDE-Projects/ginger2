@@ -1,7 +1,7 @@
 "use strict"
 
 module.exports = (sequelize, DataTypes) => {
-	const Cotisation = sequelize.define('Cotisation', {
+	const Contribution = sequelize.define('Contribution', {
 		id: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -27,8 +27,8 @@ module.exports = (sequelize, DataTypes) => {
             // TBD
         }
 	}});
-	Cotisation.associate = (models) => {
-        Cotisation.belongsTo(models.User, {foreignKey: "user", onDelete: "CASCADE" });
+	Contribution.associate = (models) => {
+        Contribution.belongsTo(models.User, {foreignKey: "user", onDelete: "CASCADE" });
     }
-	return Cotisation;
+	return Contribution;
 };

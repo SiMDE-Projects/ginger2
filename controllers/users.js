@@ -1,6 +1,6 @@
 "use strict";
 const UsersService = require('../services/UsersService');
-const CotisationsService = require('./../services/CotisationsService');
+const ContributionsService = require('./../services/ContributionsService');
 
 const ginger = require('./../config/ginger').ginger;
 const HttpStatus = require('http-status-codes');
@@ -15,7 +15,7 @@ const UsersController = {
         chain
         .then(() => UsersService.getUser(req.params.username, req.user.permissions))
         .then( (user) => { res.send(user) })
-        .catch( (err) => { res.status(err.status).send(err)});
+        .catch( (err) => { { console.log(err); res.status(err.status).send(err)}});
     },
     searchUser: (req, res) => {
 
@@ -55,40 +55,40 @@ const UsersController = {
         .then( () => res.status(HttpStatus.NO_CONTENT).send())
         .catch( (err) => res.status(err.status).send(err))
     },
-    getCotisations: (req, res) => {
+    getContributions: (req, res) => {
         chain
-        .then( () => CotisationsService.getAllCotisations(req.params.username, req.user.permissions))
-        .then( (cotisations) => res.status(HttpStatus.OK).send(cotisations))
+        .then( () => ContributionsService.getAllContributions(req.params.username, req.user.permissions))
+        .then( (contributions) => res.status(HttpStatus.OK).send(contributions))
         .catch( (err) => res.status(err.status).send(err))
     },
-    getCotisation: (req, res) => {
+    getContribution: (req, res) => {
         chain
-        .then( () => CotisationsService.getCotisation(req.params.username, req.params.cotisation, req.user.permissions))
-        .then( cotisation => res.status(HttpStatus.OK).send(cotisation))
+        .then( () => ContributionsService.getContribution(req.params.username, req.params.contribution, req.user.permissions))
+        .then( contribution => res.status(HttpStatus.OK).send(contribution))
         .catch( err => res.status(err.status).send(err))
     },
-    deleteCotisation: (req, res) => {
+    deleteContribution: (req, res) => {
         chain
-        .then( () => CotisationsService.deleteCotisation(req.params.cotisation))
+        .then( () => ContributionsService.deleteContribution(req.params.contribution))
         .then( () => res.status(HttpStatus.NO_CONTENT).send())
         .catch( err => res.status(err.status).send(err))
     },
-    addCotisation: (req, res) => {
+    addContribution: (req, res) => {
         if (!req.body) {
             let e = new ParamsMissingError();
             res.status(e.status).send(e);
             return;
         }
         chain
-        .then( () => CotisationsService.addCotisation(req.params.username, req.body))
+        .then( () => ContributionsService.addContribution(req.params.username, req.body))
         .then( () => res.status(HttpStatus.NO_CONTENT).send())
         .catch( err => res.status(HttpStatus.BAD_REQUEST).send(err))
     },
-    getLastCotisation: (req, res) => {
-        res.send("getLastCotisation");
+    getLastContribution: (req, res) => {
+        res.send("getLastContribution");
     },
-    deleteLastCotisation: (req, res) => {
-        res.send("deleteLastCotisation");
+    deleteLastContribution: (req, res) => {
+        res.send("deleteLastContribution");
     },
     getStats: (req, res) => {
         chain

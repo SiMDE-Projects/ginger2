@@ -1,8 +1,8 @@
 const ginger = require('./../config/ginger').ginger;
 const AccountsService = require('./AccountsService');
 const UserModel = require('./../models/').User;
-const CotisationModel = require('./../models').Cotisation;
-const CotisationsService = require('./CotisationsService');
+const ContributionModel = require('./../models').Contribution;
+const ContributionsService = require('./ContributionsService');
 const Sequelize = require('sequelize');
 const UserNotFoundError = require('./../errors/UserNotFoundError');
 
@@ -103,7 +103,7 @@ let self = module.exports = {
                         reject(err);
                     })
                 } else {
-                    Promise.all([CotisationsService.isContributor(user), self.refreshUserFromAccounts(user)])
+                    Promise.all([ContributionsService.isContributor(user), self.refreshUserFromAccounts(user)])
                     .then( ([isCotisant, finalUser]) => {
                         delete(finalUser.dataValues.id);
                         finalUser.setDataValue("isContributor", isCotisant);
@@ -130,7 +130,7 @@ let self = module.exports = {
                 if (!user) {
                     throw("not found");
                 } else {
-                    Promise.all([CotisationsService.isContributor(user), self.refreshUserFromAccounts(user)])
+                    Promise.all([ContributionsService.isContributor(user), self.refreshUserFromAccounts(user)])
                     .then( ([isCotisant, finalUser]) => {
                         delete(finalUser.dataValues.id);
                         finalUser.setDataValue("isContributor", isCotisant);
@@ -265,7 +265,7 @@ let self = module.exports = {
             }).then( (users) => {
                 return Promise.all(users.map( user => {
                         return new Promise( resolve2 => {
-                            CotisationsService.isContributor(user).then( (is) => {
+                            ContributionsService.isContributor(user).then( (is) => {
                                 delete(user.dataValues.id);
                                 user.setDataValue("isContributor", is);
                                 resolve2(user);
@@ -277,7 +277,7 @@ let self = module.exports = {
     },
     getStats: () => {
         return new Promise( (resolve, reject) => {
-            UserModel.findAndCountAll({ include: [{ model: CotisationModel}]})
+            UserModel.findAndCountAll({ include: [{ model: ContributionModel}]})
             .then(result => {
                 let types = {};
                 let adults = { "0": 0, "1": 0};

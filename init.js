@@ -2,7 +2,10 @@ const db = require('./models');
 const env = process.env.NODE_ENV || "development";
 const exec = require('child_process').exec;
 
-db.sequelize.sync({force: true}).then(() => {
+db.sequelize.query("SET FOREIGN_KEY_CHECKS = 0")
+.then( () => { return  db.sequelize.sync({force: true}) })
+.then( () => { return db.sequelize.query("SET FOREIGN_KEY_CHECKS = 1")})
+.then( () => {
     if (env === "development") {
         exec('sequelize db:seed:all', (err, out, code) => {
             if (err) {
