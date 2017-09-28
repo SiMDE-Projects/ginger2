@@ -4,15 +4,14 @@ const CotisationsService = require('./../services/CotisationsService');
 
 const ginger = require('./../config/ginger').ginger;
 const HttpStatus = require('http-status-codes');
+const ParamsMissingError = require('./../errors/ParamsMissingError');
+const UnauthorizedError = require('./../errors/UnauthorizedError');
+const WrongParameterError = require('./../errors/WrongParameterError');
 
 const chain = Promise.resolve();
 
 const UsersController = {
     getUser: (req, res) => {
-        if (!req.params.username) {
-            res.status(HttpStatus.BAD_REQUEST).send();
-            return;
-        }
         chain
         .then(() => UsersService.getUser(req.params.username, req.user.permissions))
         .then( (user) => { res.send(user) })
@@ -21,13 +20,15 @@ const UsersController = {
     searchUser: (req, res) => {
 
         if (!req.params.length) {
-            res.status(HttpStatus.BAD_REQUEST).send();
+            let e = new ParamsMissingError();
+            res.status(e.status).send(e);
             return;
         }
 
         // If user is not authorized to search by badge
         if (req.params.badge && !req.user.permissions.includes("users_badge")) {
-            res.status(HttpStatus.UNAUTHORIZED).send();
+            let e = new UnauthorizedError("Vous n'avez pas la permission de rechercher par badge");
+            res.status(e.status).send(e);
             return;
         }
 
@@ -43,21 +44,12 @@ const UsersController = {
         .catch( err => res.status(HttpStatus.NOT_FOUND).send(err));
     },
     deleteUser: (req, res) => {
-        if (!req.params.username) {
-            res.status(HttpStatus.BAD_REQUEST).send();
-            return;
-        }
         chain
         .then( () => UsersService.deleteUser(req.params.username))
         .then( () => res.status(HttpStatus.OK).send())
         .catch( (err) => { res.status(err.status).send(err)})
     },
-    editUser: (req, res) => {
-        if (!req.params.username) {
-            res.status(HttpStatus.BAD_REQUEST).send();
-            return;
-        }
-        
+    editUser: (req, res) => {      
         chain
         .then( () => UsersService.editUser(req.params.username, req.body))
         .then( () => res.status(HttpStatus.NO_CONTENT).send())
@@ -83,7 +75,8 @@ const UsersController = {
     },
     addCotisation: (req, res) => {
         if (!req.body) {
-            res.status(HttpStatus.BAD_REQUEST).send();
+            let e = new ParamsMissingError();
+            res.status(e.status).send(e);
             return;
         }
         chain
@@ -102,15 +95,18 @@ const UsersController = {
     },
     searchUsers: (req, res) => {
         if (!req.query.q) {
-            res.status(HttpStatus.BAD_REQUEST).send("Paramètre q nécessaire");
+            let e = new ParamsMissingError("Paramètre q nécessaire");
+            res.status(e.status).send(e);
             return;
         }
         if (req.query.limit && req.query.limit > ginger.limit_max_search) {
-            res.status(HttpStatus.BAD_REQUEST).send("Limite dépassé!");
+            let e = new WrongParameterError("Limite dépassé! Maximum " + ginger.limit_max_search);
+            res.status(e.status).send(e);
             return;
         }
         if (req.query.limit && !Number.isInteger(req.query.limit)) {
-            res.status(HttpStatus.BAD_REQUEST).send("Limite doit être un nombre");
+            let e = new WrongParameterError("limit doit être un nombre");
+            res.status(e.status).send(e);
             return;
         }
         chain

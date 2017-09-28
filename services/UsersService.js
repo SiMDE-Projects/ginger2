@@ -220,7 +220,7 @@ let self = module.exports = {
             })
         })
     },
-    searchUsers: (search, permissions = [], limit = 10) => {
+    searchUsers: (search, permissions = [], limit = ginger.limit_default_search) => {
         let excludingAttributes = ["createdAt", "updatedAt"];
         if (!permissions.includes("users_badge")) {
             excludingAttributes.push("badge");
