@@ -2,6 +2,7 @@ const ginger = require('./../config/ginger').ginger;
 const rp = require('request-promise-native');
 const rpErrors = require('request-promise-native/errors');
 const UserNotFoundError = require('./../errors/UserNotFoundError');
+const InternalServerError = require('./../errors/InternalServerError');
 const HttpStatus = require('http-status-codes');
 
 let self = module.exports = {
@@ -31,7 +32,7 @@ let self = module.exports = {
                     reject(new UserNotFoundError());
                 }
                 else {
-                    reject(err);
+                    reject(new InternalServerError("Connexion impossible à AccountsUTC"));
                 }
             })
         });
@@ -50,7 +51,7 @@ let self = module.exports = {
                     reject(new UserNotFoundError());
                 }
                 else {
-                    reject(err);
+                    reject(new InternalServerError("Connexion impossible à AccountsUTC"))
                 }
             })
         });        
