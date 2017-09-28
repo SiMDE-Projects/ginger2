@@ -19,8 +19,8 @@ const SettingsController = {
         }
         chain
         .then( () => SettingsService.editSettings(req.body))
-        .then( () => res.status(HttpStatus.NO_CONTENT).send())
-        .catch( () => res.status(HttpStatus.BAD_REQUEST).send())
+        .then( (config) => res.status(HttpStatus.OK).send(config))
+        .catch( (err) => res.status(err.status).send(err))
     }
 }
 module.exports = SettingsController;

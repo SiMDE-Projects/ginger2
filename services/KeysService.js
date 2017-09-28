@@ -58,7 +58,6 @@ let self = module.exports = {
         })
     },
     createKey: (params) => {
-        console.log(params);
         params.key = randomToken(ginger.key_size);
         return new Promise( (resolve, reject) => {
             KeyModel.create(params).then( (key) => {

@@ -85,6 +85,7 @@ let self = module.exports = {
         })
     },
     getUser: (username, permissions = []) => {
+        console.log(ginger);
         let excludingAttributes = ["createdAt"];
         if (!permissions.includes("users_badge")) {
             excludingAttributes.push("badge");
