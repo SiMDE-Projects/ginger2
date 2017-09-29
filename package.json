@@ -11,7 +11,9 @@
     "random-token": "0.0.8",
     "request": "^2.82.0",
     "request-promise-native": "^1.0.5",
-    "sequelize": "^4.8.4"
+    "save": "^2.3.1",
+    "sequelize": "^4.8.4",
+    "winston": "^2.3.1"
   },
   "devDependencies": {
     "apidoc": "^0.17.6",

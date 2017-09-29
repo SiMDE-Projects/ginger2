@@ -22,8 +22,19 @@ app.use( (err, req, res, next) => {
   if (res.headersSent) {
     return next(err)
   }
-  console.log(err);
-  res.status(err.status || 500)
+
+  // Si l'erreur n'a pas de statut, elle n'était pas prévue
+  if (!err.status) {
+    err.status = 500;
+  }
+
+  if (err.status > 400) {
+    if (err.status >= 500) {
+      // On envoie un mail avec la stacktrace pour les erreurs "graves"
+    }
+    // On log ça dans un fichier spécial pour consultation humaine
+  }
+  res.status(err.status)
   res.send(err);
 });
 
@@ -33,7 +44,3 @@ app.listen(3000, function () {
     console.log("Server listening on 3000");
   })
 });
-
-
-// TO DO: Ajouter plain: true dans les requêtes Sequelize pour ne pas avoir les champs inutiles de Sequelize
-// TO DO: Gérer les erreurs de Sequelize. Construire un objet { err: "Message d'erreur", code: HttpStatus.NOT_FOUND } dans les services
