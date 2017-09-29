@@ -5,13 +5,11 @@ const app = express();
 const db = require('./models');
 const routes = require('./routes/');
 const config = require('./config/ginger');
-const authMiddleware = require('./middlewares/authentication');
 const bodyParser = require('body-parser');
 
 app.use('/apidoc', express.static('apidoc'));
 
 
-app.use(authMiddleware);
 app.use(bodyParser.json());
 
 app.disable('x-powered-by');
