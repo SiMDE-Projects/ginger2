@@ -18,6 +18,16 @@ app.disable('x-powered-by');
 
 app.use('/', routes);
 
+app.use( (err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err)
+  }
+  console.log(err);
+  res.status(err.status || 500)
+  res.send(err);
+});
+
+
 app.listen(3000, function () {
   db.sequelize.sync({force: false}).then( () => {
     console.log("Server listening on 3000");

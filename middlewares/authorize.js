@@ -8,8 +8,7 @@ module.exports =  (...allowed) => {
             next();
         }
         else {
-            let e = new UnauthorizedError(null, req.user.key, allowed);
-            res.status(e.status).send(e);
+            next(new UnauthorizedError(null, req.user.key, allowed));
         }
     }
 }

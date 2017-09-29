@@ -22,10 +22,9 @@ var authenticate = (req, res, next) => {
             }
             req.user = key;
             next();
-        }).catch( (err) => {res.status(err.status).send(err)});
+        }).catch( (err) => { next(err)});
     } else {
-        let e = new KeyMissingError();
-        res.status(e.status).send(e);
+        next(new KeyMissingError());
     }
 }
 

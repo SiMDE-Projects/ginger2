@@ -25,11 +25,7 @@ Object.defineProperty(AppError.prototype, 'toJSON', {
               alt[key] = this[key];
   
           }, this);
-  
-  
-  
           return alt;
-  
       }, 
       configurable: true, 
       writable: true
