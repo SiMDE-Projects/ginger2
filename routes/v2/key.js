@@ -10,7 +10,7 @@ let router = express.Router();
 
 /**
 
- * @api {GET} /v1/keys Request many keys
+ * @api {GET} /v2/keys Request many keys
  * @apiName getAllKeys
  * @apiGroup Keys
  *
@@ -72,9 +72,9 @@ let router = express.Router();
  *      ]
  *
  * @apiExample {curl} Query all keys:
- *     curl -i "http://localhost:3000/v1/keys" -H "Authorization: Bearer YOUR_API_KEY"
+ *     curl -i "http://localhost:3000/v2/keys" -H "Authorization: Bearer YOUR_API_KEY"
  * @apiExample {curl} Query all login's keys:
- *     curl -i "http://localhost:3000/v1/keys?login=simde" -H "Authorization: Bearer YOUR_API_KEY"
+ *     curl -i "http://localhost:3000/v2/keys?login=simde" -H "Authorization: Bearer YOUR_API_KEY"
  * @apiUse InvalidAuthentication
  * @apiUse Unauthorized
  */
@@ -82,7 +82,7 @@ router.get('/', mAuthorize('keys_all'), kController.getAllKeys);
 
 /**
 
- * @api {POST} /v1/keys Create a key
+ * @api {POST} /v2/keys Create a key
  * @apiName createKey
  * @apiGroup Keys
  *
@@ -149,7 +149,7 @@ router.get('/', mAuthorize('keys_all'), kController.getAllKeys);
  *
  * @apiExample {curl} Create a key:
  *     curl -X POST \
- *      -i "http://localhost:3000/v1/keys" \
+ *      -i "http://localhost:3000/v2/keys" \
  *      -H "Authorization: Bearer YOUR_API_KEY" \
  *      -H "Content-type: application/json" \
  *      -d '{ "login": "simde", "description": "Clé de test 3"}'
@@ -160,7 +160,7 @@ router.get('/', mAuthorize('keys_all'), kController.getAllKeys);
 router.post('/', mAuthorize('keys_all'), kController.createKey);
 
 /**
- * @api {GET} /v1/keys/:id Request a specific key
+ * @api {GET} /v2/keys/:id Request a specific key
  * @apiName getKey
  * @apiGroup Keys
  *
@@ -219,7 +219,7 @@ router.post('/', mAuthorize('keys_all'), kController.createKey);
  *     }
  *
  * @apiExample {curl} Query a key:
- *     curl -i "http://localhost:3000/v1/keys/1" -H "Authorization: Bearer YOUR_API_KEY"
+ *     curl -i "http://localhost:3000/v2/keys/1" -H "Authorization: Bearer YOUR_API_KEY"
  * @apiUse InvalidAuthentication
  * @apiUse Unauthorized
  * @apiUse NotFound
@@ -228,7 +228,7 @@ router.get('/:id', mAuthorize('keys_all'), kController.getKey);
 
 /**
 
- * @api {DELETE} /v1/keys/:id Delete a specific key
+ * @api {DELETE} /v2/keys/:id Delete a specific key
  * @apiName deleteKey
  * @apiGroup Keys
  *
@@ -242,7 +242,7 @@ router.get('/:id', mAuthorize('keys_all'), kController.getKey);
  *     }
  *
  * @apiExample {curl} Delete a key:
- *     curl -i "http://localhost:3000/v1/keys/1" -H "Authorization: Bearer YOUR_API_KEY" -X DELETE
+ *     curl -i "http://localhost:3000/v2/keys/1" -H "Authorization: Bearer YOUR_API_KEY" -X DELETE
  * @apiUse InvalidAuthentication
  * @apiUse Unauthorized
  * @apiUse NotFound
@@ -251,7 +251,7 @@ router.get('/:id', mAuthorize('keys_all'), kController.getKey);
 router.delete('/:id', mAuthorize('keys_all'), kController.deleteKey);
 
 /**
- * @api {POST} /v1/keys/1 Regenerate a key
+ * @api {POST} /v2/keys/1 Regenerate a key
  * @apiName refreshKey
  * @apiGroup Keys
  *
@@ -297,7 +297,7 @@ router.delete('/:id', mAuthorize('keys_all'), kController.deleteKey);
  *
  * @apiExample {curl} Regenerate a key:
  *     curl -X POST \
- *  -i "http://localhost:3000/v1/keys/1" \
+ *  -i "http://localhost:3000/v2/keys/1" \
  *  -H "Authorization: Bearer YOUR_API_KEY" \
  *  -H "Content-type: application/json" \
  * 
@@ -309,7 +309,7 @@ router.post('/:id', mAuthorize('keys_all'), kController.refreshKey);
 
 /**
 
- * @api {PATCH} /v1/keys/1 Edit a key
+ * @api {PATCH} /v2/keys/1 Edit a key
  * @apiName editKey
  * @apiGroup Keys
  *
@@ -336,7 +336,7 @@ router.post('/:id', mAuthorize('keys_all'), kController.refreshKey);
  *
  * @apiExample {curl} Edit a key:
  *     curl -X PATCH \
- *  -i "http://localhost:3000/v1/keys" \
+ *  -i "http://localhost:3000/v2/keys" \
  *  -H "Authorization: Bearer YOUR_API_KEY" \
  *  -H "Content-type: application/json" \
  *  -d '{ "login": "simde", "description": "Clé de test 3"}'
