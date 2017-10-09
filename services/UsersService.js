@@ -207,7 +207,7 @@ let self = module.exports = {
     },
     editUser: (pk, attributes) => {
         return new Promise( (resolve, reject) => {
-            UserModel.update({ attributes, where: { login: pk}})
+            UserModel.update(attributes, { where: { login: pk}})
             .then((count) => {
                 if (count) {
                     resolve();
@@ -215,7 +215,7 @@ let self = module.exports = {
                     reject(new UserNotFoundError());
                 }
             })
-            .catch( (err) => {
+            .catch( (err) => {                
                 // Quelque chose s'est mal passé, on devrait gérer ici les erreurs de Sequelize
                 console.log(err);
                 reject(err);
@@ -227,7 +227,6 @@ let self = module.exports = {
         if (!permissions.includes("users_badge")) {
             excludingAttributes.push("badge");
         }
-
         return new Promise( (resolve, reject) => {
             UserModel.findAll({
                 where: {

@@ -7,6 +7,7 @@ module.exports = {
         end: new Date(2018, 8, 31),
         createdAt: new Date(2017, 9, 25),
         updatedAt: new Date(2017, 9, 25),
+        amount: 20,
         user: 1
       }], {});
   },

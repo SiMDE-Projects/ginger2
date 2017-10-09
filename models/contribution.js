@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
 		end: {
 			type: DataTypes.DATEONLY,
 			allowNull: false
+		},
+		amount: {
+			type: DataTypes.INTEGER,
+			allowNull: false
 		}
 	}, { validate: {
         beginBeforeEnd() {
