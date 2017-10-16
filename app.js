@@ -6,16 +6,17 @@ const db = require('./models');
 const routes = require('./routes/');
 const config = require('./config/ginger');
 const bodyParser = require('body-parser');
+const contentTypeMiddleware = require('./middlewares/contentTypeCheck');
 
 app.use('/apidoc', express.static('apidoc'));
 
 
 app.use(bodyParser.json());
+app.use(contentTypeMiddleware);
 
 app.disable('x-powered-by');
 
 app.use('/', routes);
-
 app.use( (err, req, res, next) => {
   if (res.headersSent) {
     return next(err)

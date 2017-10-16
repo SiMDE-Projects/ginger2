@@ -46,7 +46,12 @@ const UsersController = {
         .then( () => res.status(HttpStatus.OK).send())
         .catch( (err) => { next(err)})
     },
-    editUser: (req, res, next) => {      
+    editUser: (req, res, next) => {
+        if (!Object.keys(req.body).length) {
+            next(new MissingParamError());
+            return;
+        }
+         
         chain
         .then( () => UsersService.editUser(req.params.username, req.body))
         .then( () => res.status(HttpStatus.NO_CONTENT).send())
