@@ -43,7 +43,7 @@ let self = module.exports = {
     },
     refreshKey: (pk) => {
         return new Promise( (resolve, reject) => {
-            KeyModel.update({key: randomToken(ginger.key_size)}, { where: { id: pk}}).then( (count) => {
+            KeyModel.update({key: randomToken(ginger.key_size)}, { where: { id: pk}}).then( ([count, _]) => {
                 if (!count) {
                     reject(new KeyNotFoundError());
                 } else {
@@ -70,7 +70,7 @@ let self = module.exports = {
     },
     editKey: (pk, params) => {
         return new Promise( (resolve, reject) => {
-            KeyModel.update(params, { where: { id: pk }}).then( (count) => {
+            KeyModel.update(params, { where: { id: pk }}).then( ([count, _]) => {
                 if(!count) {
                     reject(new KeyNotFoundError());
                 } else {

@@ -208,7 +208,7 @@ let self = module.exports = {
     editUser: (pk, attributes) => {
         return new Promise( (resolve, reject) => {
             UserModel.update(attributes, { where: { login: pk}})
-            .then((count) => {
+            .then(([count, _]) => {
                 if (count) {
                     resolve();
                 } else {
