@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
 		amount: {
 			type: DataTypes.INTEGER,
 			allowNull: false
+		},
+		source: {
+			type: DataTypes.ENUM("utc","bdeadmin","bdecotiz","simde"),
+			defaultValue: "simde"
 		}
 	}, { validate: {
         beginBeforeEnd() {

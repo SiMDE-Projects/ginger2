@@ -8,6 +8,7 @@ module.exports = {
         createdAt: new Date(2017, 9, 25),
         updatedAt: new Date(2017, 9, 25),
         amount: 20,
+        source: "simde",
         user: 1
       }], {});
   },

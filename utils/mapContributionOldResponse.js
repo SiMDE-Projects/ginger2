@@ -13,7 +13,8 @@ module.exports = (contributions) => {
             id: contribution.id,
             debut: contribution.begin,
             fin: contribution.end,
-            montant: contribution.amount.toString()
+            montant: contribution.amount.toString(),
+            source: "simde"
         }
     });
 }
