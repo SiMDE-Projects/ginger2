@@ -41,10 +41,9 @@ final class UserReadAction
         array $args = []
     ): ResponseInterface {
         // Collect input from the HTTP request
-        $userId = (int)$args['id'];
-
+        $login = (string)$args['login'];
         // Invoke the Domain with inputs and retain the result
-        $userData = $this->userReader->getUserDetails($userId);
+        $userData = $this->userReader->getUserDetails($login);
 
         // Transform the result into the JSON representation
         $result = [

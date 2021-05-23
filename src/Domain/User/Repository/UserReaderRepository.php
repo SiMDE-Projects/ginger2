@@ -35,11 +35,11 @@ class UserReaderRepository
      *
      * @return UserReaderData The user data
      */
-    public function getUserById(int $userId): UserReaderData
+    public function getUserByLogin(string $login): UserReaderData
     {
-        $sql = "SELECT id, username, first_name, last_name, email FROM users WHERE id = :id;";
+        $sql = "SELECT * FROM personne WHERE login like :id;";
         $statement = $this->connection->prepare($sql);
-        $statement->execute(['id' => $userId]);
+        $statement->execute(['id' => $login]);
 
         $row = $statement->fetch();
 
@@ -50,10 +50,10 @@ class UserReaderRepository
         // Map array to data object
         $user = new UserReaderData();
         $user->id = (int)$row['id'];
-        $user->username = (string)$row['username'];
-        $user->firstName = (string)$row['first_name'];
-        $user->lastName = (string)$row['last_name'];
-        $user->email = (string)$row['email'];
+        $user->username = (string)$row['login'];
+        $user->firstName = (string)$row['prenom'];
+        $user->lastName = (string)$row['nom'];
+        $user->email = (string)$row['mail'];
 
         return $user;
     }

@@ -1,18 +1,28 @@
-version: '3.7'
+version: "3.7"
 
 volumes:
-    logs:
-        driver: local
+  logs:
+    driver: local
 
 services:
-    slim:
-        image: php:7-alpine
-        working_dir: /var/www
-        command: php -S 0.0.0.0:8080 -t public
-        environment:
-            docker: "true"
-        ports:
-            - 8080:8080
-        volumes:
-            - .:/var/www
-            - logs:/var/www/logs
+  ginger2:
+    build: docker/ginger2
+    environment:
+      docker: "true"
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/var/www
+      - logs:/var/www/logs
+  db:
+    image: mariadb
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: 1
+      MARIADB_DATABASE: ginger
+      MARIADB_USER: ginger
+      MARIADB_PASSWORD: ginger
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080

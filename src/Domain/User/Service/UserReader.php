@@ -27,22 +27,22 @@ final class UserReader
     }
 
     /**
-     * Read a user by the given user id.
+     * Read a user by the given user login.
      *
-     * @param int $userId The user id
+     * @param string $login The user login
      *
      * @throws ValidationException
      *
      * @return UserReaderData The user data
      */
-    public function getUserDetails(int $userId): UserReaderData
+    public function getUserDetails(string $login): UserReaderData
     {
         // Validation
-        if (empty($userId)) {
-            throw new ValidationException('User ID required');
+        if (empty($login)) {
+            throw new ValidationException('User login required');
         }
 
-        $user = $this->repository->getUserById($userId);
+        $user = $this->repository->getUserByLogin($login);
 
         return $user;
     }
