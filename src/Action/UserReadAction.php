@@ -47,11 +47,14 @@ final class UserReadAction
 
         // Transform the result into the JSON representation
         $result = [
-            'user_id' => $userData->id,
-            'username' => $userData->username,
+            //'user_id' => $userData->id,
+            'login' => $userData->username,
             'first_name' => $userData->firstName,
             'last_name' => $userData->lastName,
             'email' => $userData->email,
+            'badge_uid' => $userData->defaultCard,
+            'type' => $userData->type,
+            'is_adult' => $userData->adult?true:false,
         ];
 
         // Build the HTTP response

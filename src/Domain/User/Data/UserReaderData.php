@@ -20,4 +20,13 @@ final class UserReaderData
 
     /** @var string */
     public $email;
+    
+    /** @var string */
+    public $defaultCard;
+    
+    /** @var bool */
+    public $adult;
+    
+    /** @var string */
+    public $type;
 }

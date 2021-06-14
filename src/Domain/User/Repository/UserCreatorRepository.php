@@ -38,13 +38,19 @@ class UserCreatorRepository
             'first_name' => $user['first_name'],
             'last_name' => $user['last_name'],
             'email' => $user['email'],
+            'defaultCard' => $user['defaultCard'],
+            'adult' => $user['adult'],
+            'type' => $user['type'],
         ];
 
         $sql = "INSERT INTO users SET 
                 username=:username, 
                 first_name=:first_name, 
                 last_name=:last_name, 
-                email=:email;";
+                email=:email,
+                defaultCard=:defaultCard,
+                adult=:adult,
+                type=:type;";
 
         $this->connection->prepare($sql)->execute($row);
 

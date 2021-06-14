@@ -54,6 +54,9 @@ class UserReaderRepository
         $user->firstName = (string)$row['prenom'];
         $user->lastName = (string)$row['nom'];
         $user->email = (string)$row['mail'];
+        $user->defaultCard = (string)$row['defaultCard'];
+        $user->adult = (string)$row['adult'];
+        $user->type = (string)$row['type'];
 
         return $user;
     }
