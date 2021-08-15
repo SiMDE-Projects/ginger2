@@ -35,7 +35,7 @@ final class UserReader
      *
      * @return UserReaderData The user data
      */
-    public function getUserDetails(string $login): UserReaderData
+    public function getUserDetailsByLogin(string $login): UserReaderData
     {
         // Validation
         if (empty($login)) {
@@ -43,6 +43,48 @@ final class UserReader
         }
 
         $user = $this->repository->getUserByLogin($login);
+
+        return $user;
+    }
+
+    /**
+     * Read a user by the given user mail.
+     *
+     * @param string $mail The user mail
+     *
+     * @throws ValidationException
+     *
+     * @return UserReaderData The user data
+     */
+    public function getUserDetailsByMail(string $mail): UserReaderData
+    {
+        // Validation
+        if (empty($mail)) {
+            throw new ValidationException('User email required');
+        }
+
+        $user = $this->repository->getUserByMail($mail);
+
+        return $user;
+    }
+
+    /**
+     * Read a user by the given card uid.
+     *
+     * @param string $card The card uid
+     *
+     * @throws ValidationException
+     *
+     * @return UserReaderData The user data
+     */
+    public function getUserDetailsByCard(string $card): UserReaderData
+    {
+        // Validation
+        if (empty($card)) {
+            throw new ValidationException('Card UID required');
+        }
+
+        $user = $this->repository->getUserByCard($card);
 
         return $user;
     }

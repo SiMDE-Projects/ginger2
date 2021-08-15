@@ -4,29 +4,30 @@ namespace App\Domain\User\Data;
 
 final class UserReaderData
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     public $id;
 
     /** @var string */
-    public $username;
+    public $login;
 
     /** @var string */
-    public $firstName;
+    public $prenom;
 
     /** @var string */
-    public $lastName;
+    public $nom;
 
     /** @var string */
-    public $email;
-    
-    /** @var string */
-    public $defaultCard;
-    
-    /** @var bool */
-    public $adult;
-    
-    /** @var string */
+    public $mail;
+
+    /** @var int */
     public $type;
+
+    /** @var bool */
+    public $is_adulte;
+
+    /** @var array */
+    public $cards;
+
+    /** @var array */
+    public $memberships;
 }
