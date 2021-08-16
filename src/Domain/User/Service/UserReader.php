@@ -88,4 +88,25 @@ final class UserReader
 
         return $user;
     }
+
+    /**
+     * Read users whose logins are like partlogin.
+     *
+     * @param string $partLogin a partial login
+     *
+     * @throws ValidationException
+     *
+     * @return UserReaderData[] The users data
+     */
+    public function getUsersDetailsLikeLogin(string $partLogin): Array
+    {
+        // Validation
+        if (empty($partLogin)) {
+            throw new ValidationException('Partial login required');
+        }
+
+        $user = $this->repository->getUsersLikeLogin($partLogin);
+
+        return $user;
+    }
 }

@@ -6,7 +6,7 @@ return function (App $app) {
     $app->get('/{login}', \App\Action\UserReadAction::class);
     $app->get('/mail/{mail}', \App\Action\UserReadAction::class);
     $app->get('/badge/{card}', \App\Action\UserReadAction::class);
-    // $app->get('/find/{loginpart}', \App\Action\UserFindAction::class);
+    $app->get('/find/{partlogin}', \App\Action\UserFindAction::class);
     $app->get('/{login}/cotisations', \App\Action\UserMembershipsReadAction::class);
     // $group->get('/stats', \App\Action\StatsReadAction::class);
 

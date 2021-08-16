@@ -98,6 +98,34 @@ class UserReaderRepository
         return $this->buildUserObject($row);
     }
 
+    /**
+     * Get users whose login are similar to a partial one
+     *
+     * @param int $userLogin The user's mail
+     *
+     * @throws DomainException
+     *
+     * @return UserReaderData[] The users data
+     */
+    public function getUsersLikeLogin(string $partLogin): Array
+    {
+        $sql = "SELECT * FROM users WHERE login LIKE :login LIMIT 10;";
+        $statement = $this->connection->prepare($sql);
+        $statement->execute(['login' => "%$partLogin%"]);
+
+        $rows = $statement->fetchAll();
+
+        if (!$rows) {
+            throw new DomainException(sprintf('Users not found: %s', $partLogin));
+        }
+
+        $result = [];
+        foreach($rows as $index => $row)
+            $result[$index] = $this->buildUserObject($row);
+
+        return $result;
+    }
+
     private function buildUserObject($row) {
         // Map array to data object
         $user = new UserReaderData();
