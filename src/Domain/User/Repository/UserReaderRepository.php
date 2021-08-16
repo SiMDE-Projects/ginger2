@@ -99,24 +99,24 @@ class UserReaderRepository
     }
 
     /**
-     * Get users whose login are similar to a partial one
+     * Get users similar to a partial information
      *
-     * @param int $userLogin The user's mail
+     * @param int $partInfo Any info about the user
      *
      * @throws DomainException
      *
      * @return UserReaderData[] The users data
      */
-    public function getUsersLikeLogin(string $partLogin): Array
+    public function getUsersLikeLogin(string $partInfo): Array
     {
-        $sql = "SELECT * FROM users WHERE login LIKE :login LIMIT 10;";
+        $sql = "SELECT * FROM users WHERE login LIKE :info OR mail LIKE :info OR nom LIKE :info OR prenom LIKE :info LIMIT 10;";
         $statement = $this->connection->prepare($sql);
-        $statement->execute(['login' => "%$partLogin%"]);
+        $statement->execute(['info' => "%$partInfo%"]);
 
         $rows = $statement->fetchAll();
 
         if (!$rows) {
-            throw new DomainException(sprintf('Users not found: %s', $partLogin));
+            throw new DomainException(sprintf('Users not found: %s', $partInfo));
         }
 
         $result = [];

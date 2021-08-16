@@ -42,7 +42,7 @@ final class UserFindAction
     ): ResponseInterface {
 
         // Collect input from the HTTP request && Invoke the Domain with inputs and retain the result
-        $usersData = $this->userReader->getUsersDetailsLikeLogin((string)$args['partlogin']);
+        $usersData = $this->userReader->getUsersDetailsLikeLogin((string)$args['partinfo']);
 
         // Transform the result into the JSON representation
         $result = [];
