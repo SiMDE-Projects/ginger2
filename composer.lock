@@ -716,16 +716,16 @@
         },
         {
             "name": "selective/basepath",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/selective-php/basepath.git",
-                "reference": "c843c4866d3d721bf5cda53e52f75d69ad1e2199"
+                "reference": "63961fbfcaf492bd0ae8e40653f6c3c750c2f8ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/selective-php/basepath/zipball/c843c4866d3d721bf5cda53e52f75d69ad1e2199",
-                "reference": "c843c4866d3d721bf5cda53e52f75d69ad1e2199",
+                "url": "https://api.github.com/repos/selective-php/basepath/zipball/63961fbfcaf492bd0ae8e40653f6c3c750c2f8ad",
+                "reference": "63961fbfcaf492bd0ae8e40653f6c3c750c2f8ad",
                 "shasum": ""
             },
             "require": {
@@ -760,9 +760,9 @@
             ],
             "support": {
                 "issues": "https://github.com/selective-php/basepath/issues",
-                "source": "https://github.com/selective-php/basepath/tree/2.0.0"
+                "source": "https://github.com/selective-php/basepath/tree/2.1.0"
             },
-            "time": "2020-12-09T22:19:09+00:00"
+            "time": "2021-07-17T10:03:02+00:00"
         },
         {
             "name": "slim/psr7",
