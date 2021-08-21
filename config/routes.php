@@ -10,7 +10,7 @@ return function (App $app) {
     $app->get('/{login}/cotisations', \App\Action\UserMembershipsReadAction::class);
     // $group->get('/stats', \App\Action\StatsReadAction::class);
 
-    // $group->post('/{login}/cotisations', \App\Action\UserMembershipsCreateAction::class);
+    $app->post('/{login}/cotisations', \App\Action\UserMembershipCreateAction::class);
     // $group->post('/{login}/edit', \App\Action\UserEditAction::class);
 
     // $group->delete('/cotisations/{cotisation}', \App\Action\MembershipDeleteAction::class);
