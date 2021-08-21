@@ -115,10 +115,6 @@ class UserReaderRepository
 
         $rows = $statement->fetchAll();
 
-        if (!$rows) {
-            throw new DomainException(sprintf('Users not found: %s', $partInfo));
-        }
-
         $result = [];
         foreach($rows as $index => $row)
             $result[$index] = $this->buildUserObject($row);
