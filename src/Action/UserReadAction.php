@@ -64,7 +64,7 @@ final class UserReadAction
             'type' => $userData->type,
             'is_adulte' => $userData->is_adulte ? true : false,
             'is_cotisant' => $isCotisant,
-            'badge_uid' => empty($userData->cards) ? null : $userData->cards[0],
+            'badge_uid' => empty($userData->cards) ? null : $userData->cards[0]["uid"],
             'cards' => $userData->cards,
             //'memberships' => $userData->memberships,
         ];
