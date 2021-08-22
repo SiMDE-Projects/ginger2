@@ -36,10 +36,10 @@ $settings['error'] = [
 // Database settings
 $settings['db'] = [
     'driver' => 'mariadb',
-    'host' => 'localhost',
-    'username' => 'ginger',
-    'database' => 'ginger',
-    'password' => 'ginger',
+    'host' => DB_HOST,
+    'username' => DB_USERNAME,
+    'database' => DB_NAME,
+    'password' => DB_PASSWORD,
     'charset' => 'utf8mb4',
     'collation' => 'utf8mb4_unicode_ci',
     'flags' => [
