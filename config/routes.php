@@ -2,6 +2,8 @@
 use Slim\Routing\RouteCollectorProxy;
 use Slim\App;
 
+$app->setBasePath(BASE_PATH);
+
 return function (App $app) {
     $app->get('/{login}', \App\Action\UserReadAction::class);
     $app->get('/mail/{mail}', \App\Action\UserReadAction::class);

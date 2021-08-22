@@ -12,4 +12,4 @@ tmp/*
 logs/*
 !logs/empty
 
-config/settings.php
+config/env.php

@@ -36,7 +36,7 @@ $settings['error'] = [
 // Database settings
 $settings['db'] = [
     'driver' => 'mariadb',
-    'host' => 'db',
+    'host' => 'localhost',
     'username' => 'ginger',
     'database' => 'ginger',
     'password' => 'ginger',
@@ -55,7 +55,5 @@ $settings['db'] = [
         // PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci'
     ],
 ];
-
-define("ACCOUNTS_BASE_URI", "http://picasso-ws.localhost/");
 
 return $settings;
