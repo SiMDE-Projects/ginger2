@@ -43,11 +43,7 @@ class UserReaderRepository
 
         $row = $statement->fetch();
 
-        if (!$row) {
-            throw new DomainException(sprintf('User not found: %s', $userLogin));
-        }
-
-        return $this->buildUserObject($row);
+        return $row ? $this->buildUserObject($row) : new UserReaderData;
     }
 
     /**
@@ -91,11 +87,7 @@ class UserReaderRepository
 
         $row = $statement->fetch();
 
-        if (!$row) {
-            throw new DomainException(sprintf('User not found: %s', $userCard));
-        }
-
-        return $this->buildUserObject($row);
+        return $row ? $this->buildUserObject($row) : new UserReaderData;
     }
 
     /**

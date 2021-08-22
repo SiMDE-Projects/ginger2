@@ -3,7 +3,9 @@
 namespace App\Domain\User\Service;
 
 use App\Domain\User\Data\UserReaderData;
+use App\Domain\User\Service\UserAccountsReader;
 use App\Domain\User\Repository\UserReaderRepository;
+use App\Domain\User\Repository\UserCreatorRepository;
 use App\Exception\ValidationException;
 
 /**
@@ -17,13 +19,26 @@ final class UserReader
     private $repository;
 
     /**
+     * @var UserAccountsReader
+     */
+    private $userAccountsReader;
+
+    /**
+     * @var UserCreatorRepository
+     */
+    private $userCreatorRepository;
+
+    /**
      * The constructor.
      *
      * @param UserReaderRepository $repository The repository
+     * @param UserAccountsReader $userAccountsReader The Accounts Reader
      */
-    public function __construct(UserReaderRepository $repository)
+    public function __construct(UserReaderRepository $repository, UserAccountsReader $userAccountsReader, UserCreatorRepository $userCreatorRepository)
     {
         $this->repository = $repository;
+        $this->userAccountsReader = $userAccountsReader;
+        $this->userCreatorRepository = $userCreatorRepository;
     }
 
     /**
@@ -42,8 +57,23 @@ final class UserReader
             throw new ValidationException('User login required');
         }
 
-        $user = $this->repository->getUserByLogin($login);
+        $user = false;
+        try {
+            $user = $this->repository->getUserByLogin($login);
+        } catch(DomainException $e) {}
+        finally {
+            if(!$user || !$user->id || $user->type != 4) {
+                $userData = $this->userAccountsReader->getUserByLogin($login);
 
+                if(!$user || !$user->id) {
+                    $user = $this->userCreatorRepository->insertUser($userData);
+                } else if($user->type != 4) {
+                    $userData->id = $user->id;
+                    $userData->memberships = $user->memberships;
+                    $user = $this->userCreatorRepository->updateUser($userData);
+                }
+            }
+        }
         return $user;
     }
 
@@ -63,8 +93,22 @@ final class UserReader
             throw new ValidationException('User email required');
         }
 
-        $user = $this->repository->getUserByMail($mail);
+        $user = false;
+        try {
+            $user = $this->repository->getUserByMail($mail);
+        } catch(DomainException $e) {
+            if($user == false)
+                throw new ValidationException("User not found by mail : $mail");
+        }
+        finally {
+            if($user && $user->id && $user->type != 4) {
+                $userData = $this->userAccountsReader->getUserByLogin($user->login);
 
+                $userData->id = $user->id;
+                $userData->memberships = $user->memberships;
+                $user = $this->userCreatorRepository->updateUser($userData);
+            }
+        }
         return $user;
     }
 
@@ -84,7 +128,23 @@ final class UserReader
             throw new ValidationException('Card UID required');
         }
 
-        $user = $this->repository->getUserByCard($card);
+        $user = false;
+        try {
+            $user = $this->repository->getUserByCard($card);
+        } catch(DomainException $e) {}
+        finally {
+            if(!$user || !$user->id || $user->type != 4) {
+                $userData = $this->userAccountsReader->getUserByCard($card);
+
+                if(!$user || !$user->id) {
+                    $user = $this->userCreatorRepository->insertUser($userData);
+                } else if($user->type != 4) {
+                    $userData->id = $user->id;
+                    $userData->memberships = $user->memberships;
+                    $user = $this->userCreatorRepository->updateUser($userData);
+                }
+            }
+        }
 
         return $user;
     }
