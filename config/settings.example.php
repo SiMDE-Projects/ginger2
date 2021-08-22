@@ -56,4 +56,6 @@ $settings['db'] = [
     ],
 ];
 
+define("ACCOUNTS_BASE_URI", "http://picasso-ws.localhost/");
+
 return $settings;

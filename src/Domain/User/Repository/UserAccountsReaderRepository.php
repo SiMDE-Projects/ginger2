@@ -59,7 +59,7 @@ class UserAccountsReaderRepository
      */
     public function callAccountsApi(string $endpoint, array $params)
     {
-        $url = "http://picasso-ws.localhost/$endpoint?";
+        $url = ACCOUNTS_BASE_URI . "$endpoint?";
         foreach ($params as $key => $param)
             $url .= "$key=$param&";
 
@@ -75,7 +75,7 @@ class UserAccountsReaderRepository
         if(curl_errno($ch) != 0)
             throw new DomainException("Network exception while calling Accounts");
         elseif(curl_getinfo($ch, CURLINFO_HTTP_CODE) != 200)
-            throw new DomainException("Accounts returned " + curl_getinfo($ch, CURLINFO_HTTP_CODE) + " status");
+            throw new DomainException("Accounts returned " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . " status");
         else
             return json_decode($result);
     }

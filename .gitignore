@@ -11,3 +11,5 @@ tmp/*
 !logs/
 logs/*
 !logs/empty
+
+config/settings.php
