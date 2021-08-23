@@ -64,7 +64,7 @@ class UserReaderRepository
         $row = $statement->fetch();
 
         if (!$row) {
-            throw new ValidationException(sprintf('User not found: %s', $userMail), 404);
+            throw new ValidationException(sprintf('User not found: %s', $userMail), [], 404);
         }
 
         return $this->buildUserObject($row);
