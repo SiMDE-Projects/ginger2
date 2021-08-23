@@ -2,7 +2,7 @@
 
 namespace App\Domain\User\Service;
 
-use App\Domain\User\Data\UserReaderData;
+use App\Domain\User\Data\User;
 use App\Domain\User\Repository\UserMembershipCreatorRepository;
 use App\Exception\ValidationException;
 
@@ -27,14 +27,14 @@ final class UserMembershipCreator
     /**
      * Create a new user membership.
      *
-     * @param UserReaderData $userData the user object
+     * @param User $userData the user object
      * @param string $debut Begin date of the membership
      * @param string $fin End date of the membership
      * @param int $montant the price of the membership
      *
      * @return int The new membership ID
      */
-    public function createUserMembership(UserReaderData $userData, string $debut, string $fin, int $montant): int
+    public function createUserMembership(User $userData, string $debut, string $fin, int $montant): int
     {
         // Check that we are not overlapping any other membership
         foreach($userData->memberships as $index => $membership) {

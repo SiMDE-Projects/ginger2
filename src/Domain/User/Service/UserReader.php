@@ -2,7 +2,7 @@
 
 namespace App\Domain\User\Service;
 
-use App\Domain\User\Data\UserReaderData;
+use App\Domain\User\Data\User;
 use App\Domain\User\Service\UserAccountsReader;
 use App\Domain\User\Repository\UserReaderRepository;
 use App\Domain\User\Repository\UserCreatorRepository;
@@ -48,9 +48,9 @@ final class UserReader
      *
      * @throws ValidationException
      *
-     * @return UserReaderData The user data
+     * @return User The user data
      */
-    public function getUserDetailsByLogin(string $login): UserReaderData
+    public function getUserDetailsByLogin(string $login): User
     {
         // Validation
         if (empty($login)) {
@@ -84,9 +84,9 @@ final class UserReader
      *
      * @throws ValidationException
      *
-     * @return UserReaderData The user data
+     * @return User The user data
      */
-    public function getUserDetailsByMail(string $mail): UserReaderData
+    public function getUserDetailsByMail(string $mail): User
     {
         // Validation
         if (empty($mail)) {
@@ -119,9 +119,9 @@ final class UserReader
      *
      * @throws ValidationException
      *
-     * @return UserReaderData The user data
+     * @return User The user data
      */
-    public function getUserDetailsByCard(string $card): UserReaderData
+    public function getUserDetailsByCard(string $card): User
     {
         // Validation
         if (empty($card)) {
@@ -156,7 +156,7 @@ final class UserReader
      *
      * @throws ValidationException
      *
-     * @return UserReaderData[] The users data
+     * @return User[] The users data
      */
     public function getUsersDetailsLikeLogin(string $partInfo): Array
     {

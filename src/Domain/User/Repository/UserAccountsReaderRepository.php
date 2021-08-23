@@ -2,61 +2,26 @@
 
 namespace App\Domain\User\Repository;
 
-use App\Domain\User\Data\UserReaderData;
+use App\Domain\User\Data\User;
 use App\Exception\ValidationException;
 
-/**
- * Repository.
- */
+/* User accounts */
 class UserAccountsReaderRepository
 {
-    /**
-     * Constructor.
-     */
     public function __construct() {}
 
-    /**
-     * Get user by the given user login.
-     *
-     * @param int $userLogin The user's login
-     *
-     * @throws DomainException
-     *
-     * @return UserReaderData The user data
-     */
-    public function getUserByLogin(string $userLogin): UserReaderData
+    public function getUserByLogin(string $userLogin): User
     {
-        //make request
         $userDetails = $this->callAccountsApi("getUserInfo", array("username" => $userLogin));
         return $this->buildUserObject($userDetails);
     }
 
-    /**
-     * Get user by any of his cards.
-     *
-     * @param int $userCard any of the user's cards
-     *
-     * @throws DomainException
-     *
-     * @return UserReaderData The user data
-     */
-    public function getUserByCard(string $userCard): UserReaderData
+    public function getUserByCard(string $userCard): User
     {
-        //make request
         $userDetails = $this->callAccountsApi("cardLookup", array("serialNumber" => $userCard));
         return $this->buildUserObject($userDetails);
     }
 
-    /**
-     * Makes a request to Accounts
-     *
-     * @param string $endpoint the endpoint on Accounts API
-     * @param array $params the different parameters
-     *
-     * @throws DomainException
-     *
-     * @return UserReaderData The user data
-     */
     public function callAccountsApi(string $endpoint, array $params)
     {
         $url = ACCOUNTS_BASE_URI . "$endpoint?";
@@ -82,7 +47,7 @@ class UserAccountsReaderRepository
 
     private function buildUserObject($accountsData) {
         // Map array to data object
-        $user = new UserReaderData();
+        $user = new User();
         $user->login = (string)$accountsData->username;
         $user->mail = (string)$accountsData->mail;
         $user->is_adulte = (bool)$accountsData->legalAge;

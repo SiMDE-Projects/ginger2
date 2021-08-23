@@ -2,40 +2,20 @@
 
 namespace App\Domain\User\Repository;
 
-use App\Domain\User\Data\UserReaderData;
+use App\Domain\User\Data\User;
 use App\Exception\ValidationException;
 use PDO;
 
-/**
- * Repository.
- */
 class UserReaderRepository
 {
-    /**
-     * @var PDO The database connection
-     */
     private $connection;
 
-    /**
-     * Constructor.
-     *
-     * @param PDO $connection The database connection
-     */
     public function __construct(PDO $connection)
     {
         $this->connection = $connection;
     }
 
-    /**
-     * Get user by the given user login.
-     *
-     * @param int $userLogin The user's login
-     *
-     * @throws ValidationException
-     *
-     * @return UserReaderData The user data
-     */
-    public function getUserByLogin(string $userLogin): UserReaderData
+    public function getUserByLogin(string $userLogin): User
     {
         $sql = "SELECT * FROM users WHERE login = :login;";
         $statement = $this->connection->prepare($sql);
@@ -43,19 +23,10 @@ class UserReaderRepository
 
         $row = $statement->fetch();
 
-        return $row ? $this->buildUserObject($row) : new UserReaderData;
+        return $row ? $this->buildUserObject($row) : new User;
     }
 
-    /**
-     * Get user by the given user mail.
-     *
-     * @param int $userLogin The user's mail
-     *
-     * @throws ValidationException
-     *
-     * @return UserReaderData The user data
-     */
-    public function getUserByMail(string $userMail): UserReaderData
+    public function getUserByMail(string $userMail): User
     {
         $sql = "SELECT * FROM users WHERE mail = :mail;";
         $statement = $this->connection->prepare($sql);
@@ -70,16 +41,7 @@ class UserReaderRepository
         return $this->buildUserObject($row);
     }
 
-    /**
-     * Get user by any of his cards.
-     *
-     * @param int $userCard any of the user's cards
-     *
-     * @throws ValidationException
-     *
-     * @return UserReaderData The user data
-     */
-    public function getUserByCard(string $userCard): UserReaderData
+    public function getUserByCard(string $userCard): User
     {
         $sql = "SELECT users.* FROM `cards` JOIN users ON users.id = user_id WHERE uid = :card GROUP BY user_id;";
         $statement = $this->connection->prepare($sql);
@@ -87,18 +49,9 @@ class UserReaderRepository
 
         $row = $statement->fetch();
 
-        return $row ? $this->buildUserObject($row) : new UserReaderData;
+        return $row ? $this->buildUserObject($row) : new User;
     }
 
-    /**
-     * Get users similar to a partial information
-     *
-     * @param int $partInfo Any info about the user
-     *
-     * @throws ValidationException
-     *
-     * @return UserReaderData[] The users data
-     */
     public function getUsersLikeLogin(string $partInfo): Array
     {
         $sql = "SELECT * FROM users WHERE login LIKE :info OR mail LIKE :info OR nom LIKE :info OR prenom LIKE :info LIMIT 10;";
@@ -116,7 +69,7 @@ class UserReaderRepository
 
     private function buildUserObject($row) {
         // Map array to data object
-        $user = new UserReaderData();
+        $user = new User();
         $user->id = (int)$row['id'];
         $user->login = (string)$row['login'];
         $user->nom = (string)$row['nom'];

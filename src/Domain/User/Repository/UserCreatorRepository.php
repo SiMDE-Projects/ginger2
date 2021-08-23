@@ -2,40 +2,20 @@
 
 namespace App\Domain\User\Repository;
 
-use App\Domain\User\Data\UserReaderData;
+use App\Domain\User\Data\User;
 use DomainException;
 use PDO;
 
-/**
- * Repository.
- */
 class UserCreatorRepository
 {
-    /**
-     * @var PDO The database connection
-     */
     private $connection;
 
-    /**
-     * Constructor.
-     *
-     * @param PDO $connection The database connection
-     */
     public function __construct(PDO $connection)
     {
         $this->connection = $connection;
     }
 
-    /**
-     * Insert user.
-     *
-     * @param UserReaderData $userData The user
-     *
-     * @throws DomainException
-     *
-     * @return int The membership id
-     */
-    public function insertUser(UserReaderData $userData): UserReaderData
+    public function insertUser(User $userData): User
     {
         $row = [
             'login' => $userData->login,
@@ -72,16 +52,7 @@ class UserCreatorRepository
         return $userData;
     }
 
-    /**
-     * Update user.
-     *
-     * @param UserReaderData $userData The user
-     *
-     * @throws DomainException
-     *
-     * @return int The membership id
-     */
-    public function updateUser(UserReaderData $userData): UserReaderData
+    public function updateUser(User $userData): User
     {
         $row = [
             'nom' => $userData->nom,
