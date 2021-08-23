@@ -56,12 +56,28 @@ final class UserReadAction
             if(strtotime($mem["debut"]) <= strtotime(date("Y-m-d")) && strtotime($mem["fin"]) >= strtotime(date("Y-m-d")))
                 $isCotisant = true;
 
+        $type = "ext";
+        switch($userData->type) {
+            case 0:
+                $type = "etu";
+                break;
+            case 1:
+                $type = "escom";
+                break;
+            case 2:
+                $type = "pers";
+                break;
+            case 2:
+                $type = "escompers";
+                break;
+        }
+
         $result = [
             'login' => $userData->login,
             'prenom' => $userData->prenom,
             'nom' => $userData->nom,
             'mail' => $userData->mail,
-            'type' => $userData->type,
+            'type' => $type,
             'is_adulte' => $userData->is_adulte ? true : false,
             'is_cotisant' => $isCotisant,
             'badge_uid' => empty($userData->cards) ? null : $userData->cards[0]["uid"],
