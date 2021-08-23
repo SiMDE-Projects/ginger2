@@ -42,7 +42,7 @@ class UserCreatorRepository
             'prenom' => $userData->prenom,
             'nom' => $userData->nom,
             'mail' => $userData->mail,
-            'type' => $userData->type,
+            'type' => $userData->type?:0,
             'is_adulte' => $userData->is_adulte
         ];
 
