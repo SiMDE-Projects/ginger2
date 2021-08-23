@@ -40,7 +40,7 @@ final class UserMembershipCreator
         foreach($userData->memberships as $index => $membership) {
             if((strtotime($debut) >= strtotime($membership["debut"]) && strtotime($debut) < strtotime($membership["fin"]))
                 || (strtotime($fin) > strtotime($membership["debut"]) && strtotime($fin) <= strtotime($membership["fin"])))
-                throw new ValidationException("Membership date is overlapping an existing membership.");
+                throw new ValidationException("Membership date is overlapping an existing membership.", 400);
         }
 
         // Insert user and get new user ID

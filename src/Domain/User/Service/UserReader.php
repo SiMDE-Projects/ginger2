@@ -54,7 +54,7 @@ final class UserReader
     {
         // Validation
         if (empty($login)) {
-            throw new ValidationException('User login required');
+            throw new ValidationException('User login required', 400);
         }
 
         $user = false;
@@ -90,7 +90,7 @@ final class UserReader
     {
         // Validation
         if (empty($mail)) {
-            throw new ValidationException('User email required');
+            throw new ValidationException('User email required', 400);
         }
 
         $user = false;
@@ -98,7 +98,7 @@ final class UserReader
             $user = $this->repository->getUserByMail($mail);
         } catch(DomainException $e) {
             if($user == false)
-                throw new ValidationException("User not found by mail : $mail");
+                throw new ValidationException("User not found by mail : $mail", 404);
         }
         finally {
             if($user && $user->id && $user->type != 4) {
@@ -125,7 +125,7 @@ final class UserReader
     {
         // Validation
         if (empty($card)) {
-            throw new ValidationException('Card UID required');
+            throw new ValidationException('Card UID required', 400);
         }
 
         $user = false;
@@ -162,7 +162,7 @@ final class UserReader
     {
         // Validation
         if (empty($partInfo)) {
-            throw new ValidationException('Partial info required');
+            throw new ValidationException('Partial info required', 400);
         }
 
         $user = $this->repository->getUsersLikeLogin($partInfo);

@@ -1,12 +1,12 @@
 <?php
 
 // Error reporting for development
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+//error_reporting(E_ALL);
+//ini_set('display_errors', '1');
 
 // Error reporting for production
-//error_reporting(0);
-//ini_set('display_errors', '0');
+error_reporting(0);
+ini_set('display_errors', '0');
 
 // Timezone
 date_default_timezone_set('Europe/Berlin');
@@ -22,7 +22,7 @@ $settings['public'] = $settings['root'] . '/public';
 // Error Handling Middleware settings
 $settings['error'] = [
     // Should be set to false in production
-    'display_error_details' => true,
+    'display_error_details' => false,
 
     // Parameter is passed to the default ErrorHandler
     // View in rendered output by enabling the "displayErrorDetails" setting.

@@ -47,12 +47,12 @@ final class UserAccountsReader
     {
         // Validation
         if (empty($login)) {
-            throw new ValidationException('User login required');
+            throw new ValidationException('User login required', 400);
         }
 
         $user = $this->accountsReaderRepository->getUserByLogin($login);
         if(!$user) {
-            throw new ValidationException("User not found by login : $login");
+            throw new ValidationException("User not found by login : $login", 404);
         }
 
         return $user;
@@ -71,14 +71,14 @@ final class UserAccountsReader
     {
         // Validation
         if (empty($card)) {
-            throw new ValidationException('Card UID required');
+            throw new ValidationException('Card UID required', 400);
         }
 
         $serialArray = str_split($card, 2);
         $serialNumber = implode("", array_reverse($serialArray));
         $user = $this->accountsReaderRepository->getUserByCard($serialNumber);
         if(!$user) {
-            throw new ValidationException("User not found by card : $card");
+            throw new ValidationException("User not found by card : $card", 404);
         }
 
         return $user;

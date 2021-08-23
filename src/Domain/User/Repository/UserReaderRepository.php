@@ -3,7 +3,7 @@
 namespace App\Domain\User\Repository;
 
 use App\Domain\User\Data\UserReaderData;
-use DomainException;
+use App\Domain\User\Exception\ValidationException;
 use PDO;
 
 /**
@@ -31,7 +31,7 @@ class UserReaderRepository
      *
      * @param int $userLogin The user's login
      *
-     * @throws DomainException
+     * @throws ValidationException
      *
      * @return UserReaderData The user data
      */
@@ -51,7 +51,7 @@ class UserReaderRepository
      *
      * @param int $userLogin The user's mail
      *
-     * @throws DomainException
+     * @throws ValidationException
      *
      * @return UserReaderData The user data
      */
@@ -64,7 +64,7 @@ class UserReaderRepository
         $row = $statement->fetch();
 
         if (!$row) {
-            throw new DomainException(sprintf('User not found: %s', $userMail));
+            throw new ValidationException(sprintf('User not found: %s', $userMail), 404);
         }
 
         return $this->buildUserObject($row);
@@ -75,7 +75,7 @@ class UserReaderRepository
      *
      * @param int $userCard any of the user's cards
      *
-     * @throws DomainException
+     * @throws ValidationException
      *
      * @return UserReaderData The user data
      */
@@ -95,7 +95,7 @@ class UserReaderRepository
      *
      * @param int $partInfo Any info about the user
      *
-     * @throws DomainException
+     * @throws ValidationException
      *
      * @return UserReaderData[] The users data
      */
