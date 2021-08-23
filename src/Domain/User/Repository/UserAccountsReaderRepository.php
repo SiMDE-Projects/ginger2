@@ -3,7 +3,7 @@
 namespace App\Domain\User\Repository;
 
 use App\Domain\User\Data\UserReaderData;
-use App\Domain\User\Exception\ValidationException;
+use App\Exception\ValidationException;
 
 /**
  * Repository.
