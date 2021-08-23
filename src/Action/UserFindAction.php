@@ -6,42 +6,23 @@ use App\Domain\User\Service\UserReader;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-/**
- * Action
- */
+/* Find a user based on partial information about him */
 final class UserFindAction
 {
-    /**
-     * @var UserReader
-     */
     private $userReader;
 
-    /**
-     * The constructor.
-     *
-     * @param UserReader $userReader The user reader
-     */
     public function __construct(UserReader $userReader)
     {
         $this->userReader = $userReader;
     }
 
-    /**
-     * Invoke.
-     *
-     * @param ServerRequestInterface $request The request
-     * @param ResponseInterface $response The response
-     * @param array<mixed> $args The route arguments
-     *
-     * @return ResponseInterface The response
-     */
     public function __invoke(
         ServerRequestInterface $request,
         ResponseInterface $response,
         array $args = []
     ): ResponseInterface {
 
-        // Collect input from the HTTP request && Invoke the Domain with inputs and retain the result
+        // Get all User objects
         $usersData = $this->userReader->getUsersDetailsLikeLogin((string)$args['partinfo']);
 
         // Transform the result into the JSON representation

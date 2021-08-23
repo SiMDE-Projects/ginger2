@@ -6,45 +6,26 @@ use App\Domain\User\Service\UserReader;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-/**
- * Action
- */
+/* Return all memberships of a user */
 final class UserMembershipsReadAction
 {
-    /**
-     * @var UserReader
-     */
     private $userReader;
 
-    /**
-     * The constructor.
-     *
-     * @param UserReader $userReader The user reader
-     */
     public function __construct(UserReader $userReader)
     {
         $this->userReader = $userReader;
     }
 
-    /**
-     * Invoke.
-     *
-     * @param ServerRequestInterface $request The request
-     * @param ResponseInterface $response The response
-     * @param array<mixed> $args The route arguments
-     *
-     * @return ResponseInterface The response
-     */
     public function __invoke(
         ServerRequestInterface $request,
         ResponseInterface $response,
         array $args = []
     ): ResponseInterface {
 
-        // Collect input from the HTTP request && Invoke the Domain with inputs and retain the result
+        // Get a User from the login
         $userData =  $this->userReader->getUserDetailsByLogin((string)$args['login']);
 
-        // Transform the result into the JSON representation
+        // Only keep the memberships
         $result = $userData->memberships;
 
         // Build the HTTP response
