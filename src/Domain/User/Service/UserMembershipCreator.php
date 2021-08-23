@@ -6,22 +6,14 @@ use App\Domain\User\Data\User;
 use App\Domain\User\Repository\UserMembershipCreatorRepository;
 use App\Exception\ValidationException;
 
-/**
- * Service.
- */
 final class UserMembershipCreator
 {
-    private UserMembershipCreatorRepository $repository;
+    private UserMembershipCreatorRepository $userMembershipCreatorRepository;
 
-    /**
-     * The constructor.
-     *
-     * @param UserMembershipCreatorRepository $repository The repository
-     */
     public function __construct(
-        UserMembershipCreatorRepository $repository
+        UserMembershipCreatorRepository $userMembershipCreatorRepository
     ) {
-        $this->repository = $repository;
+        $this->userMembershipCreatorRepository = $userMembershipCreatorRepository;
     }
 
     /**
@@ -44,7 +36,7 @@ final class UserMembershipCreator
         }
 
         // Insert user and get new user ID
-        $userId = $this->repository->insertMembership($userData, $debut, $fin, $montant);
+        $userId = $this->userMembershipCreatorRepository->insertMembership($userData, $debut, $fin, $montant);
 
         return $userId;
     }

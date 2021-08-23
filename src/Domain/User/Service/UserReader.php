@@ -8,48 +8,19 @@ use App\Domain\User\Repository\UserReaderRepository;
 use App\Domain\User\Repository\UserCreatorRepository;
 use App\Exception\ValidationException;
 
-/**
- * Service.
- */
 final class UserReader
 {
-    /**
-     * @var UserReaderRepository
-     */
-    private $repository;
-
-    /**
-     * @var UserAccountsReader
-     */
+    private $userReaderRepository;
     private $userAccountsReader;
-
-    /**
-     * @var UserCreatorRepository
-     */
     private $userCreatorRepository;
 
-    /**
-     * The constructor.
-     *
-     * @param UserReaderRepository $repository The repository
-     * @param UserAccountsReader $userAccountsReader The Accounts Reader
-     */
     public function __construct(UserReaderRepository $repository, UserAccountsReader $userAccountsReader, UserCreatorRepository $userCreatorRepository)
     {
-        $this->repository = $repository;
+        $this->userReaderRepository = $userReaderRepository;
         $this->userAccountsReader = $userAccountsReader;
         $this->userCreatorRepository = $userCreatorRepository;
     }
 
-    /**
-     * Read a user by the given user login.
-     *
-     * @param string $login The user login
-     *
-     * @throws ValidationException
-     *
-     * @return User The user data
-     */
     public function getUserDetailsByLogin(string $login): User
     {
         // Validation
@@ -59,7 +30,7 @@ final class UserReader
 
         $user = false;
         try {
-            $user = $this->repository->getUserByLogin($login);
+            $user = $this->userReaderRepository->getUserByLogin($login);
         } catch(DomainException $e) {}
         finally {
             if(!$user || !$user->id || $user->type != 4) {
@@ -77,15 +48,6 @@ final class UserReader
         return $user;
     }
 
-    /**
-     * Read a user by the given user mail.
-     *
-     * @param string $mail The user mail
-     *
-     * @throws ValidationException
-     *
-     * @return User The user data
-     */
     public function getUserDetailsByMail(string $mail): User
     {
         // Validation
@@ -95,7 +57,7 @@ final class UserReader
 
         $user = false;
         try {
-            $user = $this->repository->getUserByMail($mail);
+            $user = $this->userReaderRepository->getUserByMail($mail);
         } catch(DomainException $e) {
             if($user == false)
                 throw new ValidationException("User not found by mail : $mail", [], 404);
@@ -112,15 +74,6 @@ final class UserReader
         return $user;
     }
 
-    /**
-     * Read a user by the given card uid.
-     *
-     * @param string $card The card uid
-     *
-     * @throws ValidationException
-     *
-     * @return User The user data
-     */
     public function getUserDetailsByCard(string $card): User
     {
         // Validation
@@ -130,7 +83,7 @@ final class UserReader
 
         $user = false;
         try {
-            $user = $this->repository->getUserByCard($card);
+            $user = $this->userReaderRepository->getUserByCard($card);
         } catch(DomainException $e) {}
         finally {
             if(!$user || !$user->id || $user->type != 4) {
@@ -149,15 +102,6 @@ final class UserReader
         return $user;
     }
 
-    /**
-     * Read users like partInfo.
-     *
-     * @param string $partInfo a partial information about any user
-     *
-     * @throws ValidationException
-     *
-     * @return User[] The users data
-     */
     public function getUsersDetailsLikeLogin(string $partInfo): Array
     {
         // Validation
@@ -165,7 +109,7 @@ final class UserReader
             throw new ValidationException('Partial info required', [], 400);
         }
 
-        $user = $this->repository->getUsersLikeLogin($partInfo);
+        $user = $this->userReaderRepository->getUsersLikeLogin($partInfo);
 
         return $user;
     }
