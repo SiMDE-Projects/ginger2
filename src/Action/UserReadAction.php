@@ -32,6 +32,15 @@ final class UserReadAction
             $userData = $this->userReader->getUserDetailsByCard((string)$args['card']);
 
         // Transform the result into the JSON representation
+        $cardsResults = [];
+        foreach ($userData->cards as $card) {
+            $cardsResults[] = [
+                "uid" => $card->uid,
+                "type" => $card->type,
+                "created_at" => $card->created_at,
+            ];
+        }
+        
         $result = [
             'login' => $userData->login,
             'prenom' => $userData->prenom,
@@ -40,8 +49,8 @@ final class UserReadAction
             'type' => $userData->getFullType(),
             'is_adulte' => $userData->is_adulte ? true : false,
             'is_cotisant' => $userData->getCotisationStatus(),
-            'badge_uid' => empty($userData->cards) ? null : $userData->cards[0]["uid"],
-            'cards' => $userData->cards,
+            'badge_uid' => empty($cardsResults) ? [] : $cardsResults[0]["uid"],
+            'cards' => $cardsResults,
         ];
 
         // Build the HTTP response

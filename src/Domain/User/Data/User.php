@@ -25,7 +25,7 @@ final class User
     /** @var bool */
     public $is_adulte;
 
-    /** @var array */
+    /** @var Card[] */
     public $cards;
 
     /** @var array */

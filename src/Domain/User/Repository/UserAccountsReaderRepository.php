@@ -3,6 +3,7 @@
 namespace App\Domain\User\Repository;
 
 use App\Domain\User\Data\User;
+use App\Domain\Card\Data\Card;
 use App\Exception\ValidationException;
 
 /* User accounts */
@@ -74,16 +75,19 @@ class UserAccountsReaderRepository
             $serialArray = str_split($detailCard->cardSerialNumber, 2);
             $detailCard->cardSerialNumber = implode("", array_reverse($serialArray));
 
-            $user->cards[] = array(
-                "uid" => strtoupper($detailCard->cardSerialNumber),
-                "type" => ($typeCard == "Desfire" ? 1 : 0),
-                "created_at" => \DateTime::createFromFormat("U", (int)($detailCard->cardStartDate/1000))->format("Y-m-d H:i:s"),
-            );
+            $card = new Card;
+            $card->uid = strtoupper($detailCard->cardSerialNumber);
+            $card->type = ($typeCard == "Desfire" ? 1 : 0);
+            $card->created_at = \DateTime::createFromFormat("U", (int)($detailCard->cardStartDate/1000))->format("Y-m-d H:i:s");
 
-            usort($user->cards, function ($a, $b) {
-                return $a['type'] < $b['type'];
-            });
+            $user->cards[] = $card;
         }
+
+        // Order as cards should be in priority order at all time
+        usort($user->cards, function ($a, $b) {
+            return $a->type < $b->type;
+        });
+
         return $user;
     }
 }

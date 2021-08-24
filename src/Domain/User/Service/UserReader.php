@@ -14,7 +14,7 @@ final class UserReader
     private $userAccountsReader;
     private $userCreatorRepository;
 
-    public function __construct(UserReaderRepository $repository, UserAccountsReader $userAccountsReader, UserCreatorRepository $userCreatorRepository)
+    public function __construct(UserReaderRepository $userReaderRepository, UserAccountsReader $userAccountsReader, UserCreatorRepository $userCreatorRepository)
     {
         $this->userReaderRepository = $userReaderRepository;
         $this->userAccountsReader = $userAccountsReader;

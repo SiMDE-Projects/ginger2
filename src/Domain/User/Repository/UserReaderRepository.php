@@ -3,16 +3,19 @@
 namespace App\Domain\User\Repository;
 
 use App\Domain\User\Data\User;
+use App\Domain\Card\Service\CardReader;
 use App\Exception\ValidationException;
 use PDO;
 
 class UserReaderRepository
 {
     private $connection;
+    private $cardReader;
 
-    public function __construct(PDO $connection)
+    public function __construct(PDO $connection, \App\Domain\Card\Service\CardReader $cardReader)
     {
         $this->connection = $connection;
+        $this->cardReader = $cardReader;
     }
 
     public function getUserByLogin(string $userLogin): User
@@ -79,10 +82,7 @@ class UserReaderRepository
         $user->is_adulte = (string)$row['is_adulte'];
 
         // Get all cards details
-        $sql = "SELECT type, uid FROM cards WHERE user_id = :id ORDER BY type DESC;";
-        $statement = $this->connection->prepare($sql);
-        $statement->execute(['id' => $user->id]);
-        $user->cards = $statement->fetchAll();
+        $user->cards = $this->cardReader->getCardsByUser($user);
 
         // Get all memberships details
         $sql = "SELECT id, debut, fin, montant FROM memberships WHERE user_id = :id ORDER BY fin DESC;";

@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Domain\Card\Repository;
+
+use App\Domain\User\Data\User;
+use App\Domain\Card\Data\Card;
+use App\Exception\ValidationException;
+use PDO;
+
+class CardReaderRepository
+{
+    private $connection;
+
+    public function __construct(PDO $connection)
+    {
+        $this->connection = $connection;
+    }
+
+    public function getCardsByUser(User $user): Array
+    {
+        // Get all cards details
+        $sql = "SELECT * FROM cards WHERE user_id = :id ORDER BY type DESC;";
+        $statement = $this->connection->prepare($sql);
+        $statement->execute(['id' => $user->id]);
+        $cardsData = $statement->fetchAll();
+
+        $cards = [];
+        foreach ($cardsData as $cardData) {
+            $card = new Card;
+            $card->id = $cardData["id"];
+            $card->user_id = $cardData["user_id"];
+            $card->uid = $cardData["uid"];
+            $card->type = $cardData["type"];
+            $card->created_at = $cardData["created_at"];
+            $cards[] = $card;
+        }
+
+        return $cards;
+    }
+}
