@@ -19,12 +19,6 @@ final class CardCreator
 
     public function createCard(User $userData, Card $newCard): Card
     {
-        // Check that we are not creating an existing card
-        /*foreach($userData->cards as $index => $card) {
-            if($newCard->uid == $card->uid)
-                throw new ValidationException("This card already exist.", [], 400);
-        }*/
-
         $newCard->user_id = $userData->id;
 
         return $this->cardCreatorRepository->insertCard($newCard);

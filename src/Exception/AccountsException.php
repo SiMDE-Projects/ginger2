@@ -5,10 +5,10 @@ namespace App\Exception;
 use RuntimeException;
 use Throwable;
 
-final class ValidationException extends RuntimeException
+final class AccountsException extends RuntimeException
 {
     public function __construct(string $message)
     {
-        parent::__construct($message, 400, null);
+        parent::__construct($message, 500, null);
     }
 }

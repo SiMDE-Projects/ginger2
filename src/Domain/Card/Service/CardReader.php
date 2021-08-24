@@ -19,9 +19,8 @@ final class CardReader
     public function getCardsByUser(User $user): Array
     {
         // Validation
-        if (!isset($user->id) || empty($user->id)) {
-            throw new ValidationException('Full user required to retrieve cards from cache', [], 400);
-        }
+        if (!$user || !isset($user->id) || empty($user->id))
+            throw new ValidationException('Full user required to retrieve cards from cache');
 
         return $this->cardReaderRepository->getCardsByUser($user);
     }

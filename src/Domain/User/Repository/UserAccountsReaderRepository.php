@@ -4,7 +4,8 @@ namespace App\Domain\User\Repository;
 
 use App\Domain\User\Data\User;
 use App\Domain\Card\Data\Card;
-use App\Exception\ValidationException;
+use App\Exception\AccountsException;
+use App\Exception\UserNotFoundException;
 
 /* User accounts */
 class UserAccountsReaderRepository
@@ -41,9 +42,9 @@ class UserAccountsReaderRepository
         $result = curl_exec($ch);
 
         if(curl_errno($ch) != 0)
-            throw new ValidationException("Network exception while calling Accounts", [], 500);
+            throw new AccountsException("Network exception while calling Accounts");
         elseif(curl_getinfo($ch, CURLINFO_HTTP_CODE) != 200)
-            throw new ValidationException("Not found", [], 404);
+            throw new UserNotFoundException("User not found");
         else
             return json_decode($result);
     }

@@ -19,9 +19,8 @@ final class MembershipReader
     public function getMembershipsByUser(User $user): Array
     {
         // Validation
-        if (!isset($user->id) || empty($user->id)) {
-            throw new ValidationException('Full user required to retrieve memberships', [], 400);
-        }
+        if (!$user || !isset($user->id) || empty($user->id))
+            throw new ValidationException('Full user required to retrieve memberships');
 
         return $this->membershipReaderRepository->getMembershipsByUser($user);
     }

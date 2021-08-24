@@ -21,32 +21,21 @@ final class UserAccountsReader
     public function getUserByLogin(string $login): User
     {
         // Validation
-        if (empty($login)) {
-            throw new ValidationException('User login required', [], 400);
-        }
+        if (empty($login))
+            throw new ValidationException('User login required');
 
-        $user = $this->accountsReaderRepository->getUserByLogin($login);
-        if(!$user) {
-            throw new ValidationException("User not found by login : $login", [], 404);
-        }
-
-        return $user;
+        return $this->accountsReaderRepository->getUserByLogin($login);
     }
 
     public function getUserByCard(string $card): User
     {
         // Validation
-        if (empty($card)) {
-            throw new ValidationException('Card UID required', [], 400);
-        }
+        if (empty($card))
+            throw new ValidationException('Card UID required');
 
         $serialArray = str_split($card, 2);
         $serialNumber = implode("", array_reverse($serialArray));
-        $user = $this->accountsReaderRepository->getUserByCard($serialNumber);
-        if(!$user) {
-            throw new ValidationException("User not found by card : $card", [], 404);
-        }
 
-        return $user;
+        return $this->accountsReaderRepository->getUserByCard($serialNumber);
     }
 }

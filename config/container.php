@@ -1,7 +1,6 @@
 <?php
 
 use Psr\Container\ContainerInterface;
-use Selective\BasePath\BasePathMiddleware;
 use Slim\App;
 use Slim\Factory\AppFactory;
 use Slim\Middleware\ErrorMiddleware;
@@ -29,10 +28,7 @@ return [
             (bool)$settings['log_errors'],
             (bool)$settings['log_error_details']
         );
-        $errorMiddleware->getErrorHandler("phpErrorHandler")->forceContentType('application/json');
-        $errorMiddleware->getErrorHandler("errorHandler")->forceContentType('application/json');
-        $errorMiddleware->getErrorHandler("notAllowedHandler")->forceContentType('application/json');
-        $errorMiddleware->getErrorHandler("notFoundHandler")->forceContentType('application/json');
+
         return $errorMiddleware;
     },
 
@@ -49,9 +45,4 @@ return [
 
         return new PDO($dsn, $username, $password, $flags);
     },
-
-    BasePathMiddleware::class => function (ContainerInterface $container) {
-        return new BasePathMiddleware($container->get(App::class));
-    },
-
 ];

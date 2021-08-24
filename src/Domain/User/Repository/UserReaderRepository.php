@@ -5,7 +5,7 @@ namespace App\Domain\User\Repository;
 use App\Domain\User\Data\User;
 use App\Domain\Card\Service\CardReader;
 use App\Domain\Membership\Service\MembershipReader;
-use App\Exception\ValidationException;
+use App\Exception\UserNotFoundException;
 use PDO;
 
 class UserReaderRepository
@@ -30,7 +30,7 @@ class UserReaderRepository
         $row = $statement->fetch();
 
         if (!$row) {
-            throw new ValidationException("User not found");
+            throw new UserNotFoundException("User not found by login in bd");
         }
 
         return $this->buildUserObject($row);
@@ -45,7 +45,7 @@ class UserReaderRepository
         $row = $statement->fetch();
 
         if (!$row) {
-            throw new ValidationException(sprintf('User not found: %s', $userMail), [], 404);
+            throw new UserNotFoundException("User not found by mail in bd");
         }
 
         return $this->buildUserObject($row);
@@ -60,7 +60,7 @@ class UserReaderRepository
         $row = $statement->fetch();
 
         if (!$row) {
-            throw new ValidationException("User not found");
+            throw new UserNotFoundException("User not found by card in bd");
         }
 
         return $this->buildUserObject($row);

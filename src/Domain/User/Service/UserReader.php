@@ -7,6 +7,7 @@ use App\Domain\User\Service\UserAccountsReader;
 use App\Domain\User\Repository\UserReaderRepository;
 use App\Domain\User\Repository\UserCreatorRepository;
 use App\Exception\ValidationException;
+use App\Exception\UserNotFoundException;
 
 final class UserReader
 {
@@ -24,14 +25,13 @@ final class UserReader
     public function getUserDetailsByLogin(string $login): User
     {
         // Validation
-        if (empty($login)) {
-            throw new ValidationException('User login required', [], 400);
-        }
+        if (empty($login))
+            throw new ValidationException('User login required');
 
         $user = false;
         try {
             $user = $this->userReaderRepository->getUserByLogin($login);
-        } catch(ValidationException $e) {}
+        } catch(UserNotFoundException $e) {} // Do nothing, not found in db is not fatal
         finally {
             if(!$user || !$user->id || $user->type != 4) {
                 $userData = $this->userAccountsReader->getUserByLogin($login);
@@ -39,6 +39,7 @@ final class UserReader
                 if(!$user || !$user->id) {
                     $user = $this->userCreatorRepository->insertUser($userData);
                 } else if($user->type != 4) {
+                    // TODO: Some more work to do here
                     $userData->id = $user->id;
                     $userData->memberships = $user->memberships;
                     $user = $this->userCreatorRepository->updateUser($userData);
@@ -51,40 +52,31 @@ final class UserReader
     public function getUserDetailsByMail(string $mail): User
     {
         // Validation
-        if (empty($mail)) {
-            throw new ValidationException('User email required', [], 400);
+        if (empty($mail))
+            throw new ValidationException('User email required');
+
+        $user = $this->userReaderRepository->getUserByMail($mail);
+
+        if($user->type != 4) {
+            $userData = $this->userAccountsReader->getUserByLogin($user->login);
+            $userData->id = $user->id;
+            $userData->memberships = $user->memberships;
+            $user = $this->userCreatorRepository->updateUser($userData);
         }
 
-        $user = false;
-        try {
-            $user = $this->userReaderRepository->getUserByMail($mail);
-        } catch(ValidationException $e) { // dégueu
-            if($user == false)
-                throw new ValidationException("User not found by mail : $mail", [], 404);
-        }
-        finally {
-            if($user && $user->id && $user->type != 4) {
-                $userData = $this->userAccountsReader->getUserByLogin($user->login);
-
-                $userData->id = $user->id;
-                $userData->memberships = $user->memberships;
-                $user = $this->userCreatorRepository->updateUser($userData);
-            }
-        }
         return $user;
     }
 
     public function getUserDetailsByCard(string $card): User
     {
         // Validation
-        if (empty($card)) {
-            throw new ValidationException('Card UID required', [], 400);
-        }
+        if (empty($card))
+            throw new ValidationException('Card UID required');
 
         $user = false;
         try {
             $user = $this->userReaderRepository->getUserByCard($card);
-        } catch(ValidationException $e) {}
+        } catch(UserNotFoundException $e) {} // Do nothing, not found in db is not fatal
         finally {
             if(!$user || !$user->id || $user->type != 4) {
                 $userData = $this->userAccountsReader->getUserByCard($card);
@@ -105,9 +97,8 @@ final class UserReader
     public function getUsersDetailsLikeLogin(string $partInfo): Array
     {
         // Validation
-        if (empty($partInfo)) {
-            throw new ValidationException('Partial info required', [], 400);
-        }
+        if (empty($partInfo))
+            throw new ValidationException('Partial info required');
 
         $user = $this->userReaderRepository->getUsersLikeLogin($partInfo);
 
