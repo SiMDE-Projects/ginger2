@@ -17,25 +17,28 @@ final class MembershipCreator
         $this->membershipCreatorRepository = $membershipCreatorRepository;
     }
 
-    public function createMembership(User $userData, string $debut, string $fin, int $montant): Membership
+    public function createMembership(User $user, string $debut, string $fin, int $montant): Membership
     {
         // Check that we are not overlapping any other membership
-        foreach($userData->memberships as $index => $membership)
+        foreach($user->memberships as $index => $membership)
             if((strtotime($debut) >= strtotime($membership->debut) && strtotime($debut) < strtotime($membership->fin))
                 || (strtotime($fin) > strtotime($membership->debut) && strtotime($fin) <= strtotime($membership->fin)))
                 throw new ValidationException("Membership date is overlapping an existing membership");
 
         if(empty($debut) || !(bool)strtotime($debut))
-            throw new ValidationException("Debut date is invalid");
+            throw new ValidationException("Begin date is invalid");
 
-        if(empty($fin) || !(bool)strtotime($debut))
+        if(empty($fin) || !(bool)strtotime($fin))
             throw new ValidationException("End date is invalid");
 
-        if(empty($montant) || !is_bool($montant))
+        if(strtotime($debut) >= strtotime($fin))
+            throw new ValidationException("Begin date must be inferior than end date");
+
+        if(empty($montant) || !is_int($montant))
             throw new ValidationException("Montant is invalid");
 
         $membership = new Membership;
-        $membership->user_id = $userData->id;
+        $membership->user_id = $user->id;
         $membership->debut = $debut;
         $membership->fin = $fin;
         $membership->montant = $montant;

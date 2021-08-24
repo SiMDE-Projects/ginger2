@@ -17,15 +17,15 @@ class UserCreatorRepository
         $this->cardCreator = $cardCreator;
     }
 
-    public function insertUser(User $userData): User
+    public function insertUser(User $user): User
     {
         $row = [
-            'login' => $userData->login,
-            'prenom' => $userData->prenom,
-            'nom' => $userData->nom,
-            'mail' => $userData->mail,
-            'type' => $userData->type?:0,
-            'is_adulte' => $userData->is_adulte
+            'login' => $user->login,
+            'prenom' => $user->prenom,
+            'nom' => $user->nom,
+            'mail' => $user->mail,
+            'type' => $user->type ?: 0,
+            'is_adulte' => $user->is_adulte
         ];
 
         $sql = "INSERT INTO users SET
@@ -37,15 +37,15 @@ class UserCreatorRepository
             is_adulte = :is_adulte;";
 
         $this->connection->prepare($sql)->execute($row);
-        $userData->id = (int)$this->connection->lastInsertId();
+        $user->id = (int)$this->connection->lastInsertId();
 
-        foreach($userData->cards as $index => $card)
-            $this->cardCreator->createCard($userData, $card);
+        foreach($user->cards as $index => $card)
+            $this->cardCreator->createCard($user, $card);
 
         // We created this user, we can't have existing memberships
-        $userData->memberships = [];
+        $user->memberships = [];
 
-        return $userData;
+        return $user;
     }
 
     public function updateUser(User $user): User

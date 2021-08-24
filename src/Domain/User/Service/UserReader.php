@@ -41,10 +41,8 @@ final class UserReader
             $user = $this->userReaderRepository->getUserByLogin($login);
         } catch(UserNotFoundException $e) {} // Do nothing, not found in db is not fatal
         finally {
-            if(!$user || !$user->id || $user->type != 4) {
-                $userData = $this->userAccountsReader->getUserByLogin($login);
-                $user = $this->handleUserSync($user, $userData);
-            }
+            if(!$user || !$user->id || $user->type != 4)
+                $user = $this->handleUserSync($user, $this->userAccountsReader->getUserByLogin($login));
         }
         return $user;
     }
@@ -57,10 +55,8 @@ final class UserReader
 
         $user = $this->userReaderRepository->getUserByMail($mail);
 
-        if($user->type != 4) {
-            $userData = $this->userAccountsReader->getUserByLogin($user->login);
-            $user = $this->handleUserSync($user, $userData);
-        }
+        if($user->type != 4)
+            $user = $this->handleUserSync($user, $this->userAccountsReader->getUserByLogin($user->login));
 
         return $user;
     }
@@ -76,10 +72,8 @@ final class UserReader
             $user = $this->userReaderRepository->getUserByCard($card);
         } catch(UserNotFoundException $e) {} // Do nothing, not found in db is not fatal
         finally {
-            if(!$user || !$user->id || $user->type != 4) {
-                $userData = $this->userAccountsReader->getUserByCard($card);
-                $user = $this->handleUserSync($user, $userData);
-            }
+            if(!$user || !$user->id || $user->type != 4)
+                $user = $this->handleUserSync($user, $this->userAccountsReader->getUserByCard($card));
         }
 
         return $user;

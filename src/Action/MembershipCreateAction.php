@@ -27,8 +27,8 @@ final class MembershipCreateAction
 
         // Get POST data, retreive user and create membership
         $data = (array)$request->getParsedBody();
-        $userData = $this->userReader->getUserDetailsByLogin((string)$args['login']);
-        $membership = $this->membershipCreator->createMembership($userData, (string)$data['debut'], (string)$data['fin'], (int)$data['montant']);
+        $user = $this->userReader->getUserDetailsByLogin((string)$args['login']);
+        $membership = $this->membershipCreator->createMembership($user, (string)$data['debut'], (string)$data['fin'], (int)$data['montant']);
 
         // Transform the result into the JSON representation
         $result = [

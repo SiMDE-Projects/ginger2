@@ -17,9 +17,9 @@ final class CardCreator
         $this->cardCreatorRepository = $cardCreatorRepository;
     }
 
-    public function createCard(User $userData, Card $newCard): Card
+    public function createCard(User $user, Card $newCard): Card
     {
-        $newCard->user_id = $userData->id;
+        $newCard->user_id = $user->id;
 
         return $this->cardCreatorRepository->insertCard($newCard);
     }
