@@ -3,7 +3,6 @@
 namespace App\Domain\User\Repository;
 
 use App\Domain\User\Data\User;
-use DomainException;
 use PDO;
 
 class UserCreatorRepository

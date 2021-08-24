@@ -31,7 +31,7 @@ final class UserReader
         $user = false;
         try {
             $user = $this->userReaderRepository->getUserByLogin($login);
-        } catch(DomainException $e) {}
+        } catch(ValidationException $e) {}
         finally {
             if(!$user || !$user->id || $user->type != 4) {
                 $userData = $this->userAccountsReader->getUserByLogin($login);
@@ -58,7 +58,7 @@ final class UserReader
         $user = false;
         try {
             $user = $this->userReaderRepository->getUserByMail($mail);
-        } catch(DomainException $e) {
+        } catch(ValidationException $e) { // dégueu
             if($user == false)
                 throw new ValidationException("User not found by mail : $mail", [], 404);
         }
@@ -84,7 +84,7 @@ final class UserReader
         $user = false;
         try {
             $user = $this->userReaderRepository->getUserByCard($card);
-        } catch(DomainException $e) {}
+        } catch(ValidationException $e) {}
         finally {
             if(!$user || !$user->id || $user->type != 4) {
                 $userData = $this->userAccountsReader->getUserByCard($card);

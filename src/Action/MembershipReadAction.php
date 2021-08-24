@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /* Return all memberships of a user */
-final class UserMembershipsReadAction
+final class MembershipReadAction
 {
     private $userReader;
 
@@ -26,7 +26,16 @@ final class UserMembershipsReadAction
         $userData =  $this->userReader->getUserDetailsByLogin((string)$args['login']);
 
         // Only keep the memberships
-        $result = $userData->memberships;
+        $membershipsResults = [];
+        foreach ($userData->memberships as $membership) {
+            $membershipsResults[] = [
+                "id" => $membership->id,
+                "debut" => $membership->debut,
+                "fin" => $membership->fin,
+                "montant" => $membership->montant,
+            ];
+        }
+        $result = $membershipsResults;
 
         // Build the HTTP response
         $response->getBody()->write((string)json_encode($result));

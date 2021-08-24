@@ -19,7 +19,9 @@ class UserAccountsReaderRepository
 
     public function getUserByCard(string $userCard): User
     {
-        $userDetails = $this->callAccountsApi("cardLookup", array("serialNumber" => $userCard));
+        $serialArray = str_split($userCard, 2);
+        $serialNumber = implode("", array_reverse($serialArray));
+        $userDetails = $this->callAccountsApi("cardLookup", array("serialNumber" => $serialNumber));
         return $this->buildUserObject($userDetails);
     }
 

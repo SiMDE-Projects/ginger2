@@ -53,7 +53,7 @@ final class User
     public function getCotisationStatus() {
         $isCotisant = false;
         foreach ($this->memberships as $mem)
-            if(strtotime($mem["debut"]) <= strtotime(date("Y-m-d")) && strtotime($mem["fin"]) >= strtotime(date("Y-m-d")))
+            if(strtotime($mem->debut) <= strtotime(date("Y-m-d")) && strtotime($mem->fin) >= strtotime(date("Y-m-d")))
                 $isCotisant = true;
         return $isCotisant;
     }

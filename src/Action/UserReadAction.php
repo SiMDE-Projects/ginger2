@@ -40,7 +40,7 @@ final class UserReadAction
                 "created_at" => $card->created_at,
             ];
         }
-        
+
         $result = [
             'login' => $userData->login,
             'prenom' => $userData->prenom,

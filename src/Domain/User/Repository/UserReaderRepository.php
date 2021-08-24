@@ -4,6 +4,7 @@ namespace App\Domain\User\Repository;
 
 use App\Domain\User\Data\User;
 use App\Domain\Card\Service\CardReader;
+use App\Domain\Membership\Service\MembershipReader;
 use App\Exception\ValidationException;
 use PDO;
 
@@ -11,11 +12,13 @@ class UserReaderRepository
 {
     private $connection;
     private $cardReader;
+    private $membershipReader;
 
-    public function __construct(PDO $connection, \App\Domain\Card\Service\CardReader $cardReader)
+    public function __construct(PDO $connection, \App\Domain\Card\Service\CardReader $cardReader, MembershipReader $membershipReader)
     {
         $this->connection = $connection;
         $this->cardReader = $cardReader;
+        $this->membershipReader = $membershipReader;
     }
 
     public function getUserByLogin(string $userLogin): User
@@ -26,7 +29,11 @@ class UserReaderRepository
 
         $row = $statement->fetch();
 
-        return $row ? $this->buildUserObject($row) : new User;
+        if (!$row) {
+            throw new ValidationException("User not found");
+        }
+
+        return $this->buildUserObject($row);
     }
 
     public function getUserByMail(string $userMail): User
@@ -52,7 +59,11 @@ class UserReaderRepository
 
         $row = $statement->fetch();
 
-        return $row ? $this->buildUserObject($row) : new User;
+        if (!$row) {
+            throw new ValidationException("User not found");
+        }
+
+        return $this->buildUserObject($row);
     }
 
     public function getUsersLikeLogin(string $partInfo): Array
@@ -85,10 +96,7 @@ class UserReaderRepository
         $user->cards = $this->cardReader->getCardsByUser($user);
 
         // Get all memberships details
-        $sql = "SELECT id, debut, fin, montant FROM memberships WHERE user_id = :id ORDER BY fin DESC;";
-        $statement = $this->connection->prepare($sql);
-        $statement->execute(['id' => $user->id]);
-        $user->memberships = $statement->fetchAll();
+        $user->memberships = $this->membershipReader->getCardsByUser($user);
 
         return $user;
     }

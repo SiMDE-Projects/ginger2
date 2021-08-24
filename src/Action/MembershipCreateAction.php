@@ -3,20 +3,20 @@
 namespace App\Action;
 
 use App\Domain\User\Service\UserReader;
-use App\Domain\User\Service\UserMembershipCreator;
+use App\Domain\Membership\Service\MembershipCreator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /* Creates user membership */
-final class UserMembershipCreateAction
+final class MembershipCreateAction
 {
     private $userReader;
-    private $userMembershipCreator;
+    private $membershipCreator;
 
-    public function __construct(UserReader $userReader, UserMembershipCreator $userMembershipCreator)
+    public function __construct(UserReader $userReader, MembershipCreator $membershipCreator)
     {
         $this->userReader = $userReader;
-        $this->userMembershipCreator = $userMembershipCreator;
+        $this->membershipCreator = $membershipCreator;
     }
 
     public function __invoke(
@@ -29,11 +29,11 @@ final class UserMembershipCreateAction
         $data = (array)$request->getParsedBody();
         $userData = $this->userReader->getUserDetailsByLogin((string)$args['login']);
 
-        $membershipId = $this->userMembershipCreator->createUserMembership($userData, (string)$data['debut'], (string)$data['fin'], (int)$data['montant']);
+        $membership = $this->membershipCreator->createMembership($userData, (string)$data['debut'], (string)$data['fin'], (int)$data['montant']);
 
         // Transform the result into the JSON representation
         $result = [
-            "result" => $membershipId,
+            "result" => $membership->id,
         ];
 
         // Build the HTTP response
