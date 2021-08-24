@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Domain\Card\Service;
+
+use App\Domain\User\Data\User;
+use App\Domain\Card\Data\Card;
+use App\Domain\Card\Repository\CardCreatorRepository;
+use App\Exception\ValidationException;
+
+final class CardCreator
+{
+    private CardCreatorRepository $cardCreatorRepository;
+
+    public function __construct(
+        CardCreatorRepository $cardCreatorRepository
+    ) {
+        $this->cardCreatorRepository = $cardCreatorRepository;
+    }
+
+    public function createCard(User $userData, Card $newCard): Card
+    {
+        // Check that we are not creating an existing card
+        /*foreach($userData->cards as $index => $card) {
+            if($newCard->uid == $card->uid)
+                throw new ValidationException("This card already exist.", [], 400);
+        }*/
+
+        $newCard->user_id = $userData->id;
+
+        return $this->cardCreatorRepository->insertCard($newCard);
+    }
+}

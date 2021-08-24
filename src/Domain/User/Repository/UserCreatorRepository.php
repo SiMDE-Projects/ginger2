@@ -3,15 +3,18 @@
 namespace App\Domain\User\Repository;
 
 use App\Domain\User\Data\User;
+use App\Domain\Card\Service\CardCreator;
 use PDO;
 
 class UserCreatorRepository
 {
     private $connection;
+    private $cardCreator;
 
-    public function __construct(PDO $connection)
+    public function __construct(PDO $connection, CardCreator $cardCreator)
     {
         $this->connection = $connection;
+        $this->cardCreator = $cardCreator;
     }
 
     public function insertUser(User $userData): User
@@ -37,13 +40,14 @@ class UserCreatorRepository
         $userData->id = (int)$this->connection->lastInsertId();
 
         foreach($userData->cards as $index => $card) {
-            $data = array_merge($card, array("user_id" => $userData->id));
+            /*$data = array_merge($card, array("user_id" => $userData->id));
             $sql = "INSERT INTO cards SET
                 user_id = :user_id,
                 type = :type,
                 uid = :uid,
                 created_at = :created_at;";
-            $this->connection->prepare($sql)->execute($data);
+            $this->connection->prepare($sql)->execute($data);*/
+            $this->cardCreator->createCard($userData, $card);
         }
 
         $userData->memberships = [];
