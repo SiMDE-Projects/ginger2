@@ -23,4 +23,28 @@ final class CardCreator
 
         return $this->cardCreatorRepository->insertCard($newCard);
     }
+
+    public function syncCards(User $user, Array $accountCards): Array
+    {
+        //Get cards Acounts returned that are not in user object already
+        $missingCards = [];
+        foreach($accountCards as $accountCard) {
+            $found = false;
+            foreach($user->cards as $dbCard) {
+                if ($accountCard->uid == $dbCard->uid)
+                    $found = true;
+            }
+            if(!$found)
+                $missingCards[] = $accountCard;
+        }
+
+        foreach($missingCards as $card)
+            $user->cards[] = $this->createCard($user, $card);
+
+        usort($user->cards, function ($a, $b) {
+            return $a->type < $b->type;
+        });
+
+        return $user->cards;
+    }
 }

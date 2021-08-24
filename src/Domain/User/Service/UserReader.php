@@ -4,6 +4,7 @@ namespace App\Domain\User\Service;
 
 use App\Domain\User\Data\User;
 use App\Domain\User\Service\UserAccountsReader;
+use App\Domain\Card\Service\CardCreator;
 use App\Domain\User\Repository\UserReaderRepository;
 use App\Domain\User\Repository\UserCreatorRepository;
 use App\Exception\ValidationException;
@@ -13,12 +14,19 @@ final class UserReader
 {
     private $userReaderRepository;
     private $userAccountsReader;
+    private $cardCreator;
     private $userCreatorRepository;
 
-    public function __construct(UserReaderRepository $userReaderRepository, UserAccountsReader $userAccountsReader, UserCreatorRepository $userCreatorRepository)
+    public function __construct(
+        UserReaderRepository $userReaderRepository,
+        UserAccountsReader $userAccountsReader,
+        UserCreatorRepository $userCreatorRepository,
+        CardCreator $cardCreator
+        )
     {
         $this->userReaderRepository = $userReaderRepository;
         $this->userAccountsReader = $userAccountsReader;
+        $this->cardCreator = $cardCreator;
         $this->userCreatorRepository = $userCreatorRepository;
     }
 
@@ -35,15 +43,7 @@ final class UserReader
         finally {
             if(!$user || !$user->id || $user->type != 4) {
                 $userData = $this->userAccountsReader->getUserByLogin($login);
-
-                if(!$user || !$user->id) {
-                    $user = $this->userCreatorRepository->insertUser($userData);
-                } else if($user->type != 4) {
-                    // TODO: Some more work to do here
-                    $userData->id = $user->id;
-                    $userData->memberships = $user->memberships;
-                    $user = $this->userCreatorRepository->updateUser($userData);
-                }
+                $user = $this->handleUserSync($user, $userData);
             }
         }
         return $user;
@@ -59,9 +59,7 @@ final class UserReader
 
         if($user->type != 4) {
             $userData = $this->userAccountsReader->getUserByLogin($user->login);
-            $userData->id = $user->id;
-            $userData->memberships = $user->memberships;
-            $user = $this->userCreatorRepository->updateUser($userData);
+            $user = $this->handleUserSync($user, $userData);
         }
 
         return $user;
@@ -80,14 +78,7 @@ final class UserReader
         finally {
             if(!$user || !$user->id || $user->type != 4) {
                 $userData = $this->userAccountsReader->getUserByCard($card);
-
-                if(!$user || !$user->id) {
-                    $user = $this->userCreatorRepository->insertUser($userData);
-                } else if($user->type != 4) {
-                    $userData->id = $user->id;
-                    $userData->memberships = $user->memberships;
-                    $user = $this->userCreatorRepository->updateUser($userData);
-                }
+                $user = $this->handleUserSync($user, $userData);
             }
         }
 
@@ -103,5 +94,20 @@ final class UserReader
         $user = $this->userReaderRepository->getUsersLikeLogin($partInfo);
 
         return $user;
+    }
+
+    private function handleUserSync(User $userDb, User $userAccounts) {
+        if(!$userDb || !$userDb->id) {
+            return $this->userCreatorRepository->insertUser($userAccounts);
+        } else if($user->type != 4) {
+            $userAccounts->id = $userDb->id;
+            $userAccounts->memberships = $userDb->memberships;
+
+            $updatedUser = $this->userCreatorRepository->updateUser($userAccounts);
+            $updatedUser->cards = $this->cardCreator->syncCards($userDb, $userAccounts->cards);
+            return $updatedUser;
+        } else {
+            return $userDb;
+        }
     }
 }

@@ -48,15 +48,15 @@ class UserCreatorRepository
         return $userData;
     }
 
-    public function updateUser(User $userData): User
+    public function updateUser(User $user): User
     {
         $row = [
-            'nom' => $userData->nom,
-            'prenom' => $userData->prenom,
-            'mail' => $userData->mail,
-            'is_adulte' => $userData->is_adulte,
-            'type' => $userData->type,
-            'login' => $userData->login,
+            'nom' => $user->nom,
+            'prenom' => $user->prenom,
+            'mail' => $user->mail,
+            'is_adulte' => $user->is_adulte,
+            'type' => $user->type,
+            'login' => $user->login,
         ];
 
         $sql = "UPDATE users SET
@@ -69,8 +69,6 @@ class UserCreatorRepository
 
         $this->connection->prepare($sql)->execute($row);
 
-        // TODO: For the moment, cards are not updated !!!!!!
-
-        return $userData;
+        return $user;
     }
 }
