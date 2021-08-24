@@ -90,7 +90,7 @@ final class UserReader
         return $user;
     }
 
-    private function handleUserSync(User $userDb, User $userAccounts) {
+    private function handleUserSync($userDb, User $userAccounts) {
         if(!$userDb || !$userDb->id) {
             return $this->userCreatorRepository->insertUser($userAccounts);
         } else if($user->type != 4) {
