@@ -96,7 +96,7 @@ class UserReaderRepository
         $user->cards = $this->cardReader->getCardsByUser($user);
 
         // Get all memberships details
-        $user->memberships = $this->membershipReader->getCardsByUser($user);
+        $user->memberships = $this->membershipReader->getMembershipsByUser($user);
 
         return $user;
     }

@@ -58,6 +58,9 @@ class UserAccountsReaderRepository
         $user->prenom = ucwords(strtolower((string)$accountsData->firstName), "\t-'");
         $user->nom = strtoupper((string)$accountsData->lastName);
 
+        // No memberships, we come from accounts API
+        $user->memberships = [];
+
         switch((string)$accountsData->profile) {
             case "ETU UTC":
                 $user->type = 0;
@@ -73,6 +76,7 @@ class UserAccountsReaderRepository
                 break;
         }
 
+        // Build cards objetcs
         foreach ($accountsData->cards as $typeCard => $detailCard) {
             $serialArray = str_split($detailCard->cardSerialNumber, 2);
             $detailCard->cardSerialNumber = implode("", array_reverse($serialArray));

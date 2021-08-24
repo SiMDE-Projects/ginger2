@@ -21,11 +21,10 @@ final class MembershipReadAction
         ResponseInterface $response,
         array $args = []
     ): ResponseInterface {
-
         // Get a User from the login
         $userData =  $this->userReader->getUserDetailsByLogin((string)$args['login']);
 
-        // Only keep the memberships
+        // Only keep the memberships details we want
         $membershipsResults = [];
         foreach ($userData->memberships as $membership) {
             $membershipsResults[] = [

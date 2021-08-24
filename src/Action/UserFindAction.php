@@ -25,7 +25,7 @@ final class UserFindAction
         // Get all User objects
         $usersData = $this->userReader->getUsersDetailsLikeLogin((string)$args['partinfo']);
 
-        // Transform the result into the JSON representation
+        // Only keep the data we want to show
         $result = [];
         foreach ($usersData as $index => $user) {
             $result[$index]["login"] = $user->login;

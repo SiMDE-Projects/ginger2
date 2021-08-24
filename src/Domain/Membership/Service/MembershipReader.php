@@ -16,7 +16,7 @@ final class MembershipReader
         $this->membershipReaderRepository = $membershipReaderRepository;
     }
 
-    public function getCardsByUser(User $user): Array
+    public function getMembershipsByUser(User $user): Array
     {
         // Validation
         if (!isset($user->id) || empty($user->id)) {

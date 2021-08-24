@@ -24,6 +24,7 @@ class MembershipReaderRepository
         $statement->execute(['id' => $user->id]);
         $membershipsData = $statement->fetchAll();
 
+        // Build objetcs
         $memberships = [];
         foreach ($membershipsData as $membershipData) {
             $membership = new Membership;

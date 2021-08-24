@@ -31,6 +31,7 @@ final class User
     /** @var array */
     public $memberships;
 
+    // Convert int type to string type for old ginger compatibility response
     public function getFullType() {
         $type = "ext";
         switch($this->type) {
@@ -50,6 +51,7 @@ final class User
         return $type;
     }
 
+    // Based on the memberships determine if one is active
     public function getCotisationStatus() {
         $isCotisant = false;
         foreach ($this->memberships as $mem)

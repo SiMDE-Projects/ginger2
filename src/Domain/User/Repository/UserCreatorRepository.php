@@ -39,17 +39,10 @@ class UserCreatorRepository
         $this->connection->prepare($sql)->execute($row);
         $userData->id = (int)$this->connection->lastInsertId();
 
-        foreach($userData->cards as $index => $card) {
-            /*$data = array_merge($card, array("user_id" => $userData->id));
-            $sql = "INSERT INTO cards SET
-                user_id = :user_id,
-                type = :type,
-                uid = :uid,
-                created_at = :created_at;";
-            $this->connection->prepare($sql)->execute($data);*/
+        foreach($userData->cards as $index => $card)
             $this->cardCreator->createCard($userData, $card);
-        }
 
+        // We created this user, we can't have existing memberships
         $userData->memberships = [];
 
         return $userData;

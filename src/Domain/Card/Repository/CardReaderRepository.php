@@ -24,6 +24,7 @@ class CardReaderRepository
         $statement->execute(['id' => $user->id]);
         $cardsData = $statement->fetchAll();
 
+        // Build objects
         $cards = [];
         foreach ($cardsData as $cardData) {
             $card = new Card;
