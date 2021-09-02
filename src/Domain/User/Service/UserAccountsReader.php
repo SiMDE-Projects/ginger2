@@ -33,6 +33,6 @@ final class UserAccountsReader
         if (empty($card))
             throw new ValidationException('Card UID required');
 
-        return $this->accountsReaderRepository->getUserByCard($serialNumber);
+        return $this->accountsReaderRepository->getUserByCard($card);
     }
 }
