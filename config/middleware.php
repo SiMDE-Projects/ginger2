@@ -32,7 +32,7 @@ return function (App $app) {
         } elseif ($exception instanceof \App\Exception\UserNotFoundException ||
             $exception instanceof \Slim\Exception\HttpNotFoundException)
             {
-            $result["error"]["message"] = "La ressource demandée n'existe pas";
+            $result["error"]["message"] = $exception->getMessage();
             $result["error"]["code"] = 404;
         } elseif ($exception instanceof \App\Exception\AccountsException) {
             $result["error"]["message"] = "Accounts exception";
@@ -50,7 +50,7 @@ return function (App $app) {
         $response->getBody()->write(json_encode($result));
         return $response->withStatus($result["error"]["code"]);
     };
-    $errorMiddleware = $app->addErrorMiddleware(DETAILED_ERRORS, true, true);
+    $errorMiddleware = $app->addErrorMiddleware("DETAILED_ERRORS", true, true);
     $errorMiddleware->setDefaultErrorHandler($customErrorHandler);
 
     // Add Error Middleware

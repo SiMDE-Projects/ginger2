@@ -33,9 +33,6 @@ final class UserAccountsReader
         if (empty($card))
             throw new ValidationException('Card UID required');
 
-        $serialArray = str_split($card, 2);
-        $serialNumber = implode("", array_reverse($serialArray));
-
         return $this->accountsReaderRepository->getUserByCard($serialNumber);
     }
 }

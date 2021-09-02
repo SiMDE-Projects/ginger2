@@ -1,0 +1,24 @@
+version: "3.7"
+
+volumes:
+  logs:
+    driver: local
+
+services:
+  ginger2:
+    build: docker/ginger2
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/var/www
+  db:
+    image: mariadb
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: 1
+      MARIADB_DATABASE: ginger
+      MARIADB_USER: ginger
+      MARIADB_PASSWORD: ginger
+  adminer:
+    image: adminer
+    ports:
+      - 8081:8080
