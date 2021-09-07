@@ -30,6 +30,9 @@ final class User
 
     /** @var array */
     public $memberships;
+    
+    /** @var DateTime */
+    public $last_access;
 
     // Convert int type to string type for old ginger compatibility response
     public function getFullType() {
