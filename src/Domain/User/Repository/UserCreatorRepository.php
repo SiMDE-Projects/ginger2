@@ -64,11 +64,16 @@ class UserCreatorRepository
             prenom = :prenom,
             mail = :mail,
             is_adulte = :is_adulte,
-            type = :type
+            type = :type,
+            last_access = NOW()
             WHERE login = :login;";
-
         $this->connection->prepare($sql)->execute($row);
-
+        
+        $sql = "SELECT last_access FROM users WHERE login=:login;";
+        $statement = $this->connection->prepare($sql);
+        $statement->execute(['login'=>$user->login]);
+        $last_access = $statement->fetch();
+        $user->last_access = $last_access['last_access'];
         return $user;
     }
 }

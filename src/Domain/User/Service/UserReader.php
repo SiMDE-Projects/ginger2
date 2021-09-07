@@ -41,10 +41,12 @@ final class UserReader
             $user = $this->userReaderRepository->getUserByLogin($login);
         } catch(UserNotFoundException $e) {} // Do nothing, not found in db is not fatal
         finally {
-            if(!$user || !$user->id || $user->type != 4)
-                $user = $this->handleUserSync($user, $this->userAccountsReader->getUserByLogin($login));
+            if(!$user || !$user->id || $user->type != 4) {
+              return $this->handleUserSync($user, $this->userAccountsReader->getUserByLogin($login));
+            } else {
+              return $this->updateLastAccessAttribute($user->login);
+            }
         }
-        return $user;
     }
 
     public function getUserDetailsByMail(string $mail): User
@@ -55,10 +57,10 @@ final class UserReader
 
         $user = $this->userReaderRepository->getUserByMail($mail);
 
-        if($user->type != 4)
-            $user = $this->handleUserSync($user, $this->userAccountsReader->getUserByLogin($user->login));
-
-        return $user;
+        if($user->type != 4){
+            return $this->handleUserSync($user, $this->userAccountsReader->getUserByLogin($user->login));
+        }
+        return $this->updateLastAccessAttribute($user->login);
     }
 
     public function getUserDetailsByCard(string $card): User
@@ -72,11 +74,12 @@ final class UserReader
             $user = $this->userReaderRepository->getUserByCard($card);
         } catch(UserNotFoundException $e) {} // Do nothing, not found in db is not fatal
         finally {
-            if(!$user || !$user->id || $user->type != 4)
-                $user = $this->handleUserSync($user, $this->userAccountsReader->getUserByCard($card));
+            if(!$user || !$user->id || $user->type != 4) {
+              return  $this->handleUserSync($user, $this->userAccountsReader->getUserByCard($card));
+            } else {
+              return $this->updateLastAccessAttribute($user->login);
+            }
         }
-
-        return $user;
     }
 
     public function getUsersDetailsLikeLogin(string $partInfo): Array
@@ -103,5 +106,10 @@ final class UserReader
         } else {
             return $userDb;
         }
+    }
+    
+    private function updateLastAccessAttribute($login) {
+      $this->userReaderRepository->updateLastAccessAttribute($login);
+      return $this->userReaderRepository->getUserByLogin($login);
     }
 }

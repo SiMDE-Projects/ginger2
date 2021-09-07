@@ -30,7 +30,7 @@ class UserReaderRepository
         $row = $statement->fetch();
 
         if (!$row) {
-            throw new UserNotFoundException("User not found by login in bd");
+            throw new UserNotFoundException("User not found by login in db");
         }
 
         return $this->buildUserObject($row);
@@ -45,7 +45,7 @@ class UserReaderRepository
         $row = $statement->fetch();
 
         if (!$row) {
-            throw new UserNotFoundException("User not found by mail in bd");
+            throw new UserNotFoundException("User not found by mail in db");
         }
 
         return $this->buildUserObject($row);
@@ -62,7 +62,7 @@ class UserReaderRepository
         if (!$row) {
             throw new UserNotFoundException("User not found by card in bd");
         }
-
+        updateLastAccessAttribute($row['id']);
         return $this->buildUserObject($row);
     }
 
@@ -91,6 +91,7 @@ class UserReaderRepository
         $user->mail = (string)$row['mail'];
         $user->type = (string)$row['type'];
         $user->is_adulte = (string)$row['is_adulte'];
+        $user->last_access = (string)$row['last_access'];
 
         // Get all cards details
         $user->cards = $this->cardReader->getCardsByUser($user);
@@ -99,5 +100,11 @@ class UserReaderRepository
         $user->memberships = $this->membershipReader->getMembershipsByUser($user);
 
         return $user;
+    }
+    
+    public function updateLastAccessAttribute($login) {
+      $sql = "UPDATE `users` SET `last_access` = NOW() WHERE login=:login;";
+      $statement = $this->connection->prepare($sql);
+      $statement->execute(['login' => $login]);
     }
 }
