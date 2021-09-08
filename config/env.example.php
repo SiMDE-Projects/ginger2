@@ -1,5 +1,5 @@
 <?php
-define("ACCOUNTS_BASE_URI", "http://picasso-ws.localhost/");
+define("ACCOUNTS_BASE_URI", "http://picasso-ws:8080/");
 define("BASE_PATH", "/");
 
 define("DB_HOST", "localhost");
