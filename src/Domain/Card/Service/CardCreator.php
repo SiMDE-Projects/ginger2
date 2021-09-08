@@ -24,7 +24,7 @@ final class CardCreator
         return $this->cardCreatorRepository->insertCard($newCard);
     }
 
-    public function syncCards(User $user, Array $accountCards): Array
+    public function syncCards(User $user, ?Array $accountCards): Array
     {
         //Get cards Acounts returned that are not in user object already
         $missingCards = [];

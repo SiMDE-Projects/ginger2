@@ -50,7 +50,7 @@ final class UserReadAction
             'is_adulte' => $user->is_adulte ? true : false,
             'is_cotisant' => $user->getCotisationStatus(),
             'last_access' => $user->last_access,
-            'badge_uid' => empty($cardsResults) ? [] : $cardsResults[0]["uid"],
+            'badge_uid' => empty($cardsResults) ? null : $cardsResults[0]["uid"],
             'cards' => $cardsResults,
         ];
 
