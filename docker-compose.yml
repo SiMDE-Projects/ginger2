@@ -7,10 +7,17 @@ volumes:
 services:
   ginger2:
     build: docker/ginger2
+    depends_on:
+      - db
+      - picasso-ws
     ports:
       - 8080:8080
     volumes:
       - .:/var/www
+  picasso-ws:
+    build: docker/picasso-ws
+    volumes:
+      - ./docker/picasso-ws/index.php:/var/www/public/index.php
   db:
     image: mariadb
     environment:
@@ -20,5 +27,7 @@ services:
       MARIADB_PASSWORD: ginger
   adminer:
     image: adminer
+    depends_on:
+      - db
     ports:
       - 8081:8080
