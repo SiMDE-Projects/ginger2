@@ -1,62 +1,60 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Aug 15, 2021 at 12:53 AM
--- Server version: 10.6.3-MariaDB
--- PHP Version: 7.4.22
+-- Hôte : sql.mde.utc:3306
+-- Généré le : jeu. 16 sep. 2021 à 15:19
+-- Version du serveur :  10.1.48-MariaDB-0+deb9u1
+-- Version de PHP : 7.2.34-18+0~20210223.60+debian9~1.gbpb21322
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
--- Database: `ginger`
+-- Base de données : `ginger2`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cards`
+-- Structure de la table `cards`
 --
 
+DROP TABLE IF EXISTS `cards`;
 CREATE TABLE `cards` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `type` tinyint(5) NOT NULL,
   `uid` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `memberships`
+-- Structure de la table `memberships`
 --
 
+DROP TABLE IF EXISTS `memberships`;
 CREATE TABLE `memberships` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `debut` date NOT NULL DEFAULT current_timestamp(),
+  `debut` date NOT NULL,
   `fin` date NOT NULL,
   `montant` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Structure de la table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `login` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -65,15 +63,16 @@ CREATE TABLE `users` (
   `mail` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `type` tinyint(5) NOT NULL,
   `is_adulte` tinyint(1) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_access` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Indexes for dumped tables
+-- Index pour les tables déchargées
 --
 
 --
--- Indexes for table `cards`
+-- Index pour la table `cards`
 --
 ALTER TABLE `cards`
   ADD PRIMARY KEY (`id`),
@@ -81,58 +80,54 @@ ALTER TABLE `cards`
   ADD KEY `users_cards` (`user_id`);
 
 --
--- Indexes for table `memberships`
+-- Index pour la table `memberships`
 --
 ALTER TABLE `memberships`
   ADD PRIMARY KEY (`id`),
   ADD KEY `users_memberships` (`user_id`);
 
 --
--- Indexes for table `users`
+-- Index pour la table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `login` (`login`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
--- AUTO_INCREMENT for table `cards`
+-- AUTO_INCREMENT pour la table `cards`
 --
 ALTER TABLE `cards`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `memberships`
+-- AUTO_INCREMENT pour la table `memberships`
 --
 ALTER TABLE `memberships`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Constraints for dumped tables
+-- Contraintes pour les tables déchargées
 --
 
 --
--- Constraints for table `cards`
+-- Contraintes pour la table `cards`
 --
 ALTER TABLE `cards`
   ADD CONSTRAINT `users_cards` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `memberships`
+-- Contraintes pour la table `memberships`
 --
 ALTER TABLE `memberships`
   ADD CONSTRAINT `users_memberships` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
