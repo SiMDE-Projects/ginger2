@@ -34,4 +34,19 @@ class CardCreatorRepository
 
         return $card;
     }
+    
+    public function flagRemoved(Card $card): void
+    {
+      $row = [
+          'user_id' => $card->user_id,
+          'uid' => $card->uid
+      ];
+      
+      $sql = "UPDATE cards SET
+          removed_at = NOW()
+          WHERE
+          user_id = :user_id
+          AND uid = :uid";
+      $this->connection->prepare($sql)->execute($row);
+    }
 }

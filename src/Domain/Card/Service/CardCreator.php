@@ -40,6 +40,32 @@ final class CardCreator
 
         foreach($missingCards as $card)
             $user->cards[] = $this->createCard($user, $card);
+            
+        $this->flagRemovedCards($user, $accountCards);
+
+        usort($user->cards, function ($a, $b) {
+            return $a->type < $b->type;
+        });
+
+        return $user->cards;
+    }
+    
+    private function flagRemovedCards(User $user, ?Array $accountCards = []): Array
+    {
+        //Get cards Acounts returned that are not in user object already
+        $missingCards = [];
+        
+        foreach($user->cards as $dbCard) {
+          $missing = true;
+          foreach($accountCards as $accountCard) {
+            if ($accountCard->uid == $dbCard->uid)
+              $missing = false;
+          }
+          if($missing)
+            $missingCards[] = $dbCard;
+        }
+        foreach($missingCards as $card)
+            $this->cardCreatorRepository->flagRemoved($card);
 
         usort($user->cards, function ($a, $b) {
             return $a->type < $b->type;
