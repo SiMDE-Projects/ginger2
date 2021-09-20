@@ -11,7 +11,7 @@
             break;
         case "/cardLookup":
             //echo "lookup";
-            if($_GET["serialNumber"] != "042A6DAA936A80" && $_GET["serialNumber"] != "6DBEB1B7") {
+            if($_GET["serialNumber"] != "806A93AA6D2A04" && $_GET["serialNumber"] != "B7B1BE6D") {
                 http_response_code(404);
                 exit(404);
             }
