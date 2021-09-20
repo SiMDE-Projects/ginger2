@@ -18,4 +18,10 @@ final class Card
 
     /** @var string */
     public $created_at;
+    
+    /** @var DateTime */
+    public $last_access;
+    
+    /** @var DateTime */
+    public $removed_at;
 }

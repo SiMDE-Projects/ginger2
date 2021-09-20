@@ -26,13 +26,11 @@ class UserReaderRepository
         $sql = "SELECT * FROM users WHERE login = :login;";
         $statement = $this->connection->prepare($sql);
         $statement->execute(['login' => $userLogin]);
-
         $row = $statement->fetch();
 
         if (!$row) {
             throw new UserNotFoundException("User not found by login in db");
         }
-
         return $this->buildUserObject($row);
     }
 
@@ -53,7 +51,7 @@ class UserReaderRepository
 
     public function getUserByCard(string $userCard): User
     {
-        $sql = "SELECT users.* FROM `cards` JOIN users ON users.id = user_id WHERE uid = :card GROUP BY user_id;";
+        $sql = "SELECT users.* FROM `cards` JOIN users ON users.id = user_id WHERE uid = :card AND removed_at IS NOT NULL GROUP BY user_id;";
         $statement = $this->connection->prepare($sql);
         $statement->execute(['card' => $userCard]);
 
@@ -95,7 +93,6 @@ class UserReaderRepository
 
         // Get all cards details
         $user->cards = $this->cardReader->getCardsByUser($user);
-
         // Get all memberships details
         $user->memberships = $this->membershipReader->getMembershipsByUser($user);
 
