@@ -34,11 +34,13 @@ final class UserReadAction
         // Transform the result into the JSON representation
         $cardsResults = [];
         foreach ($user->cards as $card) {
-            $cardsResults[] = [
-                "uid" => $card->uid,
-                "type" => $card->type,
-                "created_at" => $card->created_at,
-            ];
+            if($card->removed_at === null) {
+              $cardsResults[] = [
+                  "uid" => $card->uid,
+                  "type" => $card->type,
+                  "created_at" => $card->created_at,
+              ];
+            }
         }
 
         $result = [
