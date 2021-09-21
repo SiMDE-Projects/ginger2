@@ -21,8 +21,6 @@ CREATE TABLE `cards` (
   CONSTRAINT `users_cards` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-TRUNCATE `cards`;
-
 DROP TABLE IF EXISTS `memberships`;
 CREATE TABLE `memberships` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -36,8 +34,6 @@ CREATE TABLE `memberships` (
   KEY `users_memberships` (`user_id`),
   CONSTRAINT `users_memberships` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-TRUNCATE `memberships`;
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -53,7 +49,5 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-TRUNCATE `users`;
 
 -- 2021-09-21 11:14:54
