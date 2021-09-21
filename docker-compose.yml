@@ -13,13 +13,13 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - .:/var/www
+      - .:/var/www/html
   picasso-ws:
     build: docker/picasso-ws
     volumes:
-      - ./docker/picasso-ws/index.php:/var/www/public/index.php
+      - ./docker/picasso-ws/files:/var/www/
   db:
-    image: mariadb
+    build: docker/db
     environment:
       MARIADB_RANDOM_ROOT_PASSWORD: 1
       MARIADB_DATABASE: ginger
