@@ -7,4 +7,4 @@ Brique logicielle d'identification des étudiants par login / numéro de badge e
 
 ## Installation en local
 
-Un `docker-compose up` met en place tout ce qu'il faut pour tester localement (la base de donnée est pour le moment à initialiser à la main avec le fichier .sql fourni et le login de test est `amiotnoe`
+Un `docker-compose up` met en place tout ce qu'il faut pour tester localement (le login de test est `amiotnoe`)
