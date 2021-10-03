@@ -16,7 +16,7 @@ final class Card
     /** @var int */
     public $type;
 
-    /** @var string */
+    /** @var DateTime */
     public $created_at;
     
     /** @var DateTime */

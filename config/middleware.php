@@ -2,6 +2,7 @@
 
 use Slim\App;
 use Slim\Middleware\ErrorMiddleware;
+use App\Middleware\AuthMiddleware;
 
 return function (App $app) {
     // Parse json, form data and xml
@@ -9,7 +10,8 @@ return function (App $app) {
 
     // Add the Slim built-in routing middleware
     $app->addRoutingMiddleware();
-
+    
+    $app->add(AuthMiddleware::class);
     // Custom error handler
     $customErrorHandler = function (
         Psr\Http\Message\ServerRequestInterface $request,
@@ -30,13 +32,20 @@ return function (App $app) {
             $result["error"]["message"] = $exception->getMessage();
             $result["error"]["code"] = 400;
         } elseif ($exception instanceof \App\Exception\UserNotFoundException ||
-            $exception instanceof \Slim\Exception\HttpNotFoundException)
+            $exception instanceof \Slim\Exception\HttpNotFoundException ||
+            $exception instanceof \Slim\Exception\ApplicationNotFoundException)
             {
             $result["error"]["message"] = $exception->getMessage();
             $result["error"]["code"] = 404;
         } elseif ($exception instanceof \App\Exception\AccountsException) {
             $result["error"]["message"] = "Accounts exception";
             $result["error"]["code"] = 500;
+        } elseif ($exception instanceof \App\Exception\ForbiddenException) {
+            $result["error"]["message"] = "Forbidden";
+            $result["error"]["code"] = 403;
+        } elseif ($exception instanceof \App\Exception\UnauthorizedException) {
+            $result["error"]["message"] = "Unauthorized";
+            $result["error"]["code"] = 401;
         }
 
         if($displayErrorDetails) {
