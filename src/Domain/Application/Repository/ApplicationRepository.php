@@ -19,7 +19,7 @@ class ApplicationRepository
     }
     
     public function getApplicationByKey(string $key): Application {
-      $statement = $this->connection->prepare("SELECT * FROM `applications` WHERE `key` = :key ;");
+      $statement = $this->connection->prepare("SELECT * FROM `applications` WHERE `key` = :key AND removed_at IS NULL;");
       $statement->execute(['key' => $key]);
       $app = $statement->fetch();
       if (!$app) {

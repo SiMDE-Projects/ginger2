@@ -30,6 +30,17 @@ class UserReadActionTest extends TestCase
     $this->assertSame($responseContent["error"]["detail"]["errcode"], 404);
   } 
   
+  public function testDisabledKey() {
+    $request = $this->createRequest("GET", "/falsy", "key=removedAppKey");
+    $response = $this->app->handle($request);
+    $responseContent = json_decode((string)$response->getBody(), true);
+    $this->assertSame($response->getStatusCode(), 500);
+    $this->assertSame($responseContent["error"]["message"], "Uncaught exception");
+    $this->assertSame($responseContent["error"]["code"], 500);
+    $this->assertSame($responseContent["error"]["detail"]["message"], "Application not found by key in db");
+    $this->assertSame($responseContent["error"]["detail"]["errcode"], 404);
+  } 
+  
   public function testNoKey() {
     $request = $this->createRequest("GET", "/falsy");
     $response = $this->app->handle($request);
