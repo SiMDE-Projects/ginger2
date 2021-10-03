@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Domain\Application\Repository;
+namespace SIMDE\Ginger\Domain\Application\Repository;
 
-use App\Exception\ValidationException;
-use App\Exception\ApplicationNotFoundException;
-use App\Domain\Application\Data\Application;
-use App\Domain\Application\Data\Permission;
-use App\Domain\Application\Data\Role;
+use SIMDE\Ginger\Exception\ValidationException;
+use SIMDE\Ginger\Exception\ApplicationNotFoundException;
+use SIMDE\Ginger\Domain\Application\Data\Application;
+use SIMDE\Ginger\Domain\Application\Data\Permission;
+use SIMDE\Ginger\Domain\Application\Data\Role;
 use PDO;
 
 class ApplicationRepository

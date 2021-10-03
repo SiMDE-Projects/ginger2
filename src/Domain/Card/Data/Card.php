@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Card\Data;
+namespace SIMDE\Ginger\Domain\Card\Data;
 
 final class Card
 {

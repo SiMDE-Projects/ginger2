@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Middleware;
+namespace SIMDE\Ginger\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use App\Exception\UnauthorizedException;
-use App\Domain\Application\Service\ApplicationReaderService;
+use SIMDE\Ginger\Exception\UnauthorizedException;
+use SIMDE\Ginger\Domain\Application\Service\ApplicationReaderService;
 
 final class AuthMiddleware implements MiddlewareInterface
 {

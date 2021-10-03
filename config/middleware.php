@@ -2,7 +2,7 @@
 
 use Slim\App;
 use Slim\Middleware\ErrorMiddleware;
-use App\Middleware\AuthMiddleware;
+use SIMDE\Ginger\Middleware\AuthMiddleware;
 
 return function (App $app) {
     // Parse json, form data and xml
@@ -28,22 +28,22 @@ return function (App $app) {
             ]
         ];
 
-        if ($exception instanceof \App\Exception\ValidationException) {
+        if ($exception instanceof \SIMDE\Ginger\Exception\ValidationException) {
             $result["error"]["message"] = $exception->getMessage();
             $result["error"]["code"] = 400;
-        } elseif ($exception instanceof \App\Exception\UserNotFoundException ||
+        } elseif ($exception instanceof \SIMDE\Ginger\Exception\UserNotFoundException ||
             $exception instanceof \Slim\Exception\HttpNotFoundException ||
             $exception instanceof \Slim\Exception\ApplicationNotFoundException)
             {
             $result["error"]["message"] = $exception->getMessage();
             $result["error"]["code"] = 404;
-        } elseif ($exception instanceof \App\Exception\AccountsException) {
+        } elseif ($exception instanceof \SIMDE\Ginger\Exception\AccountsException) {
             $result["error"]["message"] = "Accounts exception";
             $result["error"]["code"] = 500;
-        } elseif ($exception instanceof \App\Exception\ForbiddenException) {
+        } elseif ($exception instanceof \SIMDE\Ginger\Exception\ForbiddenException) {
             $result["error"]["message"] = "Forbidden";
             $result["error"]["code"] = 403;
-        } elseif ($exception instanceof \App\Exception\UnauthorizedException) {
+        } elseif ($exception instanceof \SIMDE\Ginger\Exception\UnauthorizedException) {
             $result["error"]["message"] = "Unauthorized";
             $result["error"]["code"] = 401;
         }

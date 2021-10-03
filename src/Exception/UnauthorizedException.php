@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception;
+namespace SIMDE\Ginger\Exception;
 
 use RuntimeException;
 use Throwable;

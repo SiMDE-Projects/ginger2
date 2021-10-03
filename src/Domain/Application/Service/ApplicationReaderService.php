@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\Application\Service;
+namespace SIMDE\Ginger\Domain\Application\Service;
 
-use App\Domain\Application\Data\Application;
-use App\Domain\Application\Repository\ApplicationRepository;
-use App\Exception\ValidationException;
+use SIMDE\Ginger\Domain\Application\Data\Application;
+use SIMDE\Ginger\Domain\Application\Repository\ApplicationRepository;
+use SIMDE\Ginger\Exception\ValidationException;
 
 final class ApplicationReaderService
 {

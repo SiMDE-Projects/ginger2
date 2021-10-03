@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain\Card\Repository;
+namespace SIMDE\Ginger\Domain\Card\Repository;
 
-use App\Domain\Card\Data\Card;
+use SIMDE\Ginger\Domain\Card\Data\Card;
 use PDO;
 
 class CardCreatorRepository

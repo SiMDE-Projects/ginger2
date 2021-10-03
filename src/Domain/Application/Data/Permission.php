@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Application\Data;
+namespace SIMDE\Ginger\Domain\Application\Data;
 
 final class Permission
 {

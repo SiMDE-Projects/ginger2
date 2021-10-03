@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\Membership\Service;
+namespace SIMDE\Ginger\Domain\Membership\Service;
 
-use App\Domain\User\Data\User;
-use App\Domain\Membership\Data\Membership;
-use App\Domain\Membership\Repository\MembershipReaderRepository;
-use App\Exception\ValidationException;
+use SIMDE\Ginger\Domain\User\Data\User;
+use SIMDE\Ginger\Domain\Membership\Data\Membership;
+use SIMDE\Ginger\Domain\Membership\Repository\MembershipReaderRepository;
+use SIMDE\Ginger\Exception\ValidationException;
 
 final class MembershipReader
 {

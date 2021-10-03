@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Domain\User\Repository;
+namespace SIMDE\Ginger\Domain\User\Repository;
 
-use App\Domain\User\Data\User;
-use App\Domain\Card\Service\CardCreator;
+use SIMDE\Ginger\Domain\User\Data\User;
+use SIMDE\Ginger\Domain\Card\Service\CardCreator;
 use PDO;
 
 class UserCreatorRepository

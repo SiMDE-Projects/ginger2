@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Domain\User\Service;
+namespace SIMDE\Ginger\Domain\User\Service;
 
-use App\Domain\User\Data\User;
-use App\Domain\User\Service\UserAccountsReader;
-use App\Domain\Card\Service\CardCreator;
-use App\Domain\User\Repository\UserReaderRepository;
-use App\Domain\User\Repository\UserCreatorRepository;
-use App\Exception\ValidationException;
-use App\Exception\UserNotFoundException;
+use SIMDE\Ginger\Domain\User\Data\User;
+use SIMDE\Ginger\Domain\User\Service\UserAccountsReader;
+use SIMDE\Ginger\Domain\Card\Service\CardCreator;
+use SIMDE\Ginger\Domain\User\Repository\UserReaderRepository;
+use SIMDE\Ginger\Domain\User\Repository\UserCreatorRepository;
+use SIMDE\Ginger\Exception\ValidationException;
+use SIMDE\Ginger\Exception\UserNotFoundException;
 
 final class UserReader
 {

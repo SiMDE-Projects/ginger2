@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\Membership\Repository;
+namespace SIMDE\Ginger\Domain\Membership\Repository;
 
-use App\Domain\User\Data\User;
-use App\Domain\Membership\Data\Membership;
-use App\Exception\ValidationException;
+use SIMDE\Ginger\Domain\User\Data\User;
+use SIMDE\Ginger\Domain\Membership\Data\Membership;
+use SIMDE\Ginger\Exception\ValidationException;
 use PDO;
 
 class MembershipReaderRepository

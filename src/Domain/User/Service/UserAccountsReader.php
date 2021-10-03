@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\User\Service;
+namespace SIMDE\Ginger\Domain\User\Service;
 
-use App\Domain\User\Data\User;
-use App\Domain\User\Repository\UserAccountsReaderRepository;
-use App\Domain\User\Repository\UserCreatorRepository;
-use App\Exception\ValidationException;
+use SIMDE\Ginger\Domain\User\Data\User;
+use SIMDE\Ginger\Domain\User\Repository\UserAccountsReaderRepository;
+use SIMDE\Ginger\Domain\User\Repository\UserCreatorRepository;
+use SIMDE\Ginger\Exception\ValidationException;
 
 final class UserAccountsReader
 {

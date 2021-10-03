@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Action;
+namespace SIMDE\Ginger\Action;
 
-use App\Domain\User\Service\UserReader;
-use App\Domain\Application\Service\ApplicationReaderService;
-use App\Domain\Application\Data\Application;
-use App\Domain\Application\Data\Permission;
+use SIMDE\Ginger\Domain\User\Service\UserReader;
+use SIMDE\Ginger\Domain\Application\Service\ApplicationReaderService;
+use SIMDE\Ginger\Domain\Application\Data\Application;
+use SIMDE\Ginger\Domain\Application\Data\Permission;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use App\Exception\ForbiddenException;
+use SIMDE\Ginger\Exception\ForbiddenException;
 
 /* Get user base on various full informations */
 final class UserReadAction

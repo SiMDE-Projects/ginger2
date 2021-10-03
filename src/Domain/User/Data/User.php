@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\User\Data;
+namespace SIMDE\Ginger\Domain\User\Data;
 
 final class User
 {
