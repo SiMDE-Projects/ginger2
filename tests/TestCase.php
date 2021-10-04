@@ -62,7 +62,7 @@ class TestCase extends PHPUnit_TestCase
         array $cookies = [],
         array $serverParams = []
     ): Request {
-        $uri = new Uri('', '', 80, $path, $query);
+        $uri = new Uri('', '', 80, BASE_PATH . $path, $query);
         $handle = fopen('php://temp', 'w+');
         $stream = (new StreamFactory())->createStreamFromResource($handle);
 
