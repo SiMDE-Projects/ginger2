@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Membership\Data;
+namespace SIMDE\Ginger\Domain\Membership\Data;
 
 final class Membership
 {

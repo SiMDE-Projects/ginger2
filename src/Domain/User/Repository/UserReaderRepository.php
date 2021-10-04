@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\User\Repository;
+namespace SIMDE\Ginger\Domain\User\Repository;
 
-use App\Domain\User\Data\User;
-use App\Domain\Card\Service\CardReader;
-use App\Domain\Membership\Service\MembershipReader;
-use App\Exception\UserNotFoundException;
+use SIMDE\Ginger\Domain\User\Data\User;
+use SIMDE\Ginger\Domain\Card\Service\CardReader;
+use SIMDE\Ginger\Domain\Membership\Service\MembershipReader;
+use SIMDE\Ginger\Exception\UserNotFoundException;
 use PDO;
 
 class UserReaderRepository
@@ -14,7 +14,7 @@ class UserReaderRepository
     private $cardReader;
     private $membershipReader;
 
-    public function __construct(PDO $connection, \App\Domain\Card\Service\CardReader $cardReader, MembershipReader $membershipReader)
+    public function __construct(PDO $connection, \SIMDE\Ginger\Domain\Card\Service\CardReader $cardReader, MembershipReader $membershipReader)
     {
         $this->connection = $connection;
         $this->cardReader = $cardReader;

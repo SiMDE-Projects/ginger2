@@ -1,19 +1,25 @@
 <?php
 
-namespace App\Action;
+namespace SIMDE\Ginger\Action;
 
-use App\Domain\User\Service\UserReader;
+use SIMDE\Ginger\Domain\User\Service\UserReader;
+use SIMDE\Ginger\Domain\Application\Service\ApplicationReaderService;
+use SIMDE\Ginger\Domain\Application\Data\Application;
+use SIMDE\Ginger\Domain\Application\Data\Permission;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use SIMDE\Ginger\Exception\ForbiddenException;
 
 /* Get user base on various full informations */
 final class UserReadAction
 {
     private $userReader;
-
-    public function __construct(UserReader $userReader)
+    private $applicationReaderService;
+  
+    public function __construct(UserReader $userReader, ApplicationReaderService $applicationReaderService)
     {
         $this->userReader = $userReader;
+        $this->applicationReaderService = $applicationReaderService;
     }
 
     public function __invoke(
@@ -24,12 +30,15 @@ final class UserReadAction
 
         // Depending on the information we have, get User object based on it
         $user = null;
-        if (isset($args['login']))
-            $user = $this->userReader->getUserDetailsByLogin((string)$args['login']);
-        else if (isset($args['mail']))
-            $user = $this->userReader->getUserDetailsByMail((string)$args['mail']);
-        else if (isset($args['card']))
-            $user = $this->userReader->getUserDetailsByCard((string)$args['card']);
+        if (isset($args['login'])) {
+          //$this->isAllowed($request->getAttribute("application"), Permission::LOGIN_CAN_READ);
+          $user = $this->userReader->getUserDetailsByLogin((string)$args['login']);
+        } else if (isset($args['mail'])) {
+          $user = $this->userReader->getUserDetailsByMail((string)$args['mail']);
+        } else if (isset($args['card'])) {
+          //$this->isAllowed($request->getAttribute("application"), Permission::LOGIN_CAN_READ);
+          $user = $this->userReader->getUserDetailsByCard((string)$args['card']);
+        }
 
         // Transform the result into the JSON representation
         $cardsResults = [];
@@ -60,5 +69,12 @@ final class UserReadAction
         $response->getBody()->write((string)json_encode($result));
 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
+    }
+    
+    private function isAllowed(Application $application, string $permission)
+    {
+      if(!$this->applicationReaderService->isAllowed($application, $permission)){
+          throw new ForbiddenException("Missing permission for this application");  
+      }
     }
 }

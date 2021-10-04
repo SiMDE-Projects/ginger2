@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Card\Data;
+namespace SIMDE\Ginger\Domain\Card\Data;
 
 final class Card
 {
@@ -16,7 +16,7 @@ final class Card
     /** @var int */
     public $type;
 
-    /** @var string */
+    /** @var DateTime */
     public $created_at;
     
     /** @var DateTime */

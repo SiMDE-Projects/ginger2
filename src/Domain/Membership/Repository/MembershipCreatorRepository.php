@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain\Membership\Repository;
+namespace SIMDE\Ginger\Domain\Membership\Repository;
 
-use App\Domain\Membership\Data\Membership;
+use SIMDE\Ginger\Domain\Membership\Data\Membership;
 use PDO;
 
 class MembershipCreatorRepository

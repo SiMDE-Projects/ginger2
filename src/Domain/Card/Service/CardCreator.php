@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\Card\Service;
+namespace SIMDE\Ginger\Domain\Card\Service;
 
-use App\Domain\User\Data\User;
-use App\Domain\Card\Data\Card;
-use App\Domain\Card\Repository\CardCreatorRepository;
-use App\Exception\ValidationException;
+use SIMDE\Ginger\Domain\User\Data\User;
+use SIMDE\Ginger\Domain\Card\Data\Card;
+use SIMDE\Ginger\Domain\Card\Repository\CardCreatorRepository;
+use SIMDE\Ginger\Exception\ValidationException;
 
 final class CardCreator
 {

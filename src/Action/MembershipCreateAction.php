@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Action;
+namespace SIMDE\Ginger\Action;
 
-use App\Domain\User\Service\UserReader;
-use App\Domain\Membership\Service\MembershipCreator;
+use SIMDE\Ginger\Domain\User\Service\UserReader;
+use SIMDE\Ginger\Domain\Membership\Service\MembershipCreator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 

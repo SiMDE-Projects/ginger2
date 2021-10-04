@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\User\Repository;
+namespace SIMDE\Ginger\Domain\User\Repository;
 
-use App\Domain\User\Data\User;
-use App\Domain\Card\Data\Card;
-use App\Exception\AccountsException;
-use App\Exception\UserNotFoundException;
+use SIMDE\Ginger\Domain\User\Data\User;
+use SIMDE\Ginger\Domain\Card\Data\Card;
+use SIMDE\Ginger\Exception\AccountsException;
+use SIMDE\Ginger\Exception\UserNotFoundException;
 
 /* User accounts */
 class UserAccountsReaderRepository
