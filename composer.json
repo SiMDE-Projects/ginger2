@@ -1,4 +1,7 @@
 {
+  "name": "simde/ginger",
+  "description": "Brique logicielle d'identification des étudiants par login / numéro de badge et de gestion des cotisations",
+  "license": "proprietary",
   "require": {
     "php": "^7.3 || ^8.0",
     "ext-json": "*",
