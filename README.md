@@ -1,4 +1,4 @@
-# Ginger V2
+# Ginger V2 [![Tests](https://github.com/simde-utc/ginger2/actions/workflows/test.yml/badge.svg)](https://github.com/simde-utc/ginger2/actions/workflows/test.yml)
 
 - Ginger : `http://localhost:8080`
 - Adminer : `http://localhost:8081`
