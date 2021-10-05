@@ -1,0 +1,15 @@
+name: Docker Compose Actions Workflow
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the stack
+        run: docker-compose up -d
+      - name: Create test env
+        run: cp config/env.example.php config/env.php
+      - name: Composer install
+        run: docker-compose run ginger2 composer install
+      - name: Run test suite
+        run: docker-compose run ginger2 composer test
