@@ -23,7 +23,7 @@ class UserReaderRepository
 
     public function getUserByLogin(string $userLogin): User
     {
-        $sql = "SELECT * FROM users WHERE login = :login;";
+        $sql = "SELECT u.id, u.login, IFNULL(uo.prenom, u.prenom) AS prenom, IFNULL(uo.nom, u.nom) AS nom, IFNULL(uo.mail, u.mail) AS mail, IFNULL(uo.type, u.type) AS type, IFNULL(uo.is_adulte, u.is_adulte) AS is_adulte, u.created_at, u.last_access FROM users u LEFT JOIN user_overrides uo ON u.id = uo.user_id WHERE login = :login;";
         $statement = $this->connection->prepare($sql);
         $statement->execute(['login' => $userLogin]);
         $row = $statement->fetch();
@@ -37,7 +37,7 @@ class UserReaderRepository
 
     public function getUserByMail(string $userMail): User
     {
-        $sql = "SELECT * FROM users WHERE mail = :mail;";
+        $sql = "SELECT u.id, u.login, IFNULL(uo.prenom, u.prenom) AS prenom, IFNULL(uo.nom, u.nom) AS nom, IFNULL(uo.mail, u.mail) AS mail, IFNULL(uo.type, u.type) AS type, IFNULL(uo.is_adulte, u.is_adulte) AS is_adulte, u.created_at, u.last_access FROM users u LEFT JOIN user_overrides uo ON u.id = uo.user_id WHERE mail = :mail;";
         $statement = $this->connection->prepare($sql);
         $statement->execute(['mail' => $userMail]);
 
@@ -66,7 +66,7 @@ class UserReaderRepository
 
     public function getUsersLikeLogin(string $partInfo): Array
     {
-        $sql = "SELECT * FROM users WHERE login LIKE :info OR mail LIKE :info OR nom LIKE :info OR prenom LIKE :info LIMIT 10;";
+        $sql = "SELECT u.id, u.login, IFNULL(uo.prenom, u.prenom) AS prenom, IFNULL(uo.nom, u.nom) AS nom, IFNULL(uo.mail, u.mail) AS mail, IFNULL(uo.type, u.type) AS type, IFNULL(uo.is_adulte, u.is_adulte) AS is_adulte, u.created_at, u.last_access FROM users u LEFT JOIN user_overrides uo ON u.id = uo.user_id WHERE login LIKE :info OR mail LIKE :info OR nom LIKE :info OR prenom LIKE :info LIMIT 10;";
         $statement = $this->connection->prepare($sql);
         $statement->execute(['info' => "%$partInfo%"]);
 

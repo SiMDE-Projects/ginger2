@@ -17,6 +17,9 @@ final class Permission
     
     const LOGIN_CAN_READ          = "LOGIN_CAN_READ";
     const LOGIN_CAN_UDPATE        = "LOGIN_CAN_UDPATE";
+    
+    const MAIL_CAN_READ          = "MAIL_CAN_READ";
+    const MAIL_CAN_UDPATE        = "MAIL_CAN_UDPATE";
   
     /** @var int */
     public $id;

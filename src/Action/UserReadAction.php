@@ -27,16 +27,17 @@ final class UserReadAction
         ResponseInterface $response,
         array $args = []
     ): ResponseInterface {
-
+        $application = $request->getAttribute("application");
         // Depending on the information we have, get User object based on it
         $user = null;
         if (isset($args['login'])) {
-          //$this->isAllowed($request->getAttribute("application"), Permission::LOGIN_CAN_READ);
+          $this->isAllowed($request->getAttribute("application"), [Permission::LOGIN_CAN_READ]);
           $user = $this->userReader->getUserDetailsByLogin((string)$args['login']);
         } else if (isset($args['mail'])) {
+          $this->isAllowed($request->getAttribute("application"), [Permission::MAIL_CAN_READ]);
           $user = $this->userReader->getUserDetailsByMail((string)$args['mail']);
         } else if (isset($args['card'])) {
-          //$this->isAllowed($request->getAttribute("application"), Permission::LOGIN_CAN_READ);
+          $this->isAllowed($request->getAttribute("application"), [Permission::CARD_CAN_READ, Permission::CARDS_CAN_READ_LIST]);
           $user = $this->userReader->getUserDetailsByCard((string)$args['card']);
         }
 
@@ -60,10 +61,16 @@ final class UserReadAction
             'type' => $user->getFullType(),
             'is_adulte' => $user->is_adulte ? true : false,
             'is_cotisant' => $user->getCotisationStatus(),
-            'last_access' => $user->last_access,
-            'badge_uid' => empty($cardsResults) ? null : $cardsResults[0]["uid"],
-            'cards' => $cardsResults,
+            'last_access' => $user->last_access
         ];
+        
+        if($this->applicationReaderService->isAllowed($application, Permission::CARDS_CAN_READ_LIST)) {
+          $result['cards'] = $cardsResults;
+          $result['badge_uid'] = empty($cardsResults) ? null : $cardsResults[0]["uid"];
+        }
+        if($this->applicationReaderService->isAllowed($application, Permission::CARDS_CAN_READ)) {
+          $result['badge_uid'] = empty($cardsResults) ? null : $cardsResults[0]["uid"];
+        }
 
         // Build the HTTP response
         $response->getBody()->write((string)json_encode($result));
@@ -71,10 +78,15 @@ final class UserReadAction
         return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
     
-    private function isAllowed(Application $application, string $permission)
+    private function isAllowed(Application $application, array $permissions)
     {
-      if(!$this->applicationReaderService->isAllowed($application, $permission)){
-          throw new ForbiddenException("Missing permission for this application");  
+      $allowed = false;
+      foreach ($permissions as $permission) {
+        $allowed = $this->applicationReaderService->isAllowed($application, $permission);
+        if($allowed){
+          return;
+        }
       }
+      throw new ForbiddenException("Missing permission for this application");  
     }
 }

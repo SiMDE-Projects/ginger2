@@ -28,6 +28,7 @@ class ApplicationRepository
       
       $result = $this->buildApplicationObject($app);
       $result->permissions = $this->getApplicationPermissions($result);
+      $this->updateLastAccessAttribute($result);
       
       return $result;
     }
@@ -72,5 +73,11 @@ class ApplicationRepository
         $permission->description = (string)$row['description'];
         $permission->created_at = $row['created_at'];
         return $permission;
+    }
+    
+    public function updateLastAccessAttribute(Application $applicationKey) {
+      $sql = "UPDATE `applications` SET `last_access` = NOW() WHERE `key`=:key;";
+      $statement = $this->connection->prepare($sql);
+      $statement->execute(['key' => $applicationKey->key]);
     }
 }

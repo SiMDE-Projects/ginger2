@@ -3,6 +3,7 @@
 namespace SIMDE\Ginger\Domain\User\Repository;
 
 use SIMDE\Ginger\Domain\User\Data\User;
+use SIMDE\Ginger\Domain\User\Repository\UserReaderRepository;
 use SIMDE\Ginger\Domain\Card\Service\CardCreator;
 use PDO;
 
@@ -10,11 +11,13 @@ class UserCreatorRepository
 {
     private $connection;
     private $cardCreator;
+    private $userReaderRepository;
 
-    public function __construct(PDO $connection, CardCreator $cardCreator)
+    public function __construct(PDO $connection, CardCreator $cardCreator, UserReaderRepository $userReaderRepository)
     {
         $this->connection = $connection;
         $this->cardCreator = $cardCreator;
+        $this->userReaderRepository = $userReaderRepository;
     }
 
     public function insertUser(User $user): User
@@ -69,11 +72,6 @@ class UserCreatorRepository
             WHERE login = :login;";
         $this->connection->prepare($sql)->execute($row);
         
-        $sql = "SELECT last_access FROM users WHERE login=:login;";
-        $statement = $this->connection->prepare($sql);
-        $statement->execute(['login'=>$user->login]);
-        $last_access = $statement->fetch();
-        $user->last_access = $last_access['last_access'];
-        return $user;
+        return $this->userReaderRepository->getUserByLogin($user->login);
     }
 }
