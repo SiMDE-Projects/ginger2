@@ -75,20 +75,45 @@ class UserReadActionTest extends TestCase
   }
   
   public function testCardFound() {
-    $request = $this->createRequest("GET", "/badge/042A6DAA936A80", "key=validAppKey");
+    $request = $this->createRequest("GET", "/badge/AABBCCDDEEFF", "key=validAppKey");
     $response = $this->app->handle($request);
     $responseContent = json_decode((string)$response->getBody(), true);
     $this->assertSame($response->getStatusCode(), 200);
-    $this->assertSame($responseContent["login"], "amiotnoe");
-    $this->assertSame($responseContent["badge_uid"], "042A6DAA936A80");
+    $this->assertSame($responseContent["login"], "testlogin");
+    $this->assertSame($responseContent["badge_uid"], "AABBCCDDEEFF");
   }
   
   public function testLoginFound() {
-    $request = $this->createRequest("GET", "/badge/042A6DAA936A80", "key=validAppKey");
+    $request = $this->createRequest("GET", "/badge/AABBCCDDEEFF", "key=validAppKey");
     $response = $this->app->handle($request);
     $responseContent = json_decode((string)$response->getBody(), true);
     $this->assertSame($response->getStatusCode(), 200);
-    $this->assertSame($responseContent["login"], "amiotnoe");
-    $this->assertSame($responseContent["badge_uid"], "042A6DAA936A80");
+    $this->assertSame($responseContent["login"], "testlogin");
+    $this->assertSame($responseContent["badge_uid"], "AABBCCDDEEFF");
+  }
+  
+  public function testPartialFound() {
+    $request = $this->createRequest("GET", "/find/john.doe", "key=validAppKey");
+    $response = $this->app->handle($request);
+    $responseContent = json_decode((string)$response->getBody(), true);
+    $this->assertSame(count($responseContent), 1);
+    $this->assertSame(count($responseContent[0]), 4);
+    $this->assertSame($responseContent[0]["login"], "testlogin");
+    $this->assertSame($responseContent[0]["mail"], "john.doe@etu.utc.fr");
+    $this->assertSame($responseContent[0]["nom"], "DOE");
+    $this->assertSame($responseContent[0]["prenom"], "John");
+    $this->assertSame($responseContent[0]["badge_uid"], null);
+  }
+  
+  public function testMailFound() {
+    $request = $this->createRequest("GET", "/mail/john.doe@etu.utc.fr", "key=validAppKey");
+    $response = $this->app->handle($request);
+    $responseContent = json_decode((string)$response->getBody(), true);
+    $this->assertSame($response->getStatusCode(), 200);
+    $this->assertSame($responseContent["login"], "testlogin");
+    $this->assertSame($responseContent["mail"], "john.doe@etu.utc.fr");
+    $this->assertSame($responseContent["nom"], "DOE");
+    $this->assertSame($responseContent["prenom"], "John");
+    $this->assertSame($responseContent["badge_uid"], "AABBCCDDEEFF");
   }
 }
