@@ -37,7 +37,19 @@ class UserReaderRepository
 
     public function getUserByMail(string $userMail): User
     {
-        $sql = "SELECT u.id, u.login, IFNULL(uo.prenom, u.prenom) AS prenom, IFNULL(uo.nom, u.nom) AS nom, IFNULL(uo.mail, u.mail) AS mail, IFNULL(uo.type, u.type) AS type, IFNULL(uo.is_adulte, u.is_adulte) AS is_adulte, u.created_at, u.last_access FROM users u LEFT JOIN user_overrides uo ON u.id = uo.user_id WHERE mail = :mail;";
+        $sql = "SELECT
+        u.id,
+        u.login,
+        IFNULL(uo.prenom, u.prenom) AS prenom,
+        IFNULL(uo.nom, u.nom) AS nom,
+        IFNULL(uo.mail, u.mail) AS mail,
+        IFNULL(uo.type, u.type) AS type,
+        IFNULL(uo.is_adulte, u.is_adulte) AS is_adulte,
+        u.created_at,
+        u.last_access
+        FROM users u
+        LEFT JOIN user_overrides uo ON u.id = uo.user_id
+        WHERE mail = :mail;";
         $statement = $this->connection->prepare($sql);
         $statement->execute(['mail' => $userMail]);
 
@@ -52,7 +64,21 @@ class UserReaderRepository
 
     public function getUserByCard(string $userCard): User
     {
-        $sql = "SELECT users.* FROM `cards` JOIN users ON users.id = user_id WHERE uid = :card GROUP BY user_id;";
+        $sql = "SELECT
+        u.id,
+        u.login,
+        IFNULL(uo.prenom, u.prenom) AS prenom,
+        IFNULL(uo.nom, u.nom) AS nom,
+        IFNULL(uo.mail, u.mail) AS mail,
+        IFNULL(uo.type, u.type) AS type,
+        IFNULL(uo.is_adulte, u.is_adulte) AS is_adulte,
+        u.created_at,
+        u.last_access
+        FROM `cards` c
+        INNER JOIN users u ON u.id = c.user_id
+        LEFT JOIN user_overrides uo ON u.id = uo.user_id
+        WHERE c.uid = :card
+        GROUP BY c.user_id;";
         $statement = $this->connection->prepare($sql);
         $statement->execute(['card' => $userCard]);
         
@@ -66,7 +92,26 @@ class UserReaderRepository
 
     public function getUsersLikeLogin(string $partInfo): Array
     {
-        $sql = "SELECT u.id, u.login, IFNULL(uo.prenom, u.prenom) AS prenom, IFNULL(uo.nom, u.nom) AS nom, IFNULL(uo.mail, u.mail) AS mail, IFNULL(uo.type, u.type) AS type, IFNULL(uo.is_adulte, u.is_adulte) AS is_adulte, u.created_at, u.last_access FROM users u LEFT JOIN user_overrides uo ON u.id = uo.user_id WHERE login LIKE :info OR mail LIKE :info OR nom LIKE :info OR prenom LIKE :info LIMIT 10;";
+        $sql = "SELECT
+        u.id,
+        u.login,
+        IFNULL(uo.prenom, u.prenom) AS prenom,
+        IFNULL(uo.nom, u.nom) AS nom,
+        IFNULL(uo.mail, u.mail) AS mail,
+        IFNULL(uo.type, u.type) AS type,
+        IFNULL(uo.is_adulte, u.is_adulte) AS is_adulte,
+        u.created_at,
+        u.last_access
+        FROM users u
+        LEFT JOIN user_overrides uo ON u.id = uo.user_id
+        WHERE login LIKE :info
+        OR u.mail LIKE :info
+        OR u.nom LIKE :info
+        OR u.prenom LIKE :info
+        OR uo.mail LIKE :info
+        OR uo.nom LIKE :info
+        OR uo.prenom LIKE :info
+        LIMIT 10;";
         $statement = $this->connection->prepare($sql);
         $statement->execute(['info' => "%$partInfo%"]);
 

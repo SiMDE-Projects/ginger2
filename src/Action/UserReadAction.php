@@ -37,7 +37,7 @@ final class UserReadAction
           $this->isAllowed($request->getAttribute("application"), [Permission::MAIL_CAN_READ]);
           $user = $this->userReader->getUserDetailsByMail((string)$args['mail']);
         } else if (isset($args['card'])) {
-          $this->isAllowed($request->getAttribute("application"), [Permission::CARD_CAN_READ, Permission::CARDS_CAN_READ_LIST]);
+          $this->isAllowed($request->getAttribute("application"), [Permission::CARDS_CAN_READ, Permission::CARDS_CAN_READ_LIST]);
           $user = $this->userReader->getUserDetailsByCard((string)$args['card']);
         }
 
