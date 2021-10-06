@@ -10,7 +10,7 @@ use Slim\Psr7\Uri;
 use Slim\Factory\ServerRequestCreatorFactory;
 
 
-class UserReadActionTest extends TestCase
+class UserFindActionTest extends TestCase
 {
   protected $app;
 
