@@ -49,7 +49,8 @@ class UserReaderRepository
         u.last_access
         FROM users u
         LEFT JOIN user_overrides uo ON u.id = uo.user_id
-        WHERE mail = :mail;";
+        WHERE u.mail = :mail
+        OR uo.mail = :mail;";
         $statement = $this->connection->prepare($sql);
         $statement->execute(['mail' => $userMail]);
 
