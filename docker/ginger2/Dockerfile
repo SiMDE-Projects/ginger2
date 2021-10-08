@@ -1,7 +1,6 @@
 FROM php:7.4-apache
-RUN apt update && \
-  apt upgrade -y -qq apt-utils libzip-dev zip unzip \
-    && apt install -y -qq apt-utils libzip-dev zip unzip \
+RUN apt update \
+    && apt install -y -qq apt-utils git libzip-dev zip unzip \
     && docker-php-ext-install mysqli pdo_mysql zip \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug
