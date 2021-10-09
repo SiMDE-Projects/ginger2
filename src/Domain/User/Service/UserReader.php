@@ -68,14 +68,17 @@ final class UserReader
         // Validation
         if (empty($card))
             throw new ValidationException('Card UID required');
-
         $user = false;
         try {
             $user = $this->userReaderRepository->getUserByCard($card);
         } catch(UserNotFoundException $e) {} // Do nothing, not found in db is not fatal
         finally {
             if(!$user || !$user->id || $user->type != 4) {
-              return  $this->handleUserSync($user, $this->userAccountsReader->getUserByCard($card));
+              $userAccounts = $this->userAccountsReader->getUserByCard($card);
+              if(!$user) {
+                $user = $this->getUserDetailsByLogin($userAccounts->login);
+              }
+              return  $this->handleUserSync($user, $userAccounts);
             } else {
               return $this->updateLastAccessAttribute($user->login);
             }
@@ -94,7 +97,7 @@ final class UserReader
     }
 
     private function handleUserSync($userDb, User $userAccounts) {
-        if(!$userDb || !$userDb->id) {
+        if(!$userDb || !$userDb->login) {
             return $this->userCreatorRepository->insertUser($userAccounts);
         } else if($user->type != 4) {
             $userAccounts->id = $userDb->id;

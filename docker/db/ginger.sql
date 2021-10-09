@@ -112,7 +112,8 @@ INSERT INTO `role_permissions` (`role`, `permission`) VALUES
 (4,	8),
 (4,	9),
 (4,	10),
-(4,	11);
+(4,	11),
+(4,	13);
 
 CREATE TABLE `application_permissions` (
   `application` int(11) NOT NULL,
@@ -160,6 +161,12 @@ CREATE TABLE `user_overrides` (
   CONSTRAINT `user_overrides_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+INSERT INTO `applications` (`id`, `key`, `name`, `owner`, `created_at`, `last_access`, `removed_at`) VALUES
+(1,	'validAppKey',	'Active test application',	'SiMDE',	'2021-10-06 18:07:12',	'2021-10-06 18:07:12',	NULL),
+(2,	'removedAppKey',	'Removed test application',	'SiMDE',	'2021-10-06 12:08:40',	'2021-10-06 12:07:48',	'2021-10-06 12:07:48');
+INSERT INTO `application_roles` (`application`, `role`) VALUES
+(1,	4),
+(2,	4);
 INSERT INTO `application_roles` (`application`, `role`) SELECT `id`, 4 FROM `applications`;
 
 -- 2021-10-05 11:23:52
