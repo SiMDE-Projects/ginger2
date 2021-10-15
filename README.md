@@ -7,4 +7,6 @@ Brique logicielle d'identification des étudiants par login / numéro de badge e
 
 ## Installation en local
 
-Un `docker-compose up` met en place tout ce qu'il faut pour tester localement (le login de test est `amiotnoe`)
+Faire un `docker-compose build` puis `composer install` et déplacer le fichier `config/env.example.php` vers `config/env.php` pour préparer le fs.
+
+Lancer `docker-compose up` met en place tout ce qu'il faut pour tester localement (le login de test est `testlogin` et l'appkey de test est `validAppKey`)
