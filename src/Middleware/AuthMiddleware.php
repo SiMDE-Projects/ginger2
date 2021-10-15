@@ -23,7 +23,7 @@ final class AuthMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-      $apiKey = $request->getQueryParams()['key'];
+      $apiKey = $request->getParams()['key'];
       if (!$apiKey) {
           throw new UnauthorizedException('Api key is missing');
       }
