@@ -84,11 +84,14 @@ class UserReadActionTest extends TestCase
   }
   
   public function testLoginFound() {
-    $request = $this->createRequest("GET", "/badge/AABBCCDDEEFF", "key=validAppKey");
+    $request = $this->createRequest("GET", "/testlogin", "key=validAppKey");
     $response = $this->app->handle($request);
     $responseContent = json_decode((string)$response->getBody(), true);
     $this->assertSame($response->getStatusCode(), 200);
     $this->assertSame($responseContent["login"], "testlogin");
+    $this->assertSame($responseContent["mail"], "john.doe@etu.utc.fr");
+    $this->assertSame($responseContent["nom"], "DOE");
+    $this->assertSame($responseContent["prenom"], "John");
     $this->assertSame($responseContent["badge_uid"], "AABBCCDDEEFF");
   }
   

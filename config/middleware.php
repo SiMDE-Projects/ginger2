@@ -59,7 +59,7 @@ return function (App $app) {
         $response->getBody()->write(json_encode($result));
         return $response->withHeader('Content-Type', 'application/json')->withStatus($result["error"]["code"]);
     };
-    $errorMiddleware = $app->addErrorMiddleware("DETAILED_ERRORS", true, true);
+    $errorMiddleware = $app->addErrorMiddleware(DETAILED_ERRORS, true, true);
     $errorMiddleware->setDefaultErrorHandler($customErrorHandler);
 
     // Add Error Middleware
