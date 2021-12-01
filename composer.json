@@ -13,7 +13,7 @@
     "slim/slim": "^4.8"
   },
   "require-dev": {
-    "php-coveralls/php-coveralls": "^2.4",
+    "php-coveralls/php-coveralls": "^2.5",
     "phpunit/phpunit": "^9.5",
     "spatie/phpunit-watcher": "^1.23"
   },
