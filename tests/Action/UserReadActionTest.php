@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SIMDE\Ginger\Test\Action\UserReadActionTest;
+namespace SIMDE\Ginger\Test\Action;
 
 use SIMDE\Ginger\Domain\User\Data\User;
 use Slim\Psr7\Environment;
