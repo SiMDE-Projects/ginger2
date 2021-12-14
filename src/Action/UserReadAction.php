@@ -9,8 +9,7 @@ use SIMDE\Ginger\Domain\Application\Data\Permission;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SIMDE\Ginger\Exception\ForbiddenException;
-use SIMDE\Ginger\Domain\User\Data\User as DataUser;
-use SIMDE\Ginger\Domain\Card\Data\Card as DataCard;
+
 /* Get user base on various full informations */
 final class UserReadAction
 {
@@ -41,7 +40,6 @@ final class UserReadAction
           $this->isAllowed($request->getAttribute("application"), [Permission::CARDS_CAN_READ, Permission::CARDS_CAN_READ_LIST]);
           $user = $this->userReader->getUserDetailsByCard((string)$args['card']);
         }
-        $user = $this->applyOverrides($user);
 
         // Transform the result into the JSON representation
         $cardsResults = [];
@@ -90,31 +88,5 @@ final class UserReadAction
         }
       }
       throw new ForbiddenException("Missing permission for this application");  
-    }
-    
-    private function applyOverrides(DataUser $user)
-    {
-      if($user->overrides["prenom"]) {
-        $user->prenom = $user->overrides["prenom"];
-      }
-      if($user->overrides["nom"]) {
-        $user->nom = $user->overrides["nom"];
-      }
-      if($user->overrides["mail"]) {
-        $user->mail = $user->overrides["mail"];
-      }
-      if($user->overrides["type"]) {
-        $user->type = $user->overrides["type"];
-      }
-      if($user->overrides["is_adulte"]) {
-        $user->is_adulte = $user->overrides["is_adulte"];
-      }
-      if($user->overrides["card"]) {
-        $card = new DataCard();
-        $card->uid = $user->overrides["card"];
-        $card->type = 2;
-        $user->cards = [$card];
-      }
-      return $user;
     }
 }
