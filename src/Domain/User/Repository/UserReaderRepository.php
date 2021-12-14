@@ -42,7 +42,7 @@ class UserReaderRepository
         FROM users u
         LEFT JOIN user_overrides uo
         ON u.id = uo.user_id
-        AND (uo.ignored_at IS NULL OR uo.ignored_at < NOW())
+        AND uo.ignored_at > NOW()
         WHERE login = :login;";
         $statement = $this->connection->prepare($sql);
         $statement->execute(['login' => $userLogin]);
@@ -75,7 +75,7 @@ class UserReaderRepository
         u.last_access
         FROM users u
         LEFT JOIN user_overrides uo ON u.id = uo.user_id
-        AND (uo.ignored_at IS NULL OR uo.ignored_at < NOW())
+        AND uo.ignored_at > NOW()
         WHERE u.mail = :mail
         OR uo.mail = :mail;";
         $statement = $this->connection->prepare($sql);
@@ -111,7 +111,7 @@ class UserReaderRepository
         FROM `cards` c
         INNER JOIN users u ON u.id = c.user_id
         LEFT JOIN user_overrides uo ON u.id = uo.user_id
-        AND (uo.ignored_at IS NULL OR uo.ignored_at < NOW())
+        AND uo.ignored_at > NOW()
         WHERE c.uid LIKE :card
         OR uo.card_uid LIKE :card
         GROUP BY c.user_id;";
@@ -145,7 +145,7 @@ class UserReaderRepository
         u.last_access
         FROM users u
         LEFT JOIN user_overrides uo ON u.id = uo.user_id
-        AND (uo.ignored_at IS NULL OR uo.ignored_at < NOW())
+        AND uo.ignored_at > NOW()
         WHERE login LIKE :info
         OR u.mail LIKE :info
         OR u.nom LIKE :info
