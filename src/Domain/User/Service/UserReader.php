@@ -42,7 +42,7 @@ final class UserReader
         } catch(UserNotFoundException $e) {} // Do nothing, not found in db is not fatal
         finally {
             if(!$user || !$user->id || $user->type != 4) {
-              return $this->handleUserSync($user, $this->userAccountsReader->getUserByLogin($login), !$user->badge_uid);
+              return $this->handleUserSync($user, $this->userAccountsReader->getUserByLogin($login));
             } else {
               return $this->updateLastAccessAttribute($user->login);
             }
@@ -73,10 +73,6 @@ final class UserReader
             $user = $this->userReaderRepository->getUserByCard($card);
         } catch(UserNotFoundException $e) {} // Do nothing, not found in db is not fatal
         finally {
-            if($user) {
-              
-              return $this->updateLastAccessAttribute($user->login);
-            }
             if(!$user || !$user->id || $user->type != 4) {
               $userAccounts = $this->userAccountsReader->getUserByCard($card);
               if(!$user) {
@@ -108,9 +104,7 @@ final class UserReader
             $userAccounts->memberships = $userDb->memberships;
 
             $updatedUser = $this->userCreatorRepository->updateUser($userAccounts);
-            if(!array_key_exists("card", $userDb->overrides)) {
-              $updatedUser->cards = $this->cardCreator->syncCards($userDb, $userAccounts->cards);
-            }
+            $updatedUser->cards = $this->cardCreator->syncCards($userDb, $userAccounts->cards);
             return $updatedUser;
         } else {
             return $userDb;

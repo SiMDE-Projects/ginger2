@@ -18,9 +18,6 @@ final class User
 
     /** @var string */
     public $mail;
-    
-    /** @var array */
-    public $overrides;
 
     /** @var int */
     public $type;

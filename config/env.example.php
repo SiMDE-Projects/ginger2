@@ -7,4 +7,4 @@ define("DB_NAME", "ginger");
 define("DB_USERNAME", "ginger");
 define("DB_PASSWORD", "ginger");
 
-define("DETAILED_ERRORS", false);
+define("DETAILED_ERRORS", true);
