@@ -5,8 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build the stack
-        run: docker-compose up -d && sleep 10s
+      - name: Build the images
+        run: docker-compose build
+      - name: Start the stack
+        run: docker-compose up -d && sleep 30s
       - name: Create test env
         run: cp config/env.example.php config/env.php
       - name: Composer install
