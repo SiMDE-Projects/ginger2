@@ -154,9 +154,11 @@ CREATE TABLE `user_overrides` (
   `prenom` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nom` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `mail` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `card_uid` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `type` tinyint(5) DEFAULT NULL,
   `is_adulte` tinyint(1) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `ignored_at` datetime DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   CONSTRAINT `user_overrides_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
