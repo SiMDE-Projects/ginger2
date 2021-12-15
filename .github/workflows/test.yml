@@ -8,7 +8,7 @@ jobs:
       - name: Build the images
         run: docker-compose build
       - name: Start the db
-        run: docker-compose up -d db && sleep 30s
+        run: docker-compose up -d db && sleep 10
       - name: Start the stack
         run: docker-compose up -d
       - name: Create test env
