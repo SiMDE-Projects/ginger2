@@ -3,7 +3,6 @@
 namespace SIMDE\Ginger\Exception;
 
 use RuntimeException;
-use Throwable;
 
 final class AccountsException extends RuntimeException
 {

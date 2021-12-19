@@ -2,29 +2,31 @@
 
 namespace SIMDE\Ginger\Domain\Application\Data;
 
+use DateTime;
+
 final class Application
 {
     /** @var int */
-    public $id;
+    public int $id;
 
     /** @var string */
-    public $key;
-    
+    public string $key;
+
     /** @var string */
-    public $name;
-    
+    public string $name;
+
     /** @var string */
-    public $owner;
-    
+    public string $owner;
+
     /** @var array */
-    public $permissions;
+    public array $permissions;
 
     /** @var DateTime */
-    public $created_at;
-    
+    public DateTime $created_at;
+
     /** @var DateTime */
-    public $last_access;
-    
-    /** @var DateTime */
-    public $removed_at;
+    public DateTime $last_access;
+
+    /** @var DateTime|null */
+    public ?DateTime $removed_at;
 }

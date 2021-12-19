@@ -2,45 +2,52 @@
 
 namespace SIMDE\Ginger\Domain\User\Data;
 
+use DateTime;
+use SIMDE\Ginger\Domain\Card\Data\Card;
+
 final class User
 {
     /** @var int */
-    public $id;
+    public int $id;
 
     /** @var string */
-    public $login;
+    public string $login;
 
     /** @var string */
-    public $prenom;
+    public string $prenom;
 
     /** @var string */
-    public $nom;
+    public string $nom;
 
     /** @var string */
-    public $mail;
-    
+    public string $mail;
+
     /** @var array */
-    public $overrides;
+    public array $overrides = [];
 
     /** @var int */
-    public $type;
+    public int $type;
 
     /** @var bool */
-    public $is_adulte;
+    public bool $is_adulte;
 
     /** @var Card[] */
-    public $cards;
+    public array $cards = [];
 
     /** @var array */
-    public $memberships;
-    
+    public array $memberships;
+
+    /** @var DateTime|null */
+    public ?DateTime $last_access = null;
+
     /** @var DateTime */
-    public $last_access;
+    public DateTime $created_at;
 
     // Convert int type to string type for old ginger compatibility response
-    public function getFullType() {
+    public function getFullType(): string
+    {
         $type = "ext";
-        switch($this->type) {
+        switch ($this->type) {
             case 0:
                 $type = "etu";
                 break;
@@ -50,7 +57,7 @@ final class User
             case 2:
                 $type = "pers";
                 break;
-            case 2:
+            case 3:
                 $type = "escompers";
                 break;
         }
@@ -58,11 +65,15 @@ final class User
     }
 
     // Based on the memberships determine if one is active
-    public function getCotisationStatus() {
+    public function getCotisationStatus(): bool
+    {
         $isCotisant = false;
-        foreach ($this->memberships as $mem)
-            if(strtotime($mem->debut) <= strtotime(date("Y-m-d")) && strtotime($mem->fin) >= strtotime(date("Y-m-d")))
+        foreach (array_reverse($this->memberships) as $mem) {
+            if (strtotime($mem->debut) <= strtotime(date("Y-m-d")) && strtotime($mem->fin) >= strtotime(date("Y-m-d"))) {
                 $isCotisant = true;
+                break;
+            }
+        }
         return $isCotisant;
     }
 }

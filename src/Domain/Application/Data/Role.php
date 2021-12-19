@@ -2,20 +2,22 @@
 
 namespace SIMDE\Ginger\Domain\Application\Data;
 
+use DateTime;
+
 final class Role
 {
     /** @var int */
-    public $id;
+    public int $id;
 
     /** @var string */
-    public $name;
-    
+    public string $name;
+
     /** @var string */
-    public $description;
-    
+    public string $description;
+
     /** @var array */
-    public $permissions;
+    public array $permissions;
 
     /** @var DateTime */
-    public $created_at;
+    public DateTime $created_at;
 }

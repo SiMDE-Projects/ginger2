@@ -2,12 +2,13 @@
 
 namespace SIMDE\Ginger\Action;
 
-use SIMDE\Ginger\Domain\User\Service\UserReader;
-use SIMDE\Ginger\Domain\Membership\Service\MembershipCreator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use SIMDE\Ginger\Domain\Membership\Service\MembershipCreator;
+use SIMDE\Ginger\Domain\User\Service\UserReader;
 
 /* Creates user membership */
+
 final class MembershipCreateAction
 {
     private $userReader;
@@ -15,20 +16,21 @@ final class MembershipCreateAction
 
     public function __construct(UserReader $userReader, MembershipCreator $membershipCreator)
     {
-        $this->userReader = $userReader;
+        $this->userReader        = $userReader;
         $this->membershipCreator = $membershipCreator;
     }
 
     public function __invoke(
         ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args = []
-    ): ResponseInterface {
+        ResponseInterface      $response,
+        array                  $args = []
+    ): ResponseInterface
+    {
 
         // Get POST data, retreive user and create membership
-        $data = (array)$request->getParsedBody();
-        $user = $this->userReader->getUserDetailsByLogin((string)$args['login']);
-        $membership = $this->membershipCreator->createMembership($user, (string)$data['debut'], (string)$data['fin'], (int)$data['montant']);
+        $data       = (array)json_decode($request->getBody()->getContents());
+        $user       = $this->userReader->getUserDetailsByLogin((string)$args['login']);
+        $membership = $this->membershipCreator->createMembership($user, $data['debut'], $data['fin'], $data['montant']);
 
         // Transform the result into the JSON representation
         $result = [

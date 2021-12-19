@@ -25,6 +25,8 @@ services:
       MARIADB_DATABASE: ginger
       MARIADB_USER: ginger
       MARIADB_PASSWORD: ginger
+    ports:
+      - 8082:3306
   adminer:
     image: adminer
     depends_on:

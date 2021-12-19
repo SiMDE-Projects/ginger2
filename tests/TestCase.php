@@ -1,11 +1,15 @@
 <?php
+
 namespace SIMDE\Ginger\Test;
 
 require_once __DIR__ . '/../config/env.php';
+
 use DI\ContainerBuilder;
 use Exception;
+use JsonException;
 use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Selective\TestTrait\Traits\DatabaseTestTrait;
 use Slim\App;
 use Slim\Factory\AppFactory;
 use Slim\Psr7\Factory\StreamFactory;
@@ -13,12 +17,18 @@ use Slim\Psr7\Headers;
 use Slim\Psr7\Request as SlimRequest;
 use Slim\Psr7\Uri;
 
+
 class TestCase extends PHPUnit_TestCase
 {
+    use DatabaseTestTrait;
+
     /**
      * @return App
      * @throws Exception
      */
+
+    protected $container;
+
     protected function getAppInstance(): App
     {
         // Instantiate PHP-DI ContainerBuilder
@@ -29,10 +39,10 @@ class TestCase extends PHPUnit_TestCase
         $containerBuilder->addDefinitions($containerDef);
 
         // Build PHP-DI Container instance
-        $container = $containerBuilder->build();
+        $this->container = $containerBuilder->build();
 
         // Instantiate the app
-        AppFactory::setContainer($container);
+        AppFactory::setContainer($this->container);
         $app = AppFactory::create();
 
         // Register middleware
@@ -47,30 +57,75 @@ class TestCase extends PHPUnit_TestCase
     }
 
     /**
-     * @param string $method
-     * @param string $path
-     * @param array  $headers
-     * @param array  $cookies
-     * @param array  $serverParams
+     * @param string     $method
+     * @param string     $path
+     * @param string     $query
+     * @param array|null $body
+     * @param array      $headers
+     * @param array      $cookies
+     * @param array      $serverParams
+     *
      * @return Request
      */
-    protected function createRequest(
+    private function createRequest(
         string $method,
         string $path,
         string $query = '',
-        array $headers = ['HTTP_ACCEPT' => 'application/json'],
-        array $cookies = [],
-        array $serverParams = []
-    ): Request {
-        $uri = new Uri('', '', 80, BASE_PATH . $path, $query);
-        $handle = fopen('php://temp', 'w+');
+        array  $body = null,
+        array  $headers = ['HTTP_ACCEPT' => 'application/json'],
+        array  $cookies = [],
+        array  $serverParams = []
+    ): Request
+    {
+        $uri    = new Uri('', '', 80, BASE_PATH . $path, $query);
+        $handle = fopen('php://temp', 'wb+');
         $stream = (new StreamFactory())->createStreamFromResource($handle);
-
+        if ($body) {
+            $stream->write(json_encode($body));
+            $stream->rewind();
+        }
         $h = new Headers();
         foreach ($headers as $name => $value) {
             $h->addHeader($name, $value);
         }
-
         return new SlimRequest($method, $uri, $h, $cookies, $serverParams, $stream);
+    }
+
+    /**
+     * @param string     $method
+     * @param string     $path
+     * @param string     $query
+     * @param array|null $body
+     * @param int        $expectedStatus
+     *
+     * @return array
+     */
+    protected function callGinger(
+        string $method,
+        string $path,
+        string $query = '',
+        array  $body = null,
+        int $expectedStatus = 200
+    ): array
+    {
+        $request = $this->createRequest($method, $path, $query, $body);
+        $response = $this->getAppInstance()->handle($request);
+        $this->assertSame($expectedStatus, $response->getStatusCode());
+        $response->getBody()->rewind();
+        try {
+            $res = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+        }
+        catch (JsonException $e) {
+        }
+        return $res ?? [];
+    }
+
+    protected function displayContent($content): void
+    {
+        try {
+            file_put_contents("php://stderr", json_encode($content, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
+        }
+        catch (JsonException $e) {
+        }
     }
 }
