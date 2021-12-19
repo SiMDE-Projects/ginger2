@@ -14,7 +14,7 @@ final class AuthMiddleware implements MiddlewareInterface
     /**
      * @var ApplicationReaderService
      */
-    private $applicationReaderService;
+    private ApplicationReaderService $applicationReaderService;
 
     public function __construct(ApplicationReaderService $applicationReaderService)
     {

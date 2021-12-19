@@ -8,6 +8,6 @@ final class UnauthorizedException extends RuntimeException
 {
     public function __construct(string $message)
     {
-        parent::__construct($message, 401, null);
+        parent::__construct($message, 401);
     }
 }

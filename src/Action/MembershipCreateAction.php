@@ -2,6 +2,7 @@
 
 namespace SIMDE\Ginger\Action;
 
+use JsonException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SIMDE\Ginger\Domain\Membership\Service\MembershipCreator;
@@ -11,8 +12,8 @@ use SIMDE\Ginger\Domain\User\Service\UserReader;
 
 final class MembershipCreateAction
 {
-    private $userReader;
-    private $membershipCreator;
+    private UserReader        $userReader;
+    private MembershipCreator $membershipCreator;
 
     public function __construct(UserReader $userReader, MembershipCreator $membershipCreator)
     {
@@ -20,6 +21,9 @@ final class MembershipCreateAction
         $this->membershipCreator = $membershipCreator;
     }
 
+    /**
+     * @throws JsonException
+     */
     public function __invoke(
         ServerRequestInterface $request,
         ResponseInterface      $response,
@@ -38,7 +42,7 @@ final class MembershipCreateAction
         ];
 
         // Build the HTTP response
-        $response->getBody()->write((string)json_encode($result));
+        $response->getBody()->write((string)json_encode($result, JSON_THROW_ON_ERROR));
 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }

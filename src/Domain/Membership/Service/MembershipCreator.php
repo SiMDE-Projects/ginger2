@@ -26,10 +26,10 @@ final class MembershipCreator
                 || (strtotime($fin) > strtotime($membership->debut) && strtotime($fin) <= strtotime($membership->fin)))
                 throw new ValidationException("Membership date is overlapping an existing membership");
 
-        if (!isset($debut) || empty($debut) || !(bool)strtotime($debut))
+        if (empty($debut) || !(bool)strtotime($debut))
             throw new ValidationException("Begin date is invalid");
 
-        if (!isset($fin) || empty($fin) || !(bool)strtotime($fin))
+        if (empty($fin) || !(bool)strtotime($fin))
             throw new ValidationException("End date is invalid");
 
         if (strtotime($debut) >= strtotime($fin))

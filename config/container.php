@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection MissingService */
 
 use Psr\Container\ContainerInterface;
 use Slim\App;
@@ -21,15 +21,13 @@ return [
         $app = $container->get(App::class);
         $settings = $container->get('settings')['error'];
 
-        $errorMiddleware = new ErrorMiddleware(
+        return new ErrorMiddleware(
             $app->getCallableResolver(),
             $app->getResponseFactory(),
             (bool)$settings['display_error_details'],
             (bool)$settings['log_errors'],
             (bool)$settings['log_error_details']
         );
-
-        return $errorMiddleware;
     },
 
     PDO::class => function (ContainerInterface $container) {

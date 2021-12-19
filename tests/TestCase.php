@@ -29,6 +29,9 @@ class TestCase extends PHPUnit_TestCase
 
     protected $container;
 
+    /**
+     * @throws Exception
+     */
     protected function getAppInstance(): App
     {
         // Instantiate PHP-DI ContainerBuilder
@@ -110,13 +113,16 @@ class TestCase extends PHPUnit_TestCase
     {
         $request = $this->createRequest($method, $path, $query, $body);
         $response = $this->getAppInstance()->handle($request);
-        $this->assertSame($expectedStatus, $response->getStatusCode());
         $response->getBody()->rewind();
         try {
             $res = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+            if($expectedStatus !== $response->getStatusCode()) {
+                $this->displayContent($res);
+            }
         }
         catch (JsonException $e) {
         }
+        $this->assertSame($expectedStatus, $response->getStatusCode());
         return $res ?? [];
     }
 

@@ -7,7 +7,7 @@ use SIMDE\Ginger\Domain\Application\Repository\ApplicationRepository;
 
 final class ApplicationReaderService
 {
-    private $applicationRepository;
+    private ApplicationRepository $applicationRepository;
 
     public function __construct(ApplicationRepository $applicationRepository)
     {

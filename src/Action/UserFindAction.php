@@ -10,7 +10,7 @@ use SIMDE\Ginger\Domain\User\Service\UserReader;
 
 final class UserFindAction
 {
-    private $userReader;
+    private UserReader $userReader;
 
     public function __construct(UserReader $userReader)
     {

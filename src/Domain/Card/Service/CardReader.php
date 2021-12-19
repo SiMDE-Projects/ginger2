@@ -7,7 +7,7 @@ use SIMDE\Ginger\Domain\User\Data\User;
 
 final class CardReader
 {
-    private $cardReaderRepository;
+    private CardReaderRepository $cardReaderRepository;
 
     public function __construct(CardReaderRepository $cardReaderRepository)
     {

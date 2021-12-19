@@ -1,5 +1,6 @@
 <?php
-  $datas = [
+/** @noinspection PhpMissingBreakStatementInspection */
+$datas = [
     "utc_etu" => [
       'username' => 'testlogin',
       'firstName' => 'John',

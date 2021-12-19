@@ -17,8 +17,8 @@ use SIMDE\Ginger\Exception\ForbiddenException;
 
 final class UserReadAction
 {
-    private $userReader;
-    private $applicationReaderService;
+    private UserReader               $userReader;
+    private ApplicationReaderService $applicationReaderService;
 
     public function __construct(UserReader $userReader, ApplicationReaderService $applicationReaderService)
     {

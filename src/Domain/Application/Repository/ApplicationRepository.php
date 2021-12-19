@@ -10,7 +10,7 @@ use SIMDE\Ginger\Exception\ApplicationNotFoundException;
 
 class ApplicationRepository
 {
-    private $connection;
+    private PDO $connection;
 
     public function __construct(PDO $connection)
     {
