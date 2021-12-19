@@ -32,18 +32,18 @@ class UserReadActionTest extends TestCase
 
     public function testUnknownKey(): void
     {
-        $responseContent         = $this->callGinger("GET", "/falsy", "key=unknownkey", null, 500);
-        $this->assertSame("Uncaught exception", $responseContent["error"]["message"]);
-        $this->assertSame(500, $responseContent["error"]["code"]);
+        $responseContent         = $this->callGinger("GET", "/falsy", "key=unknownkey", null, 404);
+        $this->assertSame("Application not found by key in db", $responseContent["error"]["message"]);
+        $this->assertSame(404, $responseContent["error"]["code"]);
         $this->assertSame("Application not found by key in db", $responseContent["error"]["detail"]["message"]);
         $this->assertSame(404, $responseContent["error"]["detail"]["errcode"]);
     }
 
     public function testDisabledKey(): void
     {
-        $responseContent         = $this->callGinger("GET", "/falsy", "key=removedAppKey", null, 500);
-        $this->assertSame("Uncaught exception", $responseContent["error"]["message"]);
-        $this->assertSame(500, $responseContent["error"]["code"]);
+        $responseContent         = $this->callGinger("GET", "/falsy", "key=removedAppKey", null, 404);
+        $this->assertSame("Application not found by key in db", $responseContent["error"]["message"]);
+        $this->assertSame(404, $responseContent["error"]["code"]);
         $this->assertSame("Application not found by key in db", $responseContent["error"]["detail"]["message"]);
         $this->assertSame(404, $responseContent["error"]["detail"]["errcode"]);
     }
