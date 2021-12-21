@@ -40,6 +40,9 @@ final class User
     /** @var DateTime|null */
     public ?DateTime $last_access = null;
 
+    /** @var DateTime|null */
+    public ?DateTime $last_sync = null;
+
     /** @var DateTime */
     public DateTime $created_at;
 
@@ -75,5 +78,13 @@ final class User
             }
         }
         return $isCotisant;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCacheExpired(): bool
+    {
+        return $this->last_sync === null || $this->last_sync->diff(new DateTime("now"), true)->i > 5;
     }
 }

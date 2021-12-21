@@ -39,7 +39,8 @@ class UserReaderRepository
         `uo`.`is_adulte` AS `overrided_is_adulte`,
         `uo`.`card_uid` AS `overrided_card`,
         `u`.`created_at`,
-        `u`.`last_access`
+        `u`.`last_access`,
+        `u`.`last_sync`
         FROM `users` `u`
         LEFT JOIN `user_overrides` `uo`
         ON `u`.`id` = `uo`.`user_id`
@@ -73,7 +74,8 @@ class UserReaderRepository
         `uo`.`is_adulte` AS `overrided_is_adulte`,
         `uo`.`card_uid` AS `overrided_card`,
         `u`.`created_at`,
-        `u`.`last_access`
+        `u`.`last_access`,
+        `u`.`last_sync`
         FROM `users` `u`
         LEFT JOIN `user_overrides` `uo` ON `u`.`id` = `uo`.`user_id`
         AND `uo`.`ignored_at` > NOW()
@@ -108,7 +110,8 @@ class UserReaderRepository
         `uo`.`is_adulte` AS `overrided_is_adulte`,
         `uo`.`card_uid` AS `overrided_card`,
         `u`.`created_at`,
-        `u`.`last_access`
+        `u`.`last_access`,
+        `u`.`last_sync`
         FROM `cards` `c`
         INNER JOIN `users` `u` ON `u`.`id` = `c`.`user_id`
         LEFT JOIN `user_overrides` `uo` ON `u`.`id` = `uo`.`user_id`
@@ -143,7 +146,8 @@ class UserReaderRepository
         `uo`.`is_adulte` AS `overrided_is_adulte`,
         `uo`.`card_uid` AS `overrided_card`,
         `u`.`created_at`,
-        `u`.`last_access`
+        `u`.`last_access`,
+        `u`.`last_sync`
         FROM `users` `u`
         LEFT JOIN `user_overrides` `uo` ON `u`.`id` = `uo`.`user_id`
         AND `uo`.`ignored_at` > NOW()
@@ -180,6 +184,7 @@ class UserReaderRepository
         $user->is_adulte              = (string)$row['is_adulte'];
         $user->created_at             = DateTime::createFromFormat("Y-m-d H:i:s", $row['created_at']);
         $user->last_access            = DateTime::createFromFormat("Y-m-d H:i:s", $row['last_access']);
+        $user->last_sync              = DateTime::createFromFormat("Y-m-d H:i:s", $row['last_sync']) ?: null;
         $user->overrides["prenom"]    = (string)$row['overrided_prenom'];
         $user->overrides["nom"]       = (string)$row['overrided_nom'];
         $user->overrides["mail"]      = (string)$row['overrided_mail'];
