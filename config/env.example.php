@@ -1,10 +1,11 @@
 <?php
-define("ACCOUNTS_BASE_URI", "http://picasso-ws:8080/");
-define("BASE_PATH", "");
+/** @noinspection DuplicatedCode */
+const ACCOUNTS_BASE_URI = "http://picasso-ws:8080/";
+const BASE_PATH         = "";
 
-define("DB_HOST", "db");
-define("DB_NAME", "ginger");
-define("DB_USERNAME", "ginger");
-define("DB_PASSWORD", "ginger");
+const DB_HOST     = "db";
+const DB_NAME     = "ginger";
+const DB_USERNAME = "ginger";
+const DB_PASSWORD = "ginger";
 
-define("DETAILED_ERRORS", true);
+const DETAILED_ERRORS = true;

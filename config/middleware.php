@@ -1,6 +1,13 @@
 <?php
 
+use SIMDE\Ginger\Exception\AccountsException;
+use SIMDE\Ginger\Exception\ForbiddenException;
+use SIMDE\Ginger\Exception\UnauthorizedException;
+use SIMDE\Ginger\Exception\UserNotFoundException;
+use SIMDE\Ginger\Exception\ValidationException;
+use SIMDE\Ginger\Exception\ApplicationNotFoundException;
 use Slim\App;
+use Slim\Exception\HttpNotFoundException;
 use Slim\Middleware\ErrorMiddleware;
 use SIMDE\Ginger\Middleware\AuthMiddleware;
 
@@ -15,10 +22,10 @@ return function (App $app) {
     // Custom error handler
     $customErrorHandler = function (
         Psr\Http\Message\ServerRequestInterface $request,
-        \Throwable $exception,
-        bool $displayErrorDetails,
-        bool $logErrors,
-        bool $logErrorDetails
+        Throwable                               $exception,
+        bool                                    $displayErrorDetails,
+        bool                                    $logErrors,
+        bool                                    $logErrorDetails
     ) use($app) {
         $response = $app->getResponseFactory()->createResponse();
         $result = [
@@ -28,22 +35,22 @@ return function (App $app) {
             ]
         ];
 
-        if ($exception instanceof \SIMDE\Ginger\Exception\ValidationException) {
+        if ($exception instanceof ValidationException) {
             $result["error"]["message"] = $exception->getMessage();
             $result["error"]["code"] = 400;
-        } elseif ($exception instanceof \SIMDE\Ginger\Exception\UserNotFoundException ||
-            $exception instanceof \Slim\Exception\HttpNotFoundException ||
-            $exception instanceof \Slim\Exception\ApplicationNotFoundException)
+        } elseif ($exception instanceof UserNotFoundException ||
+            $exception instanceof HttpNotFoundException ||
+            $exception instanceof ApplicationNotFoundException)
             {
             $result["error"]["message"] = $exception->getMessage();
             $result["error"]["code"] = 404;
-        } elseif ($exception instanceof \SIMDE\Ginger\Exception\AccountsException) {
+        } elseif ($exception instanceof AccountsException) {
             $result["error"]["message"] = "Accounts exception";
             $result["error"]["code"] = 500;
-        } elseif ($exception instanceof \SIMDE\Ginger\Exception\ForbiddenException) {
+        } elseif ($exception instanceof ForbiddenException) {
             $result["error"]["message"] = "Forbidden";
             $result["error"]["code"] = 403;
-        } elseif ($exception instanceof \SIMDE\Ginger\Exception\UnauthorizedException) {
+        } elseif ($exception instanceof UnauthorizedException) {
             $result["error"]["message"] = "Unauthorized";
             $result["error"]["code"] = 401;
         }

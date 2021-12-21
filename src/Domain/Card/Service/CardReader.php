@@ -2,26 +2,20 @@
 
 namespace SIMDE\Ginger\Domain\Card\Service;
 
-use SIMDE\Ginger\Domain\User\Data\User;
-use SIMDE\Ginger\Domain\Card\Data\Card;
 use SIMDE\Ginger\Domain\Card\Repository\CardReaderRepository;
-use SIMDE\Ginger\Exception\ValidationException;
+use SIMDE\Ginger\Domain\User\Data\User;
 
 final class CardReader
 {
-    private $cardReaderRepository;
+    private CardReaderRepository $cardReaderRepository;
 
     public function __construct(CardReaderRepository $cardReaderRepository)
     {
         $this->cardReaderRepository = $cardReaderRepository;
     }
 
-    public function getCardsByUser(User $user): Array
+    public function getCardsByUser(User $user): array
     {
-        // Validation
-        if (!$user || !isset($user->id) || empty($user->id))
-            throw new ValidationException('Full user required to retrieve cards from cache');
-
         return $this->cardReaderRepository->getCardsByUser($user);
     }
 }

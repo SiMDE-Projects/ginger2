@@ -2,11 +2,12 @@
 
 namespace SIMDE\Ginger\Action;
 
-use SIMDE\Ginger\Domain\User\Service\UserReader;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use SIMDE\Ginger\Domain\User\Service\UserReader;
 
 /* Return all memberships of a user */
+
 final class MembershipReadAction
 {
     private $userReader;
@@ -18,9 +19,10 @@ final class MembershipReadAction
 
     public function __invoke(
         ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args = []
-    ): ResponseInterface {
+        ResponseInterface      $response,
+        array                  $args = []
+    ): ResponseInterface
+    {
         // Get a User from the login
         $user = $this->userReader->getUserDetailsByLogin((string)$args['login']);
 
@@ -28,9 +30,9 @@ final class MembershipReadAction
         $membershipsResults = [];
         foreach ($user->memberships as $membership) {
             $membershipsResults[] = [
-                "id" => $membership->id,
-                "debut" => $membership->debut,
-                "fin" => $membership->fin,
+                "id"      => $membership->id,
+                "debut"   => $membership->debut,
+                "fin"     => $membership->fin,
                 "montant" => $membership->montant,
             ];
         }

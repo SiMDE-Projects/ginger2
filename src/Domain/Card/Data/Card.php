@@ -2,26 +2,28 @@
 
 namespace SIMDE\Ginger\Domain\Card\Data;
 
+use DateTime;
+
 final class Card
 {
     /** @var int */
-    public $id;
+    public int $id;
 
     /** @var int */
-    public $user_id;
+    public int $user_id;
+
+    /** @var string */
+    public string $uid;
 
     /** @var int */
-    public $uid;
+    public int $type;
 
-    /** @var int */
-    public $type;
+    /** @var DateTime|null */
+    public ?DateTime $created_at = null;
 
-    /** @var DateTime */
-    public $created_at;
-    
-    /** @var DateTime */
-    public $last_access;
-    
-    /** @var DateTime */
-    public $removed_at;
+    /** @var DateTime|null */
+    public ?DateTime $last_access = null;
+
+    /** @var DateTime|null */
+    public ?DateTime $removed_at = null;
 }
