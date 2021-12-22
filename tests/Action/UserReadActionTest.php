@@ -22,14 +22,6 @@ class UserReadActionTest extends TestCase
         $this->db->exec("DELETE FROM `users` WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
     }
 
-    protected function tearDown(): void
-    {
-        $this->db->exec("DELETE `m` FROM `memberships` `m` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
-        $this->db->exec("DELETE `c` FROM `cards` `c` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
-        $this->db->exec("DELETE `uo` FROM `user_overrides` `uo` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
-        $this->db->exec("DELETE FROM `users` WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
-    }
-
     public function testUnknownKey(): void
     {
         $responseContent = $this->callGinger("GET", "/falsy", "key=unknownkey", null, 404);
@@ -324,5 +316,13 @@ class UserReadActionTest extends TestCase
 
         $this->db->exec("DELETE FROM `cards` WHERE `uid` = 'FALSYEXTCARD'");
         $this->db->exec("DELETE FROM `users` WHERE `login` = 'extlogin'");
+    }
+
+    protected function tearDown(): void
+    {
+        $this->db->exec("DELETE `m` FROM `memberships` `m` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
+        $this->db->exec("DELETE `c` FROM `cards` `c` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
+        $this->db->exec("DELETE `uo` FROM `user_overrides` `uo` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
+        $this->db->exec("DELETE FROM `users` WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
     }
 }
