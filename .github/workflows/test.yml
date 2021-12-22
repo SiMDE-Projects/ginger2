@@ -12,9 +12,9 @@ jobs:
       - name: Create test env
         run: cp config/env.example.php config/env.php
       - name: Composer install
-        run: docker-compose run ginger2 composer install
+        run: docker-compose run --rm ginger2 composer install
       - name: execute database migrations
-        run: docker-compose run ginger2 vendor/bin/phoenix migrate
+        run: docker-compose run --rm ginger2 vendor/bin/phoenix migrate
       - name: Run test suite
         run: docker-compose exec -T --privileged ginger2 composer test:coverage:clover
       - name: Upload coverage results to Coveralls
