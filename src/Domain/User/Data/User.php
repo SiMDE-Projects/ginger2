@@ -49,7 +49,6 @@ final class User
     // Convert int type to string type for old ginger compatibility response
     public function getFullType(): string
     {
-        $type = "ext";
         switch ($this->type) {
             case 0:
                 $type = "etu";
@@ -62,6 +61,15 @@ final class User
                 break;
             case 3:
                 $type = "escompers";
+                break;
+            case 4:
+                $type = "ext";
+                break;
+            case 5:
+                $type = "sejournant";
+                break;
+            default:
+                $type = "error";
                 break;
         }
         return $type;
