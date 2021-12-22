@@ -51,7 +51,7 @@ class UserCreatorRepository
         return $user;
     }
 
-    public function updateUser(User $user): User
+    public function updateUser(User $user, bool $hasBeenSynced = false): User
     {
         $row = [
             'nom'       => $user->nom,
@@ -62,7 +62,18 @@ class UserCreatorRepository
             'login'     => $user->login,
         ];
 
-        $sql = "UPDATE `users` SET
+        if ($hasBeenSynced) {
+            $sql = "UPDATE `users` SET
+            `nom` = :nom,
+            `prenom` = :prenom,
+            `mail` = :mail,
+            `is_adulte` = :is_adulte,
+            `type` = :type,
+            `last_access` = NOW(),
+            `last_sync` = NOW()
+            WHERE `login` = :login";
+        } else {
+            $sql = "UPDATE `users` SET
             `nom` = :nom,
             `prenom` = :prenom,
             `mail` = :mail,
@@ -70,6 +81,7 @@ class UserCreatorRepository
             `type` = :type,
             `last_access` = NOW()
             WHERE `login` = :login";
+        }
         $this->connection->prepare($sql)->execute($row);
 
         return $this->userReaderRepository->getUserByLogin($user->login);

@@ -5,7 +5,7 @@ namespace SIMDE\Ginger\Domain\User\Service;
 use SIMDE\Ginger\Domain\User\Data\User;
 use SIMDE\Ginger\Domain\User\Repository\UserAccountsReaderRepository;
 
-final class UserAccountsReader
+class UserAccountsReader
 {
     private UserAccountsReaderRepository $accountsReaderRepository;
 

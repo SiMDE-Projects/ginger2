@@ -86,7 +86,6 @@ final class UserReadAction
 
     private function isAllowed(Application $application, array $permissions)
     {
-        $allowed = false;
         foreach ($permissions as $permission) {
             $allowed = $this->applicationReaderService->isAllowed($application, $permission);
             if ($allowed) {
@@ -96,7 +95,7 @@ final class UserReadAction
         throw new ForbiddenException("Missing permission for this application");
     }
 
-    private function applyOverrides(DataUser $user)
+    private function applyOverrides(DataUser $user): DataUser
     {
         if ($user->overrides["prenom"]) {
             $user->prenom = $user->overrides["prenom"];

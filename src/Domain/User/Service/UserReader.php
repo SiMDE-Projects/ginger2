@@ -7,7 +7,6 @@ use SIMDE\Ginger\Domain\User\Data\User;
 use SIMDE\Ginger\Domain\User\Repository\UserCreatorRepository;
 use SIMDE\Ginger\Domain\User\Repository\UserReaderRepository;
 use SIMDE\Ginger\Exception\UserNotFoundException;
-use SIMDE\Ginger\Exception\ValidationException;
 
 final class UserReader
 {
@@ -43,11 +42,11 @@ final class UserReader
             return $this->userCreatorRepository->insertUser($userAccounts);
         }
 
-        if ($userDb->type !== 4) {
+        if ($userDb->type !== 4 && $userDb->isCacheExpired()) {
             $userAccounts              = $this->userAccountsReader->getUserByLogin($userDb->login);
             $userAccounts->id          = $userDb->id;
             $userAccounts->memberships = $userDb->memberships;
-            $updatedUser               = $this->userCreatorRepository->updateUser($userAccounts);
+            $updatedUser               = $this->userCreatorRepository->updateUser($userAccounts, true);
             if (!$userDb->overrides["card"]) {
                 $updatedUser->cards = $this->cardCreator->syncCards($userDb, $userAccounts->cards);
             }

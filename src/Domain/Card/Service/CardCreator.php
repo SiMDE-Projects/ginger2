@@ -10,7 +10,7 @@ use SIMDE\Ginger\Domain\User\Data\User;
 final class CardCreator
 {
     private CardCreatorRepository $cardCreatorRepository;
-    private CardReaderRepository  $cardReaderRepository;
+    private CardReaderRepository  $cardReadeRepository;
 
     public function __construct(
         CardCreatorRepository $cardCreatorRepository,
@@ -29,11 +29,13 @@ final class CardCreator
         foreach ($accountCards as $accountCard) {
             $found = false;
             foreach ($user->cards as $dbCard) {
-                if ($accountCard->uid == $dbCard->uid)
+                if ($accountCard->uid === $dbCard->uid) {
                     $found = true;
+                }
             }
-            if (!$found)
+            if (!$found) {
                 $missingCards[] = $accountCard;
+            }
         }
 
         foreach ($missingCards as $card) {
@@ -43,7 +45,7 @@ final class CardCreator
         $this->flagRemovedCards($user, $accountCards);
         $user->cards = $this->cardReadeRepository->getCardsByUser($user);
 
-        usort($user->cards, function ($a, $b) {
+        usort($user->cards, static function ($a, $b) {
             return $a->type < $b->type;
         });
 
@@ -63,7 +65,7 @@ final class CardCreator
         foreach ($user->cards as $dbCard) {
             $missing = true;
             foreach ($accountCards as $accountCard) {
-                if ($accountCard->uid == $dbCard->uid) {
+                if ($accountCard->uid === $dbCard->uid) {
                     $missing = false;
                     break;
                 }
