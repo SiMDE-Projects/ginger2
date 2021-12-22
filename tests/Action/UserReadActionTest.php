@@ -16,18 +16,18 @@ class UserReadActionTest extends TestCase
     {
         $this->app = $this->getAppInstance();
         $this->db  = $this->container->get(PDO::class);
-        $this->db->exec("DELETE `m` FROM `memberships` `m` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin')");
-        $this->db->exec("DELETE `c` FROM `cards` `c` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin')");
-        $this->db->exec("DELETE `uo` FROM `user_overrides` `uo` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin')");
-        $this->db->exec("DELETE FROM `users` WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin')");
+        $this->db->exec("DELETE `m` FROM `memberships` `m` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
+        $this->db->exec("DELETE `c` FROM `cards` `c` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
+        $this->db->exec("DELETE `uo` FROM `user_overrides` `uo` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
+        $this->db->exec("DELETE FROM `users` WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
     }
 
     protected function tearDown(): void
     {
-        $this->db->exec("DELETE `m` FROM `memberships` `m` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin')");
-        $this->db->exec("DELETE `c` FROM `cards` `c` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin')");
-        $this->db->exec("DELETE `uo` FROM `user_overrides` `uo` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin')");
-        $this->db->exec("DELETE FROM `users` WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin')");
+        $this->db->exec("DELETE `m` FROM `memberships` `m` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
+        $this->db->exec("DELETE `c` FROM `cards` `c` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
+        $this->db->exec("DELETE `uo` FROM `user_overrides` `uo` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
+        $this->db->exec("DELETE FROM `users` WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant')");
     }
 
     public function testUnknownKey(): void
@@ -144,10 +144,22 @@ class UserReadActionTest extends TestCase
         $this->assertSame("pers", $responseContent["type"]);
     }
 
+    public function testLoginFoundWithUnhandledDSIProfile(): void
+    {
+        $responseContent = $this->callGinger("GET", "/unknownprofiletype", "key=validAppKey");
+        $this->assertSame("error", $responseContent["type"]);
+    }
+
     public function testLoginEscomFound(): void
     {
         $responseContent = $this->callGinger("GET", "/escomlogin", "key=validAppKey");
         $this->assertSame("escom", $responseContent["type"]);
+    }
+
+    public function testLoginSejournantFound(): void
+    {
+        $responseContent = $this->callGinger("GET", "/sejournant", "key=validAppKey");
+        $this->assertSame("sejournant", $responseContent["type"]);
     }
 
     public function testLoginEscomPersFound(): void

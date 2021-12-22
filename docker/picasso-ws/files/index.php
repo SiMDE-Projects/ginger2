@@ -7,8 +7,8 @@ $datas = [
       'lastName' => 'Doe',
       'mail' => 'john.doe@etu.utc.fr',
       'profile' => 'ETU UTC',
-      'cards' => [ 
-        'Mifare' => [ 
+      'cards' => [
+        'Mifare' => [
           'cardSerialNumber' => 'D4C3B2A1',
           'cardStartDate' => 1536568479403,
           'cardEndDate' => NULL,
@@ -52,23 +52,53 @@ $datas = [
       'legalAge' => true,
     ],
     "escom_pers" => [
-      'username' => 'escompers',
-      'firstName' => 'PERSONNEL',
-      'lastName' => 'ESCOM',
-      'mail' => 'pers@escom.fr',
-      'profile' => 'PERSONNEL ESCOM',
-      'cards' => [
-        'Desfire' => [
-          'cardSerialNumber' => 'ABC333',
-          'cardStartDate' => 1614067472040,
-          'cardEndDate' => NULL,
+        'username' => 'escompers',
+        'firstName' => 'PERSONNEL',
+        'lastName' => 'ESCOM',
+        'mail' => 'pers@escom.fr',
+        'profile' => 'PERSONNEL ESCOM',
+        'cards' => [
+            'Desfire' => [
+                'cardSerialNumber' => 'ABC333',
+                'cardStartDate' => 1614067472040,
+                'cardEndDate' => NULL,
+            ],
         ],
-      ],
-      'legalAge' => true,
+        'legalAge' => true,
+    ],
+    "sejournant" => [
+        'username' => 'sejournant',
+        'firstName' => 'SEJOURNANT',
+        'lastName' => 'UTC',
+        'mail' => 'sejournant@utc.fr',
+        'profile' => 'SEJOURNANT',
+        'cards' => [
+            'Desfire' => [
+                'cardSerialNumber' => 'ABC444',
+                'cardStartDate' => 1614067472040,
+                'cardEndDate' => NULL,
+            ],
+        ],
+        'legalAge' => true,
+    ],
+    "unknownprofiletype" => [
+        'username' => 'unknownprofiletype',
+        'firstName' => 'Firstname',
+        'lastName' => 'Lastname',
+        'mail' => 'mario@utc.fr',
+        'profile' => 'unknownprofiletype',
+        'cards' => [
+            'Desfire' => [
+                'cardSerialNumber' => 'ABC555',
+                'cardStartDate' => 1614067472040,
+                'cardEndDate' => NULL,
+            ],
+        ],
+        'legalAge' => true,
     ],
   ];
 
-  $path_only = explode('&',parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))[0];
+  $path_only = explode('&', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))[0];
   switch($path_only) {
       case "/getUserInfo":
         switch ($_GET["username"]) {
@@ -83,6 +113,12 @@ $datas = [
             break;
           case 'escompers':
             echo json_encode($datas["escom_pers"]);
+            break;
+          case 'sejournant':
+            echo json_encode($datas["sejournant"]);
+            break;
+          case 'unknownprofiletype':
+            echo json_encode($datas["unknownprofiletype"]);
             break;
           case 'generate_account_500':
             http_response_code(500);
