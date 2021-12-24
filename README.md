@@ -7,6 +7,14 @@ Brique logicielle d'identification des étudiants par login / numéro de badge e
 
 ## Installation en local
 
-Faire un `docker-compose build` puis `composer install` et déplacer le fichier `config/env.example.php` vers `config/env.php` pour préparer le fs.
+Faire un `docker-compose build` puis déplacer le fichier `config/env.example.php` vers `config/env.php` pour préparer le fs.
 
-Lancer `docker-compose up` met en place tout ce qu'il faut pour tester localement (le login de test est `testlogin` et l'appkey de test est `validAppKey`)
+Lancer l'installation des dependences via `docker-compose run --rm ginger2 composer install` puis les migrations de la base de données via `docker-compose run --rm ginger2 vendor/bin/phoenix migrate` 
+
+## Utilisation
+Executer `docker-compose up` pour lancer le serveur (le login de test est `testlogin` et l'appkey de test est `validAppKey`)
+
+## Tests
+
+Les tests sont executables via `docker-compose run --rm ginger2 composer test`
+

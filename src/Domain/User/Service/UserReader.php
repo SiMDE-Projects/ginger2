@@ -46,7 +46,7 @@ final class UserReader
             $userAccounts              = $this->userAccountsReader->getUserByLogin($userDb->login);
             $userAccounts->id          = $userDb->id;
             $userAccounts->memberships = $userDb->memberships;
-            $updatedUser               = $this->userCreatorRepository->updateUser($userAccounts, true);
+            $updatedUser               = $this->userCreatorRepository->updateUser($userAccounts);
             if (!$userDb->overrides["card"]) {
                 $updatedUser->cards = $this->cardCreator->syncCards($userDb, $userAccounts->cards);
             }

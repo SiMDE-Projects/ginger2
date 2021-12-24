@@ -19,7 +19,7 @@ services:
     volumes:
       - ./docker/picasso-ws/files:/var/www/
   db:
-    build: docker/db
+    image: mariadb
     environment:
       MARIADB_RANDOM_ROOT_PASSWORD: 1
       MARIADB_DATABASE: ginger

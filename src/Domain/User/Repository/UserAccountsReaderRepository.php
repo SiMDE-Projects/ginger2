@@ -72,6 +72,12 @@ class UserAccountsReaderRepository
             case "PERSONNEL ESCOM":
                 $user->type = 3;
                 break;
+            case "SEJOURNANT":
+                $user->type = 5;
+                break;
+            default:
+                $user->type = 99;
+                break;
         }
 
         // Build cards objetcs
