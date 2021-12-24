@@ -66,7 +66,37 @@ final class User
                 $type = "ext";
                 break;
             case 5:
-                $type = "sejournant";
+                $type = "SEJOURNANT";
+                break;
+            case 6:
+                $type = "TEMPORAIRE";
+                break;
+            case 7:
+                $type = "PERSONNEL DE RECHERCHE";
+                break;
+            case 8:
+                $type = "ESCC ETU";
+                break;
+            case 9:
+                $type = "VISITEUR ESCOM";
+                break;
+            case 10:
+                $type = "ESCC PERSONNEL";
+                break;
+            case 11:
+                $type = "ETU THESE";
+                break;
+            case 12:
+                $type = "SEJOURNANT ETU";
+                break;
+            case 13:
+                $type = "SOCIETE";
+                break;
+            case 14:
+                $type = "VISITEUR";
+                break;
+            case 15:
+                $type = "BUTC";
                 break;
             default:
                 $type = "error";

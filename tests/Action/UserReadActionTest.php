@@ -148,12 +148,6 @@ class UserReadActionTest extends TestCase
         $this->assertSame("escom", $responseContent["type"]);
     }
 
-    public function testLoginSejournantFound(): void
-    {
-        $responseContent = $this->callGinger("GET", "/sejournant", "key=validAppKey");
-        $this->assertSame("sejournant", $responseContent["type"]);
-    }
-
     public function testLoginEscomPersFound(): void
     {
         $responseContent = $this->callGinger("GET", "/escompers", "key=validAppKey");
@@ -316,6 +310,32 @@ class UserReadActionTest extends TestCase
 
         $this->db->exec("DELETE FROM `cards` WHERE `uid` = 'FALSYEXTCARD'");
         $this->db->exec("DELETE FROM `users` WHERE `login` = 'extlogin'");
+    }
+
+    public function dsiProfileDataProvider(): array
+    {
+        return [
+            ["sejournant","SEJOURNANT"],
+            ["temporaire","TEMPORAIRE"],
+            ["personnelrecherche","PERSONNEL DE RECHERCHE"],
+            ["esccetu","ESCC ETU"],
+            ["visiteurescom","VISITEUR ESCOM"],
+            ["esccpers","ESCC PERSONNEL"],
+            ["etuthese","ETU THESE"],
+            ["sejournantetu","SEJOURNANT ETU"],
+            ["societe","SOCIETE"],
+            ["visiteur","VISITEUR"],
+            ["butc","BUTC"],
+        ];
+    }
+
+    /**
+     * @dataProvider dsiProfileDataProvider
+     */
+    public function testDsiProfiles($username, $type): void
+    {
+        $responseContent = $this->callGinger("GET", "/" . $username, "key=validAppKey");
+        $this->assertSame($type, $responseContent["type"]);
     }
 
     protected function tearDown(): void
