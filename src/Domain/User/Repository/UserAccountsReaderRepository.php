@@ -69,11 +69,41 @@ class UserAccountsReaderRepository
             case "PERSONNEL UTC":
                 $user->type = 2;
                 break;
-            case "PERSONNEL ESCOM":
+            case "ESCOM PERSONNEL":
                 $user->type = 3;
                 break;
             case "SEJOURNANT":
                 $user->type = 5;
+                break;
+            case "TEMPORAIRE":
+                $user->type = 6;
+                break;
+            case "PERSONNEL DE RECHERCHE":
+                $user->type = 7;
+                break;
+            case "ESCC ETU":
+                $user->type = 8;
+                break;
+            case "VISITEUR ESCOM":
+                $user->type = 9;
+                break;
+            case "ESCC PERSONNEL":
+                $user->type = 10;
+                break;
+            case "ETU THESE":
+                $user->type = 11;
+                break;
+            case "SEJOURNANT ETU":
+                $user->type = 12;
+                break;
+            case "SOCIETE":
+                $user->type = 13;
+                break;
+            case "VISITEUR":
+                $user->type = 14;
+                break;
+            case "BUTC":
+                $user->type = 15;
                 break;
             default:
                 $user->type = 99;
