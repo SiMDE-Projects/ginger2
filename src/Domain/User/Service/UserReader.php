@@ -42,7 +42,7 @@ final class UserReader
             return $this->userCreatorRepository->insertUser($userAccounts);
         }
 
-        if ($userDb->type !== 4 && $userDb->isCacheExpired()) {
+        if (!DISABLED_SYNC && $userDb->type !== 4 && $userDb->isCacheExpired()) {
             $userAccounts              = $this->userAccountsReader->getUserByLogin($userDb->login);
             $userAccounts->id          = $userDb->id;
             $userAccounts->memberships = $userDb->memberships;
