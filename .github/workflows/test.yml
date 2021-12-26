@@ -1,7 +1,7 @@
-name: Docker Compose Actions Workflow
+name: Build & test
 on: push
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -11,12 +11,20 @@ jobs:
         run: docker-compose build
       - name: Start the stack
         run: docker-compose up -d
+  configure:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
       - name: Create test env
         run: cp config/env.example.php config/env.php
       - name: Composer install
         run: docker-compose run --rm ginger2 composer install
       - name: execute database migrations
         run: docker-compose run --rm ginger2 vendor/bin/phoenix migrate
+  test:
+    needs: [build, configure]
+    runs-on: ubuntu-latest
+    steps:
       - name: Run test suite
         run: docker-compose exec -T --privileged ginger2 composer test:coverage:clover
       - name: Upload coverage results to Coveralls
