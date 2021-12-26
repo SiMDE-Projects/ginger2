@@ -27,7 +27,7 @@ jobs:
           docker-compose exec -T ginger2 composer require --dev php-coveralls/php-coveralls
           docker-compose exec -T -e COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN ginger2 vendor/bin/php-coveralls -v
   tag:
-    if: github.event.pull_request.merged == true
+    if: github.ref == 'refs/heads/master'
     needs:
       - test
     name: Create Tag
