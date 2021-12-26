@@ -16,10 +16,14 @@ class UserReadActionTest extends TestCase
     {
         $this->app = $this->getAppInstance();
         $this->db  = $this->container->get(PDO::class);
-        $this->db->exec("DELETE `m` FROM `memberships` `m` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant','temporaire','personnelrecherche','esccetu','visiteurescom','esccpers','etuthese','sejournantetu','societe','visiteur','butc')");
-        $this->db->exec("DELETE `c` FROM `cards` `c` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant','temporaire','personnelrecherche','esccetu','visiteurescom','esccpers','etuthese','sejournantetu','societe','visiteur','butc')");
-        $this->db->exec("DELETE `uo` FROM `user_overrides` `uo` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant','temporaire','personnelrecherche','esccetu','visiteurescom','esccpers','etuthese','sejournantetu','societe','visiteur','butc')");
-        $this->db->exec("DELETE FROM `users` WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant','temporaire','personnelrecherche','esccetu','visiteurescom','esccpers','etuthese','sejournantetu','societe','visiteur','butc')");
+        $this->db->exec("
+            SET foreign_key_checks = 0;
+            TRUNCATE TABLE `cards`;
+            TRUNCATE TABLE `memberships`;
+            TRUNCATE TABLE `users`;
+            TRUNCATE TABLE `user_overrides`;
+            SET foreign_key_checks = 1;
+        ");
     }
 
     public function testUnknownKey(): void
@@ -340,9 +344,12 @@ class UserReadActionTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->db->exec("DELETE `m` FROM `memberships` `m` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant','temporaire','personnelrecherche','esccetu','visiteurescom','esccpers','etuthese','sejournantetu','societe','visiteur','butc')");
-        $this->db->exec("DELETE `c` FROM `cards` `c` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant','temporaire','personnelrecherche','esccetu','visiteurescom','esccpers','etuthese','sejournantetu','societe','visiteur','butc')");
-        $this->db->exec("DELETE `uo` FROM `user_overrides` `uo` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant','temporaire','personnelrecherche','esccetu','visiteurescom','esccpers','etuthese','sejournantetu','societe','visiteur','butc')");
-        $this->db->exec("DELETE FROM `users` WHERE `login` IN ('testlogin', 'escompers', 'escomlogin', 'perslogin', 'unknownprofiletype', 'sejournant','temporaire','personnelrecherche','esccetu','visiteurescom','esccpers','etuthese','sejournantetu','societe','visiteur','butc')");
+        $this->db->exec("
+            SET foreign_key_checks = 0;
+            TRUNCATE TABLE `cards`;
+            TRUNCATE TABLE `memberships`;
+            TRUNCATE TABLE `users`;
+            TRUNCATE TABLE `user_overrides`;
+        ");
     }
 }
