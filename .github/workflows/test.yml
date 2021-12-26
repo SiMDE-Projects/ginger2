@@ -1,7 +1,8 @@
 name: Build & test
 on: push
 jobs:
-  build:
+  test:
+    name: Build & test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -11,20 +12,12 @@ jobs:
         run: docker-compose build
       - name: Start the stack
         run: docker-compose up -d
-  configure:
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
       - name: Create test env
         run: cp config/env.example.php config/env.php
       - name: Composer install
         run: docker-compose run --rm ginger2 composer install
       - name: execute database migrations
         run: docker-compose run --rm ginger2 vendor/bin/phoenix migrate
-  test:
-    needs: [configure]
-    runs-on: ubuntu-latest
-    steps:
       - name: Run test suite
         run: docker-compose exec -T --privileged ginger2 composer test:coverage:clover
       - name: Upload coverage results to Coveralls
@@ -33,3 +26,18 @@ jobs:
         run: |
           docker-compose exec -T ginger2 composer require --dev php-coveralls/php-coveralls
           docker-compose exec -T -e COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN ginger2 vendor/bin/php-coveralls -v
+  tag:
+    if: github.event.pull_request.merged == true
+    needs:
+      - test
+    name: Create Tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+          INITIAL_VERSION: 2.1.5 # Manually set the initial version
+          WITH_V: true
