@@ -2,24 +2,38 @@ name: Create Release
 
 on:
   workflow_run:
-    workflows: Build & test
-    branches: master
-    types: completed
-
-if: github.ref != "refs/heads/master"
+    workflows: ["Build and Test"]
+    types: [completed]
 
 jobs:
+  on-success:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - run: echo "Release succeed"
+
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - run: echo "Release failed"
+
   tag:
+    needs:
+      - on-success
     name: Create Tag
     runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.tag_version.outputs.new_tag }}
+      tag_changelog: ${{ steps.tag_version.outputs.changelog }}
     steps:
       - uses: actions/checkout@master
       - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEFAULT_BUMP: patch
-          WITH_V: true
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
   release:
     name: Create Release
     runs-on: ubuntu-latest
@@ -34,8 +48,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          body: Not yet edited
+          tag_name: ${{ needs.tag.outputs.tag_name }}
+          release_name: ${{ needs.tag.outputs.tag_name }}
+          body: ${{ needs.tag.outputs.tag_changelog }}
           draft: false
           prerelease: false
