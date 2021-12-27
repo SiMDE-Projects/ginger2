@@ -1,4 +1,13 @@
-# Ginger V2 [![Tests](https://github.com/simde-utc/ginger2/actions/workflows/test.yml/badge.svg)](https://github.com/simde-utc/ginger2/actions/workflows/test.yml) [![Coverage Status](https://coveralls.io/repos/github/simde-utc/ginger2/badge.svg)](https://coveralls.io/github/simde-utc/ginger2)
+# Ginger V2
+[![Build and Test](https://github.com/simde-utc/ginger2/actions/workflows/test.yml/badge.svg)](https://github.com/simde-utc/ginger2/actions/workflows/test.yml)
+[![Create Release](https://github.com/simde-utc/ginger2/actions/workflows/release.yml/badge.svg)](https://github.com/simde-utc/ginger2/actions/workflows/release.yml)
+
+[![Coverage Status](https://coveralls.io/repos/github/simde-utc/ginger2/badge.svg)](https://coveralls.io/github/simde-utc/ginger2)
+[![Maintainability](https://api.codeclimate.com/v1/badges/1fe4c47e11b8c6686315/maintainability)](https://codeclimate.com/github/simde-utc/ginger2/maintainability)
+
+[![Release date](https://img.shields.io/github/release-date/simde-utc/ginger2)](https://github.com/simde-utc/ginger2/releases/latest)
+![Latest commit](https://img.shields.io/github/last-commit/simde-utc/ginger2)
+
 
 - Ginger : `http://localhost:8080`
 - Adminer : `http://localhost:8081`

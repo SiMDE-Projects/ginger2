@@ -1,0 +1,8 @@
+docker/ginger2/Dockerfile
+docker/picasso-ws/Dockerfile
+build/
+.github
+.idea/
+.phpunit.result.cache
+composer.phar
+*.md
