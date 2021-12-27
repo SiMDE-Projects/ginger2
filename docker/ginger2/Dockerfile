@@ -1,6 +1,6 @@
-FROM php:8.0-apache
-RUN apt update \
-    && apt install -y -qq apt-utils git libzip-dev zip unzip \
+FROM php:8.0-alpine
+RUN apk update \
+    && apk add  git libzip-dev zip unzip $PHPIZE_DEPS \
     && pecl install xdebug \
     && docker-php-ext-install mysqli pdo_mysql zip \
     && docker-php-ext-enable xdebug
