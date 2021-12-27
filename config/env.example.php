@@ -9,3 +9,4 @@ const DB_USERNAME = "ginger";
 const DB_PASSWORD = "ginger";
 
 const DETAILED_ERRORS = true;
+const DISABLED_SYNC   = false;
