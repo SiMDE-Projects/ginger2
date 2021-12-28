@@ -1,4 +1,4 @@
-# Ginger V2
+# Ginger V2 [![GitHub release](https://img.shields.io/github/release/simde-utc/ginger2.svg)](https://GitHub.com/simde-utc/ginger2/releases/)
 [![Build and Test](https://github.com/simde-utc/ginger2/actions/workflows/test.yml/badge.svg)](https://github.com/simde-utc/ginger2/actions/workflows/test.yml)
 [![Create Release](https://github.com/simde-utc/ginger2/actions/workflows/release.yml/badge.svg)](https://github.com/simde-utc/ginger2/actions/workflows/release.yml)
 
