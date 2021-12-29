@@ -12,22 +12,22 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Discord notification
-        uses: Ilshidur/action-discord@5b40a0a95260064f4e03b907a56596cbcd6d798e
+        uses: Ilshidur/action-discord@master
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
           args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been release.'
 
-    on-failure:
-      runs-on: ubuntu-latest
-      if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-      steps:
-        - name: Discord notification
-            uses: Ilshidur/action-discord@5b40a0a95260064f4e03b907a56596cbcd6d798e
-            env:
-              DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-            with:
-              args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been failed to release.'
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: Discord notification
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been failed to release.'
 
   tag:
     needs:
