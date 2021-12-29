@@ -12,7 +12,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Discord notification
-        uses: Ilshidur/action-discord@master
+        uses: Ilshidur/action-discord@5b40a0a95260064f4e03b907a56596cbcd6d798e
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
@@ -23,7 +23,7 @@ jobs:
       if: ${{ github.event.workflow_run.conclusion == 'failure' }}
       steps:
         - name: Discord notification
-            uses: Ilshidur/action-discord@master
+            uses: Ilshidur/action-discord@5b40a0a95260064f4e03b907a56596cbcd6d798e
             env:
               DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
             with:
