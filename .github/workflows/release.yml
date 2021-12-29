@@ -11,13 +11,23 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - run: echo "Release succeed"
+      - name: Discord notification
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been release.'
 
-  on-failure:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-    steps:
-      - run: echo "Release failed"
+    on-failure:
+      runs-on: ubuntu-latest
+      if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+      steps:
+        - name: Discord notification
+            uses: Ilshidur/action-discord@master
+            env:
+              DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+            with:
+              args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been failed to release.'
 
   tag:
     needs:
