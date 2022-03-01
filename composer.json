@@ -18,7 +18,7 @@
     "roave/security-advisories": "dev-latest",
     "php-coveralls/php-coveralls": "^2.5",
     "phpunit/phpunit": "^9.5",
-    "selective/test-traits": "^2.0",
+    "selective/test-traits": "^2.2",
     "spatie/phpunit-watcher": "^1.23"
   },
   "autoload": {
