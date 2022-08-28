@@ -19,6 +19,8 @@ jobs:
         run: docker-compose run --rm ginger2 composer install
       - name: execute database migrations
         run: docker-compose run --rm ginger2 vendor/bin/phoenix migrate
+      - name: Fix git safe directories
+        run: docker-compose exec -T --privileged ginger2 git config --global --add safe.directory '*'
       - name: Run test suite
         run: docker-compose exec -T --privileged ginger2 composer test:coverage:clover
       - name: Upload coverage results to Coveralls
