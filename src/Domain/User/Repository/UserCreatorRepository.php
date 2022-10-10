@@ -57,7 +57,7 @@ class UserCreatorRepository
             'nom'       => $user->nom,
             'prenom'    => $user->prenom,
             'mail'      => $user->mail,
-            'is_adulte' => $user->is_adulte,
+            'is_adulte' => $user->is_adulte ? 1 : 0,
             'type'      => $user->type,
             'login'     => $user->login,
         ];
