@@ -10,7 +10,7 @@
     "lulco/phoenix": "^2.2",
     "php-di/php-di": "^6.4",
     "selective/basepath": "^2",
-    "slim/http": "^1.2",
+    "slim/http": "^1.3",
     "slim/psr7": "^1.5",
     "slim/slim": "^4.10"
   },
