@@ -8,7 +8,7 @@
     "ext-json": "*",
     "ext-pdo": "*",
     "lulco/phoenix": "^2.2",
-    "php-di/php-di": "^6.4",
+    "php-di/php-di": "^7.0",
     "selective/basepath": "^2",
     "slim/http": "^1.2",
     "slim/psr7": "^1.5",
