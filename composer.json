@@ -15,9 +15,9 @@
     "slim/slim": "^4.10"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-latest",
     "php-coveralls/php-coveralls": "^2.5",
     "phpunit/phpunit": "^9.5",
+    "roave/security-advisories": "dev-latest",
     "selective/test-traits": "^2.2",
     "spatie/phpunit-watcher": "^1.23"
   },
