@@ -18,7 +18,7 @@ class MembershipReaderRepository
     public function getMembershipsByUser(User $user): array
     {
         // Get all cards details
-        $sql       = "SELECT * FROM `memberships`
+        $sql = "SELECT * FROM `memberships`
           WHERE `user_id` = :id
           AND (`deleted_at` IS NULL OR `deleted_at` > NOW())
           ORDER BY `fin` DESC
@@ -30,12 +30,12 @@ class MembershipReaderRepository
         // Build objetcs
         $memberships = [];
         foreach ($membershipsData as $membershipData) {
-            $membership             = new Membership;
-            $membership->id         = $membershipData["id"];
-            $membership->user_id    = $membershipData["user_id"];
-            $membership->debut      = $membershipData["debut"];
-            $membership->fin        = $membershipData["fin"];
-            $membership->montant    = $membershipData["montant"];
+            $membership = new Membership;
+            $membership->id = $membershipData["id"];
+            $membership->user_id = $membershipData["user_id"];
+            $membership->debut = $membershipData["debut"];
+            $membership->fin = $membershipData["fin"];
+            $membership->montant = $membershipData["montant"];
             $membership->created_at = $membershipData["created_at"];
             $membership->deleted_at = $membershipData["deleted_at"];
 
@@ -43,5 +43,32 @@ class MembershipReaderRepository
         }
 
         return $memberships;
+    }
+
+    /**
+     * @param int $id
+     * @return Membership
+     */
+    public function getMembershipsById(int $id): Membership
+    {
+        // Get all cards details
+        $sql = "SELECT * FROM `memberships`
+          WHERE `id` = :id
+          AND (`deleted_at` IS NULL OR `deleted_at` > NOW())
+          ORDER BY `fin` DESC
+          LIMIT 1
+        ";
+        $statement = $this->connection->prepare($sql);
+        $statement->execute(['id' => $id]);
+        $membershipData = $statement->fetch();
+        $membership = new Membership();
+        $membership->id = $membershipData["id"];
+        $membership->user_id = $membershipData["user_id"];
+        $membership->debut = $membershipData["debut"];
+        $membership->fin = $membershipData["fin"];
+        $membership->montant = $membershipData["montant"];
+        $membership->created_at = $membershipData["created_at"];
+        $membership->deleted_at = $membershipData["deleted_at"];
+        return $membership;
     }
 }

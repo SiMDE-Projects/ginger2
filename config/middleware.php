@@ -1,15 +1,15 @@
 <?php
 
 use SIMDE\Ginger\Exception\AccountsException;
+use SIMDE\Ginger\Exception\ApplicationNotFoundException;
 use SIMDE\Ginger\Exception\ForbiddenException;
 use SIMDE\Ginger\Exception\UnauthorizedException;
 use SIMDE\Ginger\Exception\UserNotFoundException;
 use SIMDE\Ginger\Exception\ValidationException;
-use SIMDE\Ginger\Exception\ApplicationNotFoundException;
+use SIMDE\Ginger\Middleware\AuthMiddleware;
 use Slim\App;
 use Slim\Exception\HttpNotFoundException;
 use Slim\Middleware\ErrorMiddleware;
-use SIMDE\Ginger\Middleware\AuthMiddleware;
 
 return function (App $app) {
     // Parse json, form data and xml
@@ -17,7 +17,7 @@ return function (App $app) {
 
     // Add the Slim built-in routing middleware
     $app->addRoutingMiddleware();
-    
+
     $app->add(AuthMiddleware::class);
     // Custom error handler
     $customErrorHandler = function (
@@ -26,7 +26,7 @@ return function (App $app) {
         bool                                    $displayErrorDetails,
         bool                                    $logErrors,
         bool                                    $logErrorDetails
-    ) use($app) {
+    ) use ($app) {
         $response = $app->getResponseFactory()->createResponse();
         $result = [
             "error" => [
@@ -40,8 +40,7 @@ return function (App $app) {
             $result["error"]["code"] = 400;
         } elseif ($exception instanceof UserNotFoundException ||
             $exception instanceof HttpNotFoundException ||
-            $exception instanceof ApplicationNotFoundException)
-            {
+            $exception instanceof ApplicationNotFoundException) {
             $result["error"]["message"] = $exception->getMessage();
             $result["error"]["code"] = 404;
         } elseif ($exception instanceof AccountsException) {
@@ -55,7 +54,7 @@ return function (App $app) {
             $result["error"]["code"] = 401;
         }
 
-        if($displayErrorDetails) {
+        if ($displayErrorDetails) {
             $result["error"]["detail"]["message"] = $exception->getMessage();
             $result["error"]["detail"]["errcode"] = $exception->getCode();
             $result["error"]["detail"]["file"] = $exception->getFile();

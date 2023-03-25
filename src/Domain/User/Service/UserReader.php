@@ -10,9 +10,9 @@ use SIMDE\Ginger\Exception\UserNotFoundException;
 
 final class UserReader
 {
-    private UserReaderRepository  $userReaderRepository;
-    private UserAccountsReader    $userAccountsReader;
-    private CardCreator           $cardCreator;
+    private UserReaderRepository $userReaderRepository;
+    private UserAccountsReader $userAccountsReader;
+    private CardCreator $cardCreator;
     private UserCreatorRepository $userCreatorRepository;
 
     public function __construct(
@@ -22,9 +22,9 @@ final class UserReader
         CardCreator           $cardCreator
     )
     {
-        $this->userReaderRepository  = $userReaderRepository;
-        $this->userAccountsReader    = $userAccountsReader;
-        $this->cardCreator           = $cardCreator;
+        $this->userReaderRepository = $userReaderRepository;
+        $this->userAccountsReader = $userAccountsReader;
+        $this->cardCreator = $cardCreator;
         $this->userCreatorRepository = $userCreatorRepository;
     }
 
@@ -43,10 +43,10 @@ final class UserReader
         }
 
         if (!DISABLED_SYNC && $userDb->type !== 4 && $userDb->isCacheExpired()) {
-            $userAccounts              = $this->userAccountsReader->getUserByLogin($userDb->login);
-            $userAccounts->id          = $userDb->id;
+            $userAccounts = $this->userAccountsReader->getUserByLogin($userDb->login);
+            $userAccounts->id = $userDb->id;
             $userAccounts->memberships = $userDb->memberships;
-            $updatedUser               = $this->userCreatorRepository->updateUser($userAccounts);
+            $updatedUser = $this->userCreatorRepository->updateUser($userAccounts);
             if (!$userDb->overrides["card"]) {
                 $updatedUser->cards = $this->cardCreator->syncCards($userDb, $userAccounts->cards);
             }
@@ -66,8 +66,7 @@ final class UserReader
         $user = false;
         try {
             $user = $this->userReaderRepository->getUserByCard($card);
-        }
-        catch (UserNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
         } // Do nothing, not found in db is not fatal
         if ($user) {
             return $this->updateLastAccessAttribute($user->login);
@@ -81,8 +80,7 @@ final class UserReader
         $user = null;
         try {
             $user = $this->userReaderRepository->getUserByLogin($login);
-        }
-        catch (UserNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
         } // Do nothing, not found in db is not fatal
         return $this->handleUserSync($user, $login);
     }

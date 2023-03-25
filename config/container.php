@@ -4,7 +4,6 @@ use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
 use Slim\Middleware\ErrorMiddleware;
-use Slim\Error\Renderers\JsonErrorRenderer;
 
 return [
     'settings' => function () {

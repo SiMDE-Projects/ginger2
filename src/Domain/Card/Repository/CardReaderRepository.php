@@ -19,7 +19,7 @@ class CardReaderRepository
     public function getCardsByUser(User $user): array
     {
         // Get all cards details
-        $sql       = "SELECT * FROM `cards` WHERE `user_id` = :id ORDER BY `type` DESC";
+        $sql = "SELECT * FROM `cards` WHERE `user_id` = :id ORDER BY `type` DESC";
         $statement = $this->connection->prepare($sql);
         $statement->execute(['id' => $user->id]);
         $cardsData = $statement->fetchAll();
@@ -27,14 +27,14 @@ class CardReaderRepository
         // Build objects
         $cards = [];
         foreach ($cardsData as $cardData) {
-            $card             = new Card;
-            $card->id         = $cardData["id"];
-            $card->user_id    = $cardData["user_id"];
-            $card->uid        = $cardData["uid"];
-            $card->type       = $cardData["type"];
+            $card = new Card;
+            $card->id = $cardData["id"];
+            $card->user_id = $cardData["user_id"];
+            $card->uid = $cardData["uid"];
+            $card->type = $cardData["type"];
             $card->removed_at = $cardData["removed_at"] ? DateTime::createFromFormat("Y-m-d H:i:s", $cardData["removed_at"]) : null;
             $card->created_at = DateTime::createFromFormat("Y-m-d H:i:s", $cardData["created_at"]);
-            $cards[]          = $card;
+            $cards[] = $card;
         }
 
         return $cards;

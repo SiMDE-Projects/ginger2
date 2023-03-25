@@ -11,20 +11,20 @@ use SIMDE\Ginger\Exception\UserNotFoundException;
 
 class UserReaderRepository
 {
-    private PDO              $connection;
-    private CardReader       $cardReader;
+    private PDO $connection;
+    private CardReader $cardReader;
     private MembershipReader $membershipReader;
 
     public function __construct(PDO $connection, CardReader $cardReader, MembershipReader $membershipReader)
     {
-        $this->connection       = $connection;
-        $this->cardReader       = $cardReader;
+        $this->connection = $connection;
+        $this->cardReader = $cardReader;
         $this->membershipReader = $membershipReader;
     }
 
     public function getUserByLogin(string $userLogin): User
     {
-        $sql       = "SELECT
+        $sql = "SELECT
         `u`.`id`,
         `u`.`login`,
         `u`.`prenom` AS `prenom`,
@@ -44,7 +44,7 @@ class UserReaderRepository
         FROM `users` `u`
         LEFT JOIN `user_overrides` `uo`
         ON `u`.`id` = `uo`.`user_id`
-        AND `uo`.`ignored_at` > NOW()
+        AND (`uo`.`ignored_at` > NOW() OR `uo`.`ignored_at` IS NULL)
         WHERE `login` = :login;";
         $statement = $this->connection->prepare($sql);
         $statement->execute(['login' => $userLogin]);
@@ -57,9 +57,38 @@ class UserReaderRepository
         return $this->buildUserObject($row);
     }
 
+    private function buildUserObject($row): User
+    {
+        // Map array to data object
+        $user = new User();
+        $user->id = (int)$row['id'];
+        $user->login = (string)$row['login'];
+        $user->nom = (string)$row['nom'];
+        $user->prenom = (string)$row['prenom'];
+        $user->mail = (string)$row['mail'];
+        $user->type = (string)$row['type'];
+        $user->is_adulte = (string)$row['is_adulte'];
+        $user->created_at = DateTime::createFromFormat("Y-m-d H:i:s", $row['created_at']);
+        $user->last_access = DateTime::createFromFormat("Y-m-d H:i:s", $row['last_access']);
+        $user->last_sync = DateTime::createFromFormat("Y-m-d H:i:s", $row['last_sync']) ?: null;
+        $user->overrides["prenom"] = (string)$row['overrided_prenom'];
+        $user->overrides["nom"] = (string)$row['overrided_nom'];
+        $user->overrides["mail"] = (string)$row['overrided_mail'];
+        $user->overrides["is_adulte"] = (string)$row['overrided_is_adulte'];
+        $user->overrides["type"] = (string)$row['overrided_type'];
+        $user->overrides["card"] = (string)$row['overrided_card'];
+
+        // Get all cards details if not overrided
+        $user->cards = $this->cardReader->getCardsByUser($user);
+        // Get all memberships details
+        $user->memberships = $this->membershipReader->getMembershipsByUser($user);
+
+        return $user;
+    }
+
     public function getUserByMail(string $userMail): User
     {
-        $sql       = "SELECT
+        $sql = "SELECT
         `u`.`id`,
         `u`.`login`,
         `u`.`prenom` AS `prenom`,
@@ -95,7 +124,7 @@ class UserReaderRepository
 
     public function getUserByCard(string $userCard): User
     {
-        $sql       = "SELECT
+        $sql = "SELECT
         `u`.`id`,
         `u`.`login`,
         `u`.`prenom` AS `prenom`,
@@ -129,9 +158,16 @@ class UserReaderRepository
         return $this->buildUserObject($row);
     }
 
+    public function updateLastAccessAttribute($login): void
+    {
+        $sql = "UPDATE `users` SET `last_access` = NOW() WHERE `login`=:login;";
+        $statement = $this->connection->prepare($sql);
+        $statement->execute(['login' => $login]);
+    }
+
     public function getUsersLikeLogin(string $partInfo): array
     {
-        $sql       = "SELECT
+        $sql = "SELECT
         `u`.`id`,
         `u`.`login`,
         `u`.`prenom` AS `prenom`,
@@ -169,41 +205,5 @@ class UserReaderRepository
             $result[$index] = $this->buildUserObject($row);
 
         return $result;
-    }
-
-    private function buildUserObject($row): User
-    {
-        // Map array to data object
-        $user                         = new User();
-        $user->id                     = (int)$row['id'];
-        $user->login                  = (string)$row['login'];
-        $user->nom                    = (string)$row['nom'];
-        $user->prenom                 = (string)$row['prenom'];
-        $user->mail                   = (string)$row['mail'];
-        $user->type                   = (string)$row['type'];
-        $user->is_adulte              = (string)$row['is_adulte'];
-        $user->created_at             = DateTime::createFromFormat("Y-m-d H:i:s", $row['created_at']);
-        $user->last_access            = DateTime::createFromFormat("Y-m-d H:i:s", $row['last_access']);
-        $user->last_sync              = DateTime::createFromFormat("Y-m-d H:i:s", $row['last_sync']) ?: null;
-        $user->overrides["prenom"]    = (string)$row['overrided_prenom'];
-        $user->overrides["nom"]       = (string)$row['overrided_nom'];
-        $user->overrides["mail"]      = (string)$row['overrided_mail'];
-        $user->overrides["is_adulte"] = (string)$row['overrided_is_adulte'];
-        $user->overrides["type"]      = (string)$row['overrided_type'];
-        $user->overrides["card"]      = (string)$row['overrided_card'];
-
-        // Get all cards details if not overrided
-        $user->cards = $this->cardReader->getCardsByUser($user);
-        // Get all memberships details
-        $user->memberships = $this->membershipReader->getMembershipsByUser($user);
-
-        return $user;
-    }
-
-    public function updateLastAccessAttribute($login): void
-    {
-        $sql       = "UPDATE `users` SET `last_access` = NOW() WHERE `login`=:login;";
-        $statement = $this->connection->prepare($sql);
-        $statement->execute(['login' => $login]);
     }
 }

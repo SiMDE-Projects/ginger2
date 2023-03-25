@@ -28,7 +28,7 @@ final class AuthMiddleware implements MiddlewareInterface
             throw new UnauthorizedException('Api key is missing');
         }
 
-        $app     = $this->applicationReaderService->getApplicationByKey($apiKey);
+        $app = $this->applicationReaderService->getApplicationByKey($apiKey);
         $request = $request->withAttribute('application', $app);
 
         // Everything is OK

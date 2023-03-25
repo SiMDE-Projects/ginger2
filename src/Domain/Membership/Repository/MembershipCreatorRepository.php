@@ -17,10 +17,10 @@ class MembershipCreatorRepository
     public function insertMembership(Membership $membership): Membership
     {
         $row = [
-            'user_id'    => $membership->user_id,
-            'debut'      => $membership->debut,
-            'fin'        => $membership->fin,
-            'montant'    => $membership->montant,
+            'user_id' => $membership->user_id,
+            'debut' => $membership->debut,
+            'fin' => $membership->fin,
+            'montant' => $membership->montant,
             'created_at' => $membership->created_at,
         ];
 

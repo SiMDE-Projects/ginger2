@@ -38,7 +38,7 @@ class MembershipReadTest extends TestCase
         $responseContent = $this->callGinger("GET", "/testlogin/cotisations", "key=validAppKey");
         $this->assertCount(1, $responseContent);
         $this->assertCount(4, $responseContent[0]);
-        $this->assertSame("20", $responseContent[0]["montant"]);
+        $this->assertSame("20", (string)$responseContent[0]["montant"]);
         $this->assertSame("2050-12-31", $responseContent[0]["fin"]);
 
         $responseContent = $this->callGinger("GET", "/testlogin", "key=validAppKey");
@@ -69,7 +69,7 @@ class MembershipReadTest extends TestCase
         $responseContent = $this->callGinger("GET", "/testlogin/cotisations", "key=validAppKey");
         $this->assertCount(1, $responseContent);
         $this->assertCount(4, $responseContent[0]);
-        $this->assertSame("20", $responseContent[0]["montant"]);
+        $this->assertSame("20", (string)$responseContent[0]["montant"]);
 
         $responseContent = $this->callGinger("GET", "/testlogin", "key=validAppKey");
         $this->assertFalse($responseContent["is_cotisant"]);
@@ -78,7 +78,7 @@ class MembershipReadTest extends TestCase
     protected function setUp(): void
     {
         $this->app = $this->getAppInstance();
-        $this->db  = $this->container->get(PDO::class);
+        $this->db = $this->container->get(PDO::class);
         $this->db->exec("DELETE `m` FROM `memberships` `m` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` = 'testlogin'");
         $this->db->exec("DELETE `c` FROM `cards` `c` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` = 'testlogin'");
         $this->db->exec("DELETE FROM `users` WHERE `login` = 'testlogin'");
@@ -92,6 +92,6 @@ class MembershipReadTest extends TestCase
         $this->db->exec("DELETE `m` FROM `memberships` `m` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` = 'testlogin'");
         $this->db->exec("DELETE `c` FROM `cards` `c` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` = 'testlogin'");
         $this->db->exec("DELETE FROM `users` WHERE `login` = 'testlogin'");
-  }
-  
+    }
+
 }
