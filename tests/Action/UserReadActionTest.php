@@ -316,7 +316,7 @@ class UserReadActionTest extends TestCase
         $this->db->exec("DELETE FROM `users` WHERE `login` = 'extlogin'");
     }
 
-    public function dsiProfileDataProvider(): array
+    public static function dsiProfileDataProvider(): array
     {
         return [
             ["sejournant", "SEJOURNANT"],
