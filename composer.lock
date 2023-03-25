@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ba384f70e51d76cffc5cd67d033448ea",
+    "content-hash": "0181f304c51faf23f28945d29106666f",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -5129,30 +5129,29 @@
         },
         {
             "name": "selective/test-traits",
-            "version": "2.2.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/selective-php/test-traits.git",
-                "reference": "31094a6bb652cbffc722090c76372ca0c31487c0"
+                "reference": "ab435aa8611763f6ee55adbc8589cd9d6bfc2a15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/selective-php/test-traits/zipball/31094a6bb652cbffc722090c76372ca0c31487c0",
-                "reference": "31094a6bb652cbffc722090c76372ca0c31487c0",
+                "url": "https://api.github.com/repos/selective-php/test-traits/zipball/ab435aa8611763f6ee55adbc8589cd9d6bfc2a15",
+                "reference": "ab435aa8611763f6ee55adbc8589cd9d6bfc2a15",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2 || ^8.0"
+                "php": "^8.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3",
-                "monolog/monolog": "^2.3",
-                "overtrue/phplint": "^3",
-                "php-di/php-di": "^6.3",
+                "monolog/monolog": "^2 || ^3",
+                "php-di/php-di": "^6 || ^7",
                 "phpstan/phpstan": "^1",
-                "phpunit/phpunit": "^8 || ^9",
+                "phpunit/phpunit": "^9 || ^10",
                 "squizlabs/php_codesniffer": "^3",
-                "symfony/mailer": "^5.3"
+                "symfony/mailer": "^5"
             },
             "type": "library",
             "autoload": {
@@ -5174,9 +5173,9 @@
             ],
             "support": {
                 "issues": "https://github.com/selective-php/test-traits/issues",
-                "source": "https://github.com/selective-php/test-traits/tree/2.2.0"
+                "source": "https://github.com/selective-php/test-traits/tree/3.0.0"
             },
-            "time": "2022-02-09T11:58:12+00:00"
+            "time": "2022-11-27T13:28:20+00:00"
         },
         {
             "name": "spatie/phpunit-watcher",
@@ -5701,5 +5700,5 @@
         "ext-pdo": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.3.0"
 }
