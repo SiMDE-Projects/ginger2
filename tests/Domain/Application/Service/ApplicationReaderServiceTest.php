@@ -55,7 +55,7 @@ class ApplicationReaderServiceTest extends TestCase
         $this->assertEquals($expected, $applicationReaderService->isAllowed($application, Permission::LOGIN_CAN_READ));
     }
 
-    private function providerPermissionsData(): array
+    public static function providerPermissionsData(): array
     {
         return [
             [[], false],
@@ -67,7 +67,7 @@ class ApplicationReaderServiceTest extends TestCase
         ];
     }
 
-    private function providerPermissionsListData(): array
+    public static function providerPermissionsListData(): array
     {
         return [
             [[], true, false],
