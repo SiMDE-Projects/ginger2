@@ -16,7 +16,7 @@
   },
   "require-dev": {
     "php-coveralls/php-coveralls": "^2.5",
-    "phpunit/phpunit": "^9.5",
+    "phpunit/phpunit": "^10.0",
     "roave/security-advisories": "dev-latest",
     "selective/test-traits": "^3.0",
     "spatie/phpunit-watcher": "^1.23"
