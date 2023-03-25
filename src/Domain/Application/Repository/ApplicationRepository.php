@@ -26,7 +26,7 @@ class ApplicationRepository
             throw new ApplicationNotFoundException("Application not found by key in db");
         }
 
-        $result              = $this->buildApplicationObject($app);
+        $result = $this->buildApplicationObject($app);
         $result->permissions = $this->getApplicationPermissions($result);
         $this->updateLastAccessAttribute($result);
 
@@ -35,14 +35,14 @@ class ApplicationRepository
 
     private function buildApplicationObject($row): Application
     {
-        $app              = new Application();
-        $app->id          = (int)$row['id'];
-        $app->name        = (string)$row['name'];
-        $app->owner       = (string)$row['owner'];
-        $app->key         = (string)$row['key'];
-        $app->created_at  = DateTime::createFromFormat("Y-m-d H:i:s", $row['created_at']);
+        $app = new Application();
+        $app->id = (int)$row['id'];
+        $app->name = (string)$row['name'];
+        $app->owner = (string)$row['owner'];
+        $app->key = (string)$row['key'];
+        $app->created_at = DateTime::createFromFormat("Y-m-d H:i:s", $row['created_at']);
         $app->last_access = DateTime::createFromFormat("Y-m-d H:i:s", $row['last_access']);
-        $app->removed_at  = $row['removed_at']?DateTime::createFromFormat("Y-m-d H:i:s", $row['removed_at']):null;
+        $app->removed_at = $row['removed_at'] ? DateTime::createFromFormat("Y-m-d H:i:s", $row['removed_at']) : null;
         $app->permissions = [];
         return $app;
     }
@@ -60,17 +60,17 @@ class ApplicationRepository
 
     private function buildPermissionObject($row): Permission
     {
-        $permission              = new Permission();
-        $permission->id          = (int)$row['id'];
-        $permission->name        = (string)$row['name'];
+        $permission = new Permission();
+        $permission->id = (int)$row['id'];
+        $permission->name = (string)$row['name'];
         $permission->description = (string)$row['description'];
-        $permission->created_at  = $row['created_at'];
+        $permission->created_at = $row['created_at'];
         return $permission;
     }
 
     public function updateLastAccessAttribute(Application $applicationKey)
     {
-        $sql       = "UPDATE `applications` SET `last_access` = NOW() WHERE `key`=:key;";
+        $sql = "UPDATE `applications` SET `last_access` = NOW() WHERE `key`=:key;";
         $statement = $this->connection->prepare($sql);
         $statement->execute(['key' => $applicationKey->key]);
     }

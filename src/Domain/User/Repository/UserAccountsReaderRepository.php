@@ -30,12 +30,12 @@ class UserAccountsReaderRepository
 
         $ch = curl_init($url);
         curl_setopt_array($ch, array(
-            CURLOPT_USERAGENT      => "Ginger",
+            CURLOPT_USERAGENT => "Ginger",
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT        => 1
+            CURLOPT_TIMEOUT => 1
         ));
 
-        $result    = curl_exec($ch);
+        $result = curl_exec($ch);
         $errorCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($errorCode == 404)
             throw new UserNotFoundException("User not found");
@@ -48,13 +48,13 @@ class UserAccountsReaderRepository
     private function buildUserObject($accountsData): User
     {
         // Map array to data object
-        $user            = new User();
-        $user->login     = (string)$accountsData->username;
-        $user->mail      = (string)$accountsData->mail;
+        $user = new User();
+        $user->login = (string)$accountsData->username;
+        $user->mail = (string)$accountsData->mail;
         $user->is_adulte = (bool)$accountsData->legalAge;
 
         $user->prenom = ucwords(strtolower((string)$accountsData->firstName), "\t-'");
-        $user->nom    = strtoupper((string)$accountsData->lastName);
+        $user->nom = strtoupper((string)$accountsData->lastName);
 
         // No memberships, we come from accounts API
         $user->memberships = [];
@@ -112,14 +112,14 @@ class UserAccountsReaderRepository
 
         // Build cards objetcs
         foreach ($accountsData->cards as $typeCard => $detailCard) {
-            $serialArray                  = str_split($detailCard->cardSerialNumber, 2);
+            $serialArray = str_split($detailCard->cardSerialNumber, 2);
             $detailCard->cardSerialNumber = implode("", array_reverse($serialArray));
 
-            $card             = new Card;
-            $card->uid        = strtoupper($detailCard->cardSerialNumber);
-            $card->type       = ($typeCard === "Desfire" ? 1 : 0);
+            $card = new Card;
+            $card->uid = strtoupper($detailCard->cardSerialNumber);
+            $card->type = ($typeCard === "Desfire" ? 1 : 0);
             $card->created_at = DateTime::createFromFormat("U", (int)($detailCard->cardStartDate / 1000));
-            $user->cards[]    = $card;
+            $user->cards[] = $card;
         }
 
         // Order as cards should be in priority order at all time
@@ -131,9 +131,9 @@ class UserAccountsReaderRepository
 
     public function getUserByCard(string $userCard): User
     {
-        $serialArray  = str_split($userCard, 2);
+        $serialArray = str_split($userCard, 2);
         $serialNumber = implode("", array_reverse($serialArray));
-        $userDetails  = $this->callAccountsApi("cardLookup", array("serialNumber" => $serialNumber));
+        $userDetails = $this->callAccountsApi("cardLookup", array("serialNumber" => $serialNumber));
         return $this->buildUserObject($userDetails);
     }
 }

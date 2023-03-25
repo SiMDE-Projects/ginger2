@@ -17,9 +17,9 @@ class CardCreatorRepository
     public function insertCard(Card $card): Card
     {
         $row = [
-            'user_id'    => $card->user_id,
-            'uid'        => $card->uid,
-            'type'       => $card->type,
+            'user_id' => $card->user_id,
+            'uid' => $card->uid,
+            'type' => $card->type,
             'created_at' => $card->created_at->format('Y-m-d H:i:s'),
         ];
 
@@ -39,7 +39,7 @@ class CardCreatorRepository
     {
         $row = [
             'user_id' => $card->user_id,
-            'uid'     => $card->uid
+            'uid' => $card->uid
         ];
 
         $sql = "UPDATE `cards` SET

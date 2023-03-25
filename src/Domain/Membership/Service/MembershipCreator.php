@@ -38,11 +38,11 @@ final class MembershipCreator
         if (!isset($montant) || !is_numeric($montant))
             throw new ValidationException("Montant is invalid");
 
-        $membership             = new Membership;
-        $membership->user_id    = $user->id;
-        $membership->debut      = $debut;
-        $membership->fin        = $fin;
-        $membership->montant    = $montant;
+        $membership = new Membership;
+        $membership->user_id = $user->id;
+        $membership->debut = $debut;
+        $membership->fin = $fin;
+        $membership->montant = $montant;
         $membership->created_at = date("Y-m-d H:i:s");
 
         return $this->membershipCreatorRepository->insertMembership($membership);

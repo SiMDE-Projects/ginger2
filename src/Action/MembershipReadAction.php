@@ -4,17 +4,22 @@ namespace SIMDE\Ginger\Action;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use SIMDE\Ginger\Domain\Application\Data\Permission;
+use SIMDE\Ginger\Domain\Application\Service\ApplicationReaderService;
 use SIMDE\Ginger\Domain\User\Service\UserReader;
 
 /* Return all memberships of a user */
 
 final class MembershipReadAction
 {
-    private $userReader;
+    private UserReader $userReader;
+    private ApplicationReaderService $applicationReaderService;
 
-    public function __construct(UserReader $userReader)
+
+    public function __construct(UserReader $userReader, ApplicationReaderService $applicationReaderService)
     {
         $this->userReader = $userReader;
+        $this->applicationReaderService = $applicationReaderService;
     }
 
     public function __invoke(
@@ -23,6 +28,12 @@ final class MembershipReadAction
         array                  $args = []
     ): ResponseInterface
     {
+        $this->applicationReaderService->checkPermissions(
+            $request->getAttribute("application"),
+            [
+                Permission::LOGIN_CAN_READ,
+            ]
+        );
         // Get a User from the login
         $user = $this->userReader->getUserDetailsByLogin((string)$args['login']);
 
@@ -30,9 +41,9 @@ final class MembershipReadAction
         $membershipsResults = [];
         foreach ($user->memberships as $membership) {
             $membershipsResults[] = [
-                "id"      => $membership->id,
-                "debut"   => $membership->debut,
-                "fin"     => $membership->fin,
+                "id" => $membership->id,
+                "debut" => $membership->debut,
+                "fin" => $membership->fin,
                 "montant" => $membership->montant,
             ];
         }

@@ -15,15 +15,13 @@ $containerBuilder->addDefinitions(__DIR__ . '/container.php');
 // Build PHP-DI Container instance
 try {
     $container = $containerBuilder->build();
-}
-catch (Exception $e) {
+} catch (Exception $e) {
 }
 
 // Create App instance
 try {
     $app = $container->get(App::class);
-}
-catch (DependencyException|\DI\NotFoundException $e) {
+} catch (DependencyException|\DI\NotFoundException $e) {
 }
 
 // Register routes

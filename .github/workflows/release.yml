@@ -2,9 +2,9 @@ name: Create Release
 
 on:
   workflow_run:
-    workflows: ["Build and Test"]
-    branches: ["master"]
-    types: [completed]
+    workflows: [ "Build and Test" ]
+    branches: [ "master" ]
+    types: [ completed ]
 
 jobs:
   on-success:

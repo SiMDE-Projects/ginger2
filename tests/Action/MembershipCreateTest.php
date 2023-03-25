@@ -25,9 +25,9 @@ class MembershipCreateTest extends TestCase
         $responseContent = $this->callGinger("GET", "/testlogin", "key=validAppKey");
         $this->assertFalse($responseContent["is_cotisant"]);
 
-        $body            = [
-            "debut"   => "2003-11-19 00:00:00",
-            "fin"     => "2050-12-31 00:00:00",
+        $body = [
+            "debut" => "2003-11-19 00:00:00",
+            "fin" => "2050-12-31 00:00:00",
             "montant" => 20,
         ];
         $responseContent = $this->callGinger("POST", "/testlogin/cotisations", "key=validAppKey", $body, 201);
@@ -40,9 +40,9 @@ class MembershipCreateTest extends TestCase
 
     public function testInvalidStartDate(): void
     {
-        $body            = [
-            "debut"   => "2021-13-31 00:00:00",
-            "fin"     => "2050-12-31 00:00:00",
+        $body = [
+            "debut" => "2021-13-31 00:00:00",
+            "fin" => "2050-12-31 00:00:00",
             "montant" => 20,
         ];
         $responseContent = $this->callGinger("POST", "/testlogin/cotisations", "key=validAppKey", $body, 400);
@@ -51,9 +51,9 @@ class MembershipCreateTest extends TestCase
 
     public function testInvalidEndDate(): void
     {
-        $body            = [
-            "debut"   => "2021-11-30 00:00:00",
-            "fin"     => "2050-13-31 00:00:00",
+        $body = [
+            "debut" => "2021-11-30 00:00:00",
+            "fin" => "2050-13-31 00:00:00",
             "montant" => 20,
         ];
         $responseContent = $this->callGinger("POST", "/testlogin/cotisations", "key=validAppKey", $body, 400);
@@ -62,9 +62,9 @@ class MembershipCreateTest extends TestCase
 
     public function testEndDateBeforeStartDate(): void
     {
-        $body            = [
-            "fin"     => "2021-11-30 00:00:00",
-            "debut"   => "2050-11-30 00:00:00",
+        $body = [
+            "fin" => "2021-11-30 00:00:00",
+            "debut" => "2050-11-30 00:00:00",
             "montant" => 20,
         ];
         $responseContent = $this->callGinger("POST", "/testlogin/cotisations", "key=validAppKey", $body, 400);
@@ -73,9 +73,9 @@ class MembershipCreateTest extends TestCase
 
     public function testInvalidMontant(): void
     {
-        $body            = [
+        $body = [
             "debut" => "2021-11-30 00:00:00",
-            "fin"   => "2050-11-30 00:00:00"
+            "fin" => "2050-11-30 00:00:00"
         ];
         $responseContent = $this->callGinger("POST", "/testlogin/cotisations", "key=validAppKey", $body, 400);
         $this->assertSame("Montant is invalid", $responseContent["error"]["message"]);
@@ -89,9 +89,9 @@ class MembershipCreateTest extends TestCase
       WHERE `login`='testlogin';
     ");
 
-        $body            = [
-            "debut"   => "2021-12-01 00:00:00",
-            "fin"     => "2049-11-30 00:00:00",
+        $body = [
+            "debut" => "2021-12-01 00:00:00",
+            "fin" => "2049-11-30 00:00:00",
             "montant" => 20,
         ];
         $responseContent = $this->callGinger("POST", "/testlogin/cotisations", "key=validAppKey", $body, 400);
@@ -101,7 +101,7 @@ class MembershipCreateTest extends TestCase
     protected function setUp(): void
     {
         $this->app = $this->getAppInstance();
-        $this->db  = $this->container->get(PDO::class);
+        $this->db = $this->container->get(PDO::class);
         $this->db->exec("DELETE `m` FROM `memberships` `m` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` = 'testlogin'");
         $this->db->exec("DELETE `c` FROM `cards` `c` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` = 'testlogin'");
         $this->db->exec("DELETE FROM `users` WHERE `login` = 'testlogin'");
@@ -116,5 +116,5 @@ class MembershipCreateTest extends TestCase
         $this->db->exec("DELETE `c` FROM `cards` `c` INNER JOIN `users` `u` ON (`u`.`id` = `user_id`) WHERE `login` = 'testlogin'");
         $this->db->exec("DELETE FROM `users` WHERE `login` = 'testlogin'");
     }
-  
+
 }

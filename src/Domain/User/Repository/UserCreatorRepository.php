@@ -8,25 +8,25 @@ use SIMDE\Ginger\Domain\User\Data\User;
 
 class UserCreatorRepository
 {
-    private PDO                  $connection;
-    private CardCreator          $cardCreator;
+    private PDO $connection;
+    private CardCreator $cardCreator;
     private UserReaderRepository $userReaderRepository;
 
     public function __construct(PDO $connection, CardCreator $cardCreator, UserReaderRepository $userReaderRepository)
     {
-        $this->connection           = $connection;
-        $this->cardCreator          = $cardCreator;
+        $this->connection = $connection;
+        $this->cardCreator = $cardCreator;
         $this->userReaderRepository = $userReaderRepository;
     }
 
     public function insertUser(User $user): User
     {
         $row = [
-            'login'     => $user->login,
-            'prenom'    => $user->prenom,
-            'nom'       => $user->nom,
-            'mail'      => $user->mail,
-            'type'      => $user->type ?: 0,
+            'login' => $user->login,
+            'prenom' => $user->prenom,
+            'nom' => $user->nom,
+            'mail' => $user->mail,
+            'type' => $user->type ?: 0,
             'is_adulte' => $user->is_adulte
         ];
 
@@ -54,12 +54,12 @@ class UserCreatorRepository
     public function updateUser(User $user): User
     {
         $row = [
-            'nom'       => $user->nom,
-            'prenom'    => $user->prenom,
-            'mail'      => $user->mail,
+            'nom' => $user->nom,
+            'prenom' => $user->prenom,
+            'mail' => $user->mail,
             'is_adulte' => $user->is_adulte ? 1 : 0,
-            'type'      => $user->type,
-            'login'     => $user->login,
+            'type' => $user->type,
+            'login' => $user->login,
         ];
         $sql = "UPDATE `users` SET
             `nom` = :nom,

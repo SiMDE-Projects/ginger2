@@ -5,17 +5,17 @@ return [
     'migration_dirs' => [
         'main' => __DIR__ . '/migrations',
     ],
-    'environments'   => [
-        'local'               => [
-            'adapter'  => 'mysql',
-            'host'     => DB_HOST,
-            'port'     => 3306, // optional
+    'environments' => [
+        'local' => [
+            'adapter' => 'mysql',
+            'host' => DB_HOST,
+            'port' => 3306, // optional
             'username' => DB_USERNAME,
             'password' => DB_PASSWORD,
-            'db_name'  => DB_NAME,
-            'charset'  => 'utf8'
+            'db_name' => DB_NAME,
+            'charset' => 'utf8'
         ],
         'default_environment' => 'local',
-        'log_table_name'      => 'phoenix_log',
+        'log_table_name' => 'phoenix_log',
     ]
 ];

@@ -15,7 +15,7 @@ class UserReadActionTest extends TestCase
     public function setUp(): void
     {
         $this->app = $this->getAppInstance();
-        $this->db  = $this->container->get(PDO::class);
+        $this->db = $this->container->get(PDO::class);
         $this->db->exec("
             SET foreign_key_checks = 0;
             TRUNCATE TABLE `cards`;
@@ -195,8 +195,8 @@ class UserReadActionTest extends TestCase
         $this->assertSame("John", $responseContent["prenom"]);
         $this->assertSame("AABBCCDDEEFF", $responseContent["badge_uid"]);
         $this->db->exec("INSERT INTO `user_overrides`
-      (`user_id`, `prenom`, `nom`, `mail`, `card_uid`, `type`, `is_adulte`, `created_at`, `ignored_at`)
-      SELECT `id`, 'OP', 'ON', 'OM@mail.com', 'NEWCARD', '4', '0', NOW(), '2022-12-31 00:00:00'
+      (`user_id`, `prenom`, `nom`, `mail`, `card_uid`, `type`, `is_adulte`, `created_at`)
+      SELECT `id`, 'OP', 'ON', 'OM@mail.com', 'NEWCARD', '4', '0', NOW()
       FROM `users`
       WHERE `login`='testlogin';
     ");
@@ -319,17 +319,17 @@ class UserReadActionTest extends TestCase
     public function dsiProfileDataProvider(): array
     {
         return [
-            ["sejournant","SEJOURNANT"],
-            ["temporaire","TEMPORAIRE"],
-            ["personnelrecherche","PERSONNEL DE RECHERCHE"],
-            ["esccetu","ESCC ETU"],
-            ["visiteurescom","VISITEUR ESCOM"],
-            ["esccpers","ESCC PERSONNEL"],
-            ["etuthese","ETU THESE"],
-            ["sejournantetu","SEJOURNANT ETU"],
-            ["societe","SOCIETE"],
-            ["visiteur","VISITEUR"],
-            ["butc","BUTC"],
+            ["sejournant", "SEJOURNANT"],
+            ["temporaire", "TEMPORAIRE"],
+            ["personnelrecherche", "PERSONNEL DE RECHERCHE"],
+            ["esccetu", "ESCC ETU"],
+            ["visiteurescom", "VISITEUR ESCOM"],
+            ["esccpers", "ESCC PERSONNEL"],
+            ["etuthese", "ETU THESE"],
+            ["sejournantetu", "SEJOURNANT ETU"],
+            ["societe", "SOCIETE"],
+            ["visiteur", "VISITEUR"],
+            ["butc", "BUTC"],
         ];
     }
 

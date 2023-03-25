@@ -10,14 +10,14 @@ use SIMDE\Ginger\Domain\User\Data\User;
 final class CardCreator
 {
     private CardCreatorRepository $cardCreatorRepository;
-    private CardReaderRepository  $cardReadeRepository;
+    private CardReaderRepository $cardReadeRepository;
 
     public function __construct(
         CardCreatorRepository $cardCreatorRepository,
         CardReaderRepository  $cardReadeRepository
     )
     {
-        $this->cardReadeRepository   = $cardReadeRepository;
+        $this->cardReadeRepository = $cardReadeRepository;
         $this->cardCreatorRepository = $cardCreatorRepository;
     }
 
