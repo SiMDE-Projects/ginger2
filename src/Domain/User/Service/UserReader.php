@@ -37,7 +37,7 @@ final class UserReader
 
     private function handleUserSync(?User $userDb, ?string $login = null): User
     {
-        if (!$userDb || !$userDb->login) {
+        if (is_null($userDb) || is_null($userDb?->login)) {
             $userAccounts = $this->userAccountsReader->getUserByLogin($login);
             return $this->userCreatorRepository->insertUser($userAccounts);
         }
