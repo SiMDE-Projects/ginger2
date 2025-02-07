@@ -1,6 +1,7 @@
 <?php /** @noinspection MissingService */
 
 use Psr\Container\ContainerInterface;
+use SIMDE\Ginger\Domain\Proxy\UTCotizProxy;
 use Slim\App;
 use Slim\Factory\AppFactory;
 use Slim\Middleware\ErrorMiddleware;
@@ -42,4 +43,9 @@ return [
 
         return new PDO($dsn, $username, $password, $flags);
     },
+
+    UTCotizProxy::class => function (ContainerInterface $container) {
+        $settings = $container->get('settings')['utcotiz'];
+        return new UTCotizProxy($settings['api_url'], $settings['api_key']);
+    }
 ];

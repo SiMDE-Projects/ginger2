@@ -56,4 +56,9 @@ $settings['db'] = [
     ],
 ];
 
+$settings['utcotiz'] = [
+    'api_url' => UTCOTIZ_BASE_URI,
+    'api_key' => UTCOTIZ_KEY,
+];
+
 return $settings;
