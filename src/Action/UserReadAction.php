@@ -3,6 +3,7 @@
 namespace SIMDE\Ginger\Action;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SIMDE\Ginger\Domain\Application\Data\Permission;
@@ -31,30 +32,36 @@ final class UserReadAction
         array                  $args = []
     ): ResponseInterface
     {
-        $result = null;
-        if (isset($args['login'])) {
-            $this->applicationReaderService->checkPermissions(
-                $request->getAttribute("application"),
-                [
-                    Permission::LOGIN_CAN_READ
-                ]
-            );
-            //make request to utcotiz api
-            $result = $this->proxy->getUserByLogin((string)$args['login']);
-        } else if (isset($args['card'])) {
-            $this->applicationReaderService->checkPermissions(
-                $request->getAttribute("application"),
-                [
-                    Permission::CARDS_CAN_READ,
-                    Permission::CARDS_CAN_READ_LIST
-                ],
-                true
-            );
-            $result = $this->proxy->getUserByCard((string)$args['card']);
+        try{
+            $result = null;
+            if (isset($args['login'])) {
+                $this->applicationReaderService->checkPermissions(
+                    $request->getAttribute("application"),
+                    [
+                        Permission::LOGIN_CAN_READ
+                    ]
+                );
+                //make request to utcotiz api
+                $result = $this->proxy->        getUserByLogin((string)$args['login']);
+            } else if (isset($args['card'])) {
+                $this->applicationReaderService->checkPermissions(
+                    $request->getAttribute("application"),
+                    [
+                        Permission::CARDS_CAN_READ,
+                        Permission::CARDS_CAN_READ_LIST
+                    ],
+                    true
+                );
+                $result = $this->proxy->getUserByCard((string)$args['card']);
+            }
+
+            $response->getBody()->write((string)json_encode($result));
+
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
+        } catch (GuzzleException $e) {
+            throw $e;
+            return $response->withStatus($e->getCode())->withHeader('Content-Type', 'application/json');
         }
 
-        $response->getBody()->write((string)json_encode($result));
-
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
 }

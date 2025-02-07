@@ -17,7 +17,6 @@ final class MembershipReadAction
     private UserReader $userReader;
     private ApplicationReaderService $applicationReaderService;
 
-
     public function __construct(UserReader $userReader, ApplicationReaderService $applicationReaderService, private UTCotizProxy $proxy)
     {
         $this->userReader = $userReader;
